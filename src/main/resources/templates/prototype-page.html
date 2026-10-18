@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="|${page.title} · 爱管理|">功能总览 · 爱管理</title>
     <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link th:if="${page.slug == 'ai'}" rel="stylesheet" th:href="@{/css/ai-workspace.css}">
 </head>
 <body class="app-page">
 <div class="app-shell">
@@ -13,7 +14,7 @@
     <main class="main-column">
         <header class="page-toolbar">
             <div class="breadcrumbs"><span>爱管理</span><b>/</b><span th:text="${page.title}">功能模块</span></div>
-            <div class="toolbar-actions">
+            <div class="toolbar-actions" th:if="${page.slug != 'ai'}">
                 <span class="prototype-badge neutral">界面预览</span>
                 <button class="notion-button" type="button" data-placeholder="收藏当前页面">☆ 收藏</button>
                 <button class="notion-button" type="button" data-placeholder="分享当前页面">分享</button>
@@ -22,10 +23,10 @@
 
         <div class="page-content">
             <section class="document-title compact-title">
-                <div class="page-icon" th:text="${page.icon}">□</div>
+                <div th:if="${page.slug != 'ai'}" class="page-icon" th:text="${page.icon}">□</div>
                 <h1 th:text="${page.title}">功能模块</h1>
-                <p th:text="${page.description}">功能模块说明。</p>
-                <div class="callout"><b>原型说明</b><span>页面中的“已实现”功能可完成真实操作，其余按钮用于展示完整产品规划，点击后会提示当前为界面预览。</span></div>
+                <p th:if="${page.slug != 'ai'}" th:text="${page.description}">功能模块说明。</p>
+                <div class="callout" th:if="${page.slug != 'ai'}"><b>原型说明</b><span>页面中的“已实现”功能可完成真实操作，其余按钮用于展示完整产品规划，点击后会提示当前为界面预览。</span></div>
             </section>
 
             <!-- 账户与个人资料 -->
@@ -127,17 +128,9 @@
             </section>
 
             <!-- AI 协作 -->
-            <section class="preview-canvas" th:if="${page.slug == 'ai'}">
-                <div class="section-toolbar"><div><h2>AI 项目助手</h2><span>当前上下文：爱管理课程项目</span></div><button class="notion-button" type="button" data-placeholder="配置 AI 智能体">⚙ 配置</button></div>
-                <div class="ai-layout">
-                    <div class="ai-conversation">
-                        <div class="chat-message group"><span class="drag-handle">⋮⋮</span><i class="avatar">陈</i><div><b>你</b><p>请总结 Sprint 1 的任务进展，并指出主要风险。</p></div></div>
-                        <div class="chat-message assistant group"><span class="drag-handle">⋮⋮</span><i class="ai-mark">✦</i><div><b>爱管理助手</b><p>当前 6 条任务中，2 条已完成、2 条进行中、2 条待处理。主要风险是“任务状态联调”处于阻塞状态，建议优先确认权限校验逻辑。</p><div class="message-actions"><button class="notion-button" type="button" data-placeholder="复制 AI 回复">复制</button><button class="notion-button" type="button" data-placeholder="将摘要添加到 Sprint">添加到 Sprint</button></div></div></div>
-                        <div class="prompt-box"><textarea class="notion-input" rows="3" placeholder="询问项目进展、任务风险或生成摘要…"></textarea><div><button class="notion-button" type="button" data-placeholder="添加任务上下文">＋ 添加上下文</button><button class="notion-button primary-action" type="button" data-placeholder="发送 AI 消息">发送</button></div></div>
-                    </div>
-                    <aside class="context-panel"><h3>当前上下文</h3><div class="context-row group"><span class="drag-handle">⋮⋮</span><span>📁</span><div><b>爱管理课程项目</b><small>项目</small></div><button class="notion-button icon-only" type="button" data-placeholder="移除项目上下文">×</button></div><div class="context-row group"><span class="drag-handle">⋮⋮</span><span>☑</span><div><b>Sprint 1</b><small>迭代</small></div><button class="notion-button icon-only" type="button" data-placeholder="移除 Sprint 上下文">×</button></div><h3>快捷操作</h3><button class="quick-command" type="button" data-placeholder="生成 AI 任务摘要">生成任务摘要 <span>→</span></button><button class="quick-command" type="button" data-placeholder="分析项目风险">分析项目风险 <span>→</span></button><button class="quick-command" type="button" data-placeholder="配置协作智能体">配置协作智能体 <span>→</span></button></aside>
-                </div>
-            </section>
+            <th:block th:if="${page.slug == 'ai'}">
+                <section th:replace="~{fragments/ai-workspace :: workspace}"></section>
+            </th:block>
 
             <!-- 数据与分析 -->
             <section class="preview-canvas" th:if="${page.slug == 'analytics'}">
@@ -152,7 +145,7 @@
                 <div class="alert-row group"><span class="drag-handle">⋮⋮</span><span class="status-tag yellow">即将到期</span><div><b>完成登录页面</b><small>明天到期 · 负责人 李开发</small></div><button class="notion-button" type="button" data-placeholder="查看即将到期任务">查看</button></div>
             </section>
 
-            <section class="feature-index">
+            <section class="feature-index" th:if="${page.slug != 'ai'}">
                 <div class="section-toolbar"><div><h2>功能清单</h2><span th:text="|本模块共 ${#lists.size(page.features)} 项|">本模块功能</span></div></div>
                 <div class="feature-list">
                     <article class="feature-row group" th:each="feature : ${page.features}">
@@ -171,5 +164,6 @@
 </div>
 <div class="toast" role="status" aria-live="polite"></div>
 <script th:src="@{/js/app.js}"></script>
+<script th:if="${page.slug == 'ai'}" type="module" th:src="@{/js/ai-workspace.js}"></script>
 </body>
 </html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<body>
+<section th:fragment="workspace" id="ai-workspace" class="ai-workspace"
+         th:attr="data-can-review=${roleLabel == '项目负责人'},data-display-name=${displayName}">
+    <p id="ai-load-status" class="ai-hint" role="status">加载中…</p>
+    <div id="ai-load-error" class="ai-error" role="alert" hidden>
+        <span id="ai-load-error-text"></span>
+        <button id="ai-load-retry" class="notion-button" type="button">重新加载</button>
+    </div>
+    <div class="ai-workspace-grid">
+        <section class="ai-discussion" aria-labelledby="ai-discussion-title">
+            <header class="ai-section-heading"><h2 id="ai-discussion-title">项目讨论</h2><span id="ai-project-name"></span></header>
+            <div id="ai-messages" class="ai-message-list" aria-label="讨论消息"></div>
+            <form id="ai-question-form" class="ai-question-form">
+                <label for="ai-question">向 AI 助手提问</label>
+                <textarea id="ai-question" class="notion-input" rows="3" maxlength="4000" placeholder="输入你想询问的问题" required></textarea>
+                <div class="ai-question-footer"><span id="ai-request-status" role="status" aria-live="polite"></span><button id="ai-ask" class="notion-button primary-action" type="submit" disabled>询问 AI</button></div>
+            </form>
+            <div id="ai-question-error" class="ai-error" role="alert" hidden>
+                <span id="ai-question-error-text"></span>
+                <button id="ai-question-retry" class="notion-button" type="button">重试</button>
+            </div>
+        </section>
+        <section class="ai-results" aria-labelledby="ai-results-title">
+            <header class="ai-section-heading"><h2 id="ai-results-title">AI 结果</h2></header>
+            <div class="ai-result-tabs" role="tablist" aria-label="结果类型">
+                <button id="ai-tab-answer" class="ai-result-tab" role="tab" aria-selected="true" aria-controls="ai-result-panel" data-result-tab="answer" type="button">回答</button>
+                <button id="ai-tab-sources" class="ai-result-tab" role="tab" aria-selected="false" aria-controls="ai-result-panel" data-result-tab="sources" tabindex="-1" type="button">文档引用</button>
+                <button id="ai-tab-minutes" class="ai-result-tab" role="tab" aria-selected="false" aria-controls="ai-result-panel" data-result-tab="minutes" tabindex="-1" type="button">纪要</button>
+                <button id="ai-tab-requirements" class="ai-result-tab" role="tab" aria-selected="false" aria-controls="ai-result-panel" data-result-tab="requirements" tabindex="-1" type="button">需求草稿</button>
+                <button id="ai-tab-risks" class="ai-result-tab" role="tab" aria-selected="false" aria-controls="ai-result-panel" data-result-tab="risks" tabindex="-1" type="button">风险建议</button>
+            </div>
+            <div id="ai-result-panel" class="ai-result-panel" role="tabpanel" aria-labelledby="ai-tab-answer" tabindex="0"></div>
+        </section>
+    </div>
+    <section class="ai-decisions" aria-labelledby="ai-decisions-title">
+        <header class="ai-section-heading"><h2 id="ai-decisions-title">候选决策</h2><span id="ai-review-permission"></span></header>
+        <div id="ai-decisions-list"></div>
+    </section>
+    <dialog id="ai-review-dialog" class="ai-review-dialog" aria-labelledby="ai-review-title">
+        <form id="ai-review-form">
+            <h2 id="ai-review-title">审核决策</h2>
+            <p class="ai-hint">AI 原稿</p><p id="ai-review-original" class="ai-preserve"></p>
+            <div id="ai-modify-field" hidden><label for="ai-modified-text">修改后的完整内容</label><textarea id="ai-modified-text" class="notion-input" rows="4"></textarea></div>
+            <label for="ai-review-reason">审核理由（必填）</label>
+            <textarea id="ai-review-reason" class="notion-input" rows="3" required></textarea>
+            <p id="ai-review-error" class="ai-error" role="alert" hidden></p>
+            <div class="ai-dialog-actions"><button id="ai-review-cancel" class="notion-button" type="button">取消</button><button id="ai-review-submit" class="notion-button primary-action" type="submit">确认提交</button></div>
+        </form>
+    </dialog>
+    <dialog id="ai-publish-dialog" class="ai-review-dialog" aria-labelledby="ai-publish-title">
+        <h2 id="ai-publish-title">确认入库</h2><p id="ai-publish-text" class="ai-preserve"></p>
+        <div class="ai-dialog-actions"><button id="ai-publish-cancel" class="notion-button" type="button">取消</button><button id="ai-publish-confirm" class="notion-button primary-action" type="button">确认入库</button></div>
+    </dialog>
+</section>
+</body>
+</html>

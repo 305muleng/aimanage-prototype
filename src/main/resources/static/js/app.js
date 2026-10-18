@@ -21,7 +21,8 @@ document.querySelectorAll('.modal-close, .modal-cancel').forEach(button => {
     button.addEventListener('click', () => button.closest('dialog')?.close());
 });
 
-document.querySelectorAll('dialog').forEach(dialog => {
+// AI 审核弹窗自行管理提交期间的关闭行为，避免请求中被背景点击关闭。
+document.querySelectorAll('dialog:not(.ai-review-dialog)').forEach(dialog => {
     dialog.addEventListener('click', event => {
         const bounds = dialog.getBoundingClientRect();
         const inside = event.clientX >= bounds.left && event.clientX <= bounds.right
