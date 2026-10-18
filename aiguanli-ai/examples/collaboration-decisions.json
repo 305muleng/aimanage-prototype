@@ -1,0 +1,16 @@
+{
+  "simulation": true,
+  "messages": [
+    {"id": "c1", "speaker": "小林", "content": "【模拟讨论，仅验证已审核决策辅助协作】任务创建功能仍在开发，任务分配功能等待任务创建完成。请结合已审核的开发顺序检查风险。"},
+    {"id": "c2", "speaker": "项目负责人", "content": "请整理任务创建和任务分配的推进建议。剩余工作量和新的完成时间暂未提供，不要自行修改计划。"}
+  ],
+  "progress": {
+    "simulation": true,
+    "snapshotDate": "2026-10-11",
+    "sprintName": "审核决策辅助协作演示",
+    "tasks": [
+      {"id": "T-CREATE", "title": "模拟任务创建功能", "status": "IN_PROGRESS", "dueDate": "2026-10-10", "dependencyIds": []},
+      {"id": "T-ASSIGN", "title": "模拟任务分配功能", "status": "BLOCKED", "dueDate": "2026-10-14", "dependencyIds": ["T-CREATE"]}
+    ]
+  }
+}

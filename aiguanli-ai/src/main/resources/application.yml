@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: aiguanli-ai
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    model:
+      embedding: none
+      image: none
+      moderation: none
+      audio:
+        speech: none
+        transcription: none
+    retry:
+      max-attempts: 1
+    openai:
+      api-key: ${AI_API_KEY:${DEEPSEEK_API_KEY:}}
+      base-url: ${AI_BASE_URL:https://api.deepseek.com}
+      chat:
+        completions-path: ${AI_CHAT_PATH:/chat/completions}
+        options:
+          model: ${AI_MODEL:deepseek-flash}
+          extra-body:
+            thinking:
+              type: ${AI_THINKING_MODE:disabled}
+
+app:
+  storage:
+    local-persistence-enabled: false
+  console:
+    enabled: true
+  decomposition:
+    draft-directory: ${AI_DRAFT_DIRECTORY:.local/drafts}
+  rag:
+    enabled: ${RAG_ENABLED:false}
+    api-key: ${EMBEDDING_API_KEY:}
+    base-url: ${EMBEDDING_BASE_URL:https://api.siliconflow.cn}
+    embeddings-path: ${EMBEDDING_PATH:/v1/embeddings}
+    model: ${EMBEDDING_MODEL:BAAI/bge-m3}
+    index-file: ${RAG_INDEX_FILE:.local/knowledge.json}
+    threshold: 0.5
+    top-k: 4
+
+logging:
+  level:
+    root: WARN

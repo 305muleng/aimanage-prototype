@@ -1,0 +1,13 @@
+{
+  "simulation": true,
+  "snapshotDate": "2026-10-11",
+  "sprintName": "模拟 Sprint（仅用于工具调用验证）",
+  "tasks": [
+    {"id": "T-1", "title": "模拟任务一", "status": "DONE", "dueDate": "2026-10-08", "dependencyIds": []},
+    {"id": "T-2", "title": "模拟任务二", "status": "DONE", "dueDate": "2026-10-09", "dependencyIds": []},
+    {"id": "T-3", "title": "模拟任务三", "status": "DONE", "dueDate": "2026-10-10", "dependencyIds": []},
+    {"id": "T-4", "title": "模拟前置任务", "status": "DONE", "dueDate": "2026-10-10", "dependencyIds": []},
+    {"id": "T-5", "title": "模拟待开始任务", "status": "TODO", "dueDate": "2026-10-13", "dependencyIds": []},
+    {"id": "T-6", "title": "模拟阻塞任务", "status": "BLOCKED", "dueDate": "2026-10-14", "dependencyIds": ["T-4"]}
+  ]
+}
