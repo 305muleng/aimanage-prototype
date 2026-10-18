@@ -1,0 +1,23 @@
+{
+  "simulation": true,
+  "messages": [
+    {"id": "m1", "speaker": "小林", "content": "【模拟聊天，仅用于角色协作验证】T-4 还在开发，T-6 依赖 T-4，联调尚未开始。"},
+    {"id": "m2", "speaker": "项目负责人", "content": "先处理 T-4。小林今天整理 T-4 的问题清单，下午讨论前提供；是否调整后续排期待讨论。"},
+    {"id": "m3", "speaker": "小林", "content": "好的，我在下午讨论前整理好 T-4 的问题清单。"},
+    {"id": "m4", "speaker": "小周", "content": "T-5 是否推迟还没有确认，先不要改截止日期。"},
+    {"id": "m5", "speaker": "小周", "content": "建议以后增加任务提醒，但本轮先作为可选功能讨论。"}
+  ],
+  "progress": {
+    "simulation": true,
+    "snapshotDate": "2026-10-11",
+    "sprintName": "角色协作模拟 Sprint",
+    "tasks": [
+      {"id": "T-1", "title": "模拟任务一", "status": "DONE", "dueDate": "2026-10-08", "dependencyIds": []},
+      {"id": "T-2", "title": "模拟任务二", "status": "DONE", "dueDate": "2026-10-09", "dependencyIds": []},
+      {"id": "T-3", "title": "模拟任务三", "status": "DONE", "dueDate": "2026-10-10", "dependencyIds": []},
+      {"id": "T-4", "title": "模拟前置任务", "status": "IN_PROGRESS", "dueDate": "2026-10-10", "dependencyIds": []},
+      {"id": "T-5", "title": "模拟待开始任务", "status": "TODO", "dueDate": "2026-10-13", "dependencyIds": []},
+      {"id": "T-6", "title": "模拟阻塞任务", "status": "BLOCKED", "dueDate": "2026-10-14", "dependencyIds": ["T-4"]}
+    ]
+  }
+}

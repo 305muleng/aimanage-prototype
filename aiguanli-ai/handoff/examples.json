@@ -1,0 +1,593 @@
+{
+  "formatVersion": 1,
+  "examplesAreSynthetic": true,
+  "httpApiImplemented": false,
+  "storage": "NO_RUNTIME_DATA_EXPORTED",
+  "description": "人工构造的 Java 内部调用格式示例，非真实模型输出或审批；除审核承接提取的演示候选外，各例上下文独立。仅引用仓库中已有模拟文件，不导出当前助手内存、用户聊天、密钥或数据库数据。",
+  "cases": [
+    {
+      "id": "chat",
+      "javaMethod": "AssistantService.ask(conversationId, question)",
+      "arguments": {
+        "conversationId": "example-conversation",
+        "question": "你可以帮助整理项目讨论吗？"
+      },
+      "resultType": "java.lang.String",
+      "result": "[人工构造的接口示例] 可以将你提供的讨论整理为待审核纪要。",
+      "notes": [
+        "会话归属尚未与平台身份绑定。"
+      ]
+    },
+    {
+      "id": "discussion",
+      "javaMethod": "DiscussionService.analyze(messages)",
+      "arguments": {
+        "messages": [
+          {
+            "id": "c1",
+            "speaker": "小林",
+            "content": "【模拟讨论，仅验证已审核决策辅助协作】任务创建功能仍在开发，任务分配功能等待任务创建完成。请结合已审核的开发顺序检查风险。"
+          },
+          {
+            "id": "c2",
+            "speaker": "项目负责人",
+            "content": "请整理任务创建和任务分配的推进建议。剩余工作量和新的完成时间暂未提供，不要自行修改计划。"
+          }
+        ]
+      },
+      "resultType": "com.aiguanli.ai.DiscussionAnalysis",
+      "result": {
+        "summary": [
+          {
+            "text": "模拟任务创建功能仍在开发，分配功能等待创建完成。",
+            "sourceMessageIds": [
+              "c1"
+            ]
+          },
+          {
+            "text": "请求整理推进建议，尚未提供剩余工作量和新完成时间，不要自行修改计划。",
+            "sourceMessageIds": [
+              "c2"
+            ]
+          }
+        ],
+        "decisions": [],
+        "suggestions": [],
+        "actionItems": [],
+        "openQuestions": []
+      },
+      "notes": [
+        "结果是纪要草稿，消息编号来自本次输入。"
+      ]
+    },
+    {
+      "id": "decomposition",
+      "javaMethod": "DecompositionService.decomposeWithKnowledge(requirement, knowledge)",
+      "arguments": {
+        "requirement": "项目负责人可以创建任务并指定负责人和截止日期；开发成员只能更新自己负责的任务状态。"
+      },
+      "resultType": "com.aiguanli.ai.DecompositionService$SavedDraft",
+      "result": {
+        "result": {
+          "userStories": [
+            {
+              "id": "US-1",
+              "title": "创建任务并指定负责人和截止日期",
+              "role": "项目负责人",
+              "goal": "创建任务并指定负责人和截止日期",
+              "benefit": "明确工作安排",
+              "acceptanceCriteria": [
+                "Given 操作角色为项目负责人，When 提交任务及指定的负责人和截止日期，Then 可查看已创建任务及这些信息。"
+              ]
+            },
+            {
+              "id": "US-2",
+              "title": "更新本人负责任务状态",
+              "role": "开发成员",
+              "goal": "更新自己负责任务的状态",
+              "benefit": "反馈任务进展",
+              "acceptanceCriteria": [
+                "Given 任务由该开发成员负责，When 更新为约定允许的状态，Then 可查看更新后的任务状态。",
+                "Given 任务不由该开发成员负责，When 尝试更新，Then 系统拒绝该更新。"
+              ]
+            }
+          ],
+          "developmentTasks": [
+            {
+              "id": "TASK-1",
+              "title": "实现任务创建与人员日期指定",
+              "description": "实现明确输入的任务创建和信息展示；字段校验规则以确认结果为准。",
+              "storyIds": [
+                "US-1"
+              ]
+            },
+            {
+              "id": "TASK-2",
+              "title": "实现本人任务状态更新与归属校验",
+              "description": "根据任务归属验证状态更新权限；状态取值及流转以确认结果为准。",
+              "storyIds": [
+                "US-2"
+              ]
+            }
+          ],
+          "openQuestions": [
+            "任务状态有哪些取值与流转规则？",
+            "哪些字段必填，空值如何处理？",
+            "是否要求登录与认证，如何识别当前角色和任务归属？"
+          ],
+          "optionalSuggestions": []
+        },
+        "file": null,
+        "preview": "[人工构造的接口示例，非运行报告] 需求草稿，待人工审核，未保存、未创建平台任务。",
+        "grounding": {
+          "status": "EMPTY",
+          "query": "用户故事 user stories 与可观察的验收标准 acceptance criteria，Given When Then。具体需求：项目负责人可以创建任务并指定负责人和截止日期；开发成员只能更新自己负责的任务状态。",
+          "sources": [],
+          "methodReferences": [],
+          "note": "RAG 已启用，但未导入公共资料。",
+          "decisions": {
+            "status": "NO_MATCH",
+            "query": "项目负责人可以创建任务并指定负责人和截止日期；开发成员只能更新自己负责的任务状态。",
+            "sources": []
+          },
+          "decisionUsage": {
+            "references": [],
+            "note": "本次未向模型提供已审核决策。"
+          }
+        }
+      },
+      "notes": [
+        "knowledge 为后端注入的 Java 对象，不从 JSON 提交。",
+        "本例没有公共资料和适用的已审核决策，file=null 表示未在本地保存。"
+      ]
+    },
+    {
+      "id": "project-question-empty",
+      "javaMethod": "KnowledgeService.ask(question)",
+      "arguments": {
+        "question": "项目已经确认的开发顺序是什么？"
+      },
+      "resultType": "com.aiguanli.ai.KnowledgeService$KnowledgeAnswer",
+      "result": {
+        "answer": "项目知识库为空，请先用 /import 导入项目文档。",
+        "sources": []
+      },
+      "notes": [
+        "本例知识库为空，不表示实际运行的知识库状态。"
+      ]
+    },
+    {
+      "id": "public-question-empty",
+      "javaMethod": "KnowledgeService.askPublic(question)",
+      "arguments": {
+        "question": "什么是 Sprint？"
+      },
+      "resultType": "com.aiguanli.ai.KnowledgeService$KnowledgeAnswer",
+      "result": {
+        "answer": "公共知识库为空，请先用 /sources 查看来源，再用 /import-public 编号 导入。",
+        "sources": []
+      },
+      "notes": [
+        "空资料不补造引用；有命中时 sources 使用 INTEGRATION-CONTRACT 中的 SourceSnippet。"
+      ]
+    },
+    {
+      "id": "progress",
+      "javaMethod": "ProgressService.analyze(file)",
+      "arguments": {
+        "file": "examples/tasks.json"
+      },
+      "resultType": "com.aiguanli.ai.ProgressService$Analysis",
+      "result": {
+        "report": {
+          "simulation": true,
+          "source": "tasks.json",
+          "snapshotDate": "2026-10-11",
+          "sprintName": "模拟 Sprint（仅用于工具调用验证）",
+          "calculationRule": "按任务数量：已完成任务数 / 任务总数 × 100；截止日期早于快照日期且未完成才算延期；无任务时完成率未知。",
+          "totalTasks": 6,
+          "completedTasks": 3,
+          "completionPercent": 50.0,
+          "overdueTaskIds": [
+            "T-4"
+          ],
+          "blockedTaskIds": [
+            "T-6"
+          ],
+          "dependencyRisks": [
+            {
+              "taskId": "T-6",
+              "dependsOn": "T-4",
+              "predecessorStatus": "IN_PROGRESS"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "T-1",
+              "title": "模拟任务一",
+              "status": "DONE",
+              "dueDate": "2026-10-08",
+              "dependencyIds": [],
+              "overdue": false
+            },
+            {
+              "id": "T-2",
+              "title": "模拟任务二",
+              "status": "DONE",
+              "dueDate": "2026-10-09",
+              "dependencyIds": [],
+              "overdue": false
+            },
+            {
+              "id": "T-3",
+              "title": "模拟任务三",
+              "status": "DONE",
+              "dueDate": "2026-10-10",
+              "dependencyIds": [],
+              "overdue": false
+            },
+            {
+              "id": "T-4",
+              "title": "模拟前置任务",
+              "status": "IN_PROGRESS",
+              "dueDate": "2026-10-10",
+              "dependencyIds": [],
+              "overdue": true
+            },
+            {
+              "id": "T-5",
+              "title": "模拟待开始任务",
+              "status": "TODO",
+              "dueDate": "2026-10-13",
+              "dependencyIds": [],
+              "overdue": false
+            },
+            {
+              "id": "T-6",
+              "title": "模拟阻塞任务",
+              "status": "BLOCKED",
+              "dueDate": "2026-10-14",
+              "dependencyIds": [
+                "T-4"
+              ],
+              "overdue": false
+            }
+          ]
+        },
+        "answer": "[人工构造的接口示例，非实际模型回答] 模拟快照完成 3/6，任务数量完成率 50%；T-4 延期，T-6 阻塞。建议核实剩余工作，尚未执行。",
+        "toolCalls": 1,
+        "file": null
+      },
+      "notes": [
+        "toolCalls=1 仅演示该字段，不证明实际发生调用。",
+        "当前入口读取文件，尚不能直接接收队友的任务对象。"
+      ]
+    },
+    {
+      "id": "collaboration",
+      "javaMethod": "CollaborationService.collaborate(file)",
+      "arguments": {
+        "file": "examples/collaboration-decisions.json"
+      },
+      "resultType": "com.aiguanli.ai.CollaborationService$Run",
+      "result": {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "createdAt": "2026-10-18T00:00:00Z",
+        "status": "PENDING_REVIEW",
+        "simulation": true,
+        "configuredModel": "example-model-not-an-execution",
+        "source": "collaboration-decisions.json",
+        "inputSha256": "f04de8c7527ab04f1d382fda3763bbc354b8642a47b2aed6e3f3cffd7e476915",
+        "originalInput": "{\n  \"simulation\": true,\n  \"messages\": [\n    {\"id\": \"c1\", \"speaker\": \"小林\", \"content\": \"【模拟讨论，仅验证已审核决策辅助协作】任务创建功能仍在开发，任务分配功能等待任务创建完成。请结合已审核的开发顺序检查风险。\"},\n    {\"id\": \"c2\", \"speaker\": \"项目负责人\", \"content\": \"请整理任务创建和任务分配的推进建议。剩余工作量和新的完成时间暂未提供，不要自行修改计划。\"}\n  ],\n  \"progress\": {\n    \"simulation\": true,\n    \"snapshotDate\": \"2026-10-11\",\n    \"sprintName\": \"审核决策辅助协作演示\",\n    \"tasks\": [\n      {\"id\": \"T-CREATE\", \"title\": \"模拟任务创建功能\", \"status\": \"IN_PROGRESS\", \"dueDate\": \"2026-10-10\", \"dependencyIds\": []},\n      {\"id\": \"T-ASSIGN\", \"title\": \"模拟任务分配功能\", \"status\": \"BLOCKED\", \"dueDate\": \"2026-10-14\", \"dependencyIds\": [\"T-CREATE\"]}\n    ]\n  }\n}\n",
+        "input": {
+          "simulation": true,
+          "messages": [
+            {
+              "id": "c1",
+              "speaker": "小林",
+              "content": "【模拟讨论，仅验证已审核决策辅助协作】任务创建功能仍在开发，任务分配功能等待任务创建完成。请结合已审核的开发顺序检查风险。"
+            },
+            {
+              "id": "c2",
+              "speaker": "项目负责人",
+              "content": "请整理任务创建和任务分配的推进建议。剩余工作量和新的完成时间暂未提供，不要自行修改计划。"
+            }
+          ],
+          "progress": {
+            "simulation": true,
+            "snapshotDate": "2026-10-11",
+            "sprintName": "审核决策辅助协作演示",
+            "tasks": [
+              {
+                "id": "T-CREATE",
+                "title": "模拟任务创建功能",
+                "status": "IN_PROGRESS",
+                "dueDate": "2026-10-10",
+                "dependencyIds": []
+              },
+              {
+                "id": "T-ASSIGN",
+                "title": "模拟任务分配功能",
+                "status": "BLOCKED",
+                "dueDate": "2026-10-14",
+                "dependencyIds": [
+                  "T-CREATE"
+                ]
+              }
+            ]
+          }
+        },
+        "facts": {
+          "simulation": true,
+          "source": "collaboration-decisions.json",
+          "snapshotDate": "2026-10-11",
+          "sprintName": "审核决策辅助协作演示",
+          "calculationRule": "按任务数量：已完成任务数 / 任务总数 × 100；截止日期早于快照日期且未完成才算延期；无任务时完成率未知。",
+          "totalTasks": 2,
+          "completedTasks": 0,
+          "completionPercent": 0.0,
+          "overdueTaskIds": [
+            "T-CREATE"
+          ],
+          "blockedTaskIds": [
+            "T-ASSIGN"
+          ],
+          "dependencyRisks": [
+            {
+              "taskId": "T-ASSIGN",
+              "dependsOn": "T-CREATE",
+              "predecessorStatus": "IN_PROGRESS"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "T-CREATE",
+              "title": "模拟任务创建功能",
+              "status": "IN_PROGRESS",
+              "dueDate": "2026-10-10",
+              "dependencyIds": [],
+              "overdue": true
+            },
+            {
+              "id": "T-ASSIGN",
+              "title": "模拟任务分配功能",
+              "status": "BLOCKED",
+              "dueDate": "2026-10-14",
+              "dependencyIds": [
+                "T-CREATE"
+              ],
+              "overdue": false
+            }
+          ]
+        },
+        "minutes": {
+          "summary": [
+            {
+              "text": "模拟任务创建功能仍在开发，分配功能等待创建完成。",
+              "sourceMessageIds": [
+                "c1"
+              ]
+            },
+            {
+              "text": "请求整理推进建议，尚未提供剩余工作量和新完成时间，不要自行修改计划。",
+              "sourceMessageIds": [
+                "c2"
+              ]
+            }
+          ],
+          "decisions": [],
+          "suggestions": [],
+          "actionItems": [],
+          "openQuestions": []
+        },
+        "risks": {
+          "risks": [
+            {
+              "id": "R-1",
+              "observation": "模拟快照中 T-CREATE 未完成且已过截止日期。",
+              "potentialImpact": "可能影响依赖任务，需要核实剩余工作。",
+              "sourceMessageIds": [
+                "c1"
+              ],
+              "sourceTaskIds": [
+                "T-CREATE"
+              ],
+              "referencesSnapshot": true
+            }
+          ],
+          "informationGaps": [
+            {
+              "text": "剩余工作量和新的完成时间未提供。",
+              "sourceMessageIds": [
+                "c2"
+              ],
+              "sourceTaskIds": [
+                "T-CREATE"
+              ],
+              "referencesSnapshot": true
+            }
+          ],
+          "projectDecisions": {
+            "references": [],
+            "note": "演示未提供已审核决策，没有引用项目决策。"
+          }
+        },
+        "coordination": {
+          "recommendations": [
+            {
+              "title": "核实前置任务进度",
+              "rationale": "建议团队补充剩余工作量及预计完成时间，当前不修改计划，建议未执行。",
+              "riskIds": [
+                "R-1"
+              ],
+              "sourceMessageIds": [
+                "c2"
+              ],
+              "sourceTaskIds": [
+                "T-CREATE"
+              ],
+              "referencesSnapshot": true
+            }
+          ],
+          "openQuestions": [
+            {
+              "text": "任务创建还剩多少工作？",
+              "sourceMessageIds": [
+                "c2"
+              ],
+              "sourceTaskIds": [
+                "T-CREATE"
+              ],
+              "referencesSnapshot": true
+            }
+          ],
+          "projectDecisions": {
+            "references": [],
+            "note": "演示未提供已审核决策，没有引用项目决策。"
+          }
+        },
+        "trace": [
+          {
+            "id": "snapshot",
+            "role": "Java 快照统计",
+            "inputs": [
+              "input"
+            ],
+            "status": "COMPLETED",
+            "startedAt": "2026-10-18T00:00:00Z",
+            "completedAt": "2026-10-18T00:00:00Z"
+          },
+          {
+            "id": "minutes",
+            "role": "纪要整理",
+            "inputs": [
+              "input"
+            ],
+            "status": "COMPLETED",
+            "startedAt": "2026-10-18T00:00:00Z",
+            "completedAt": "2026-10-18T00:00:00Z"
+          },
+          {
+            "id": "risk",
+            "role": "风险评估",
+            "inputs": [
+              "minutes",
+              "snapshot"
+            ],
+            "status": "COMPLETED",
+            "startedAt": "2026-10-18T00:00:00Z",
+            "completedAt": "2026-10-18T00:00:00Z"
+          },
+          {
+            "id": "coordination",
+            "role": "协调汇总",
+            "inputs": [
+              "minutes",
+              "risk",
+              "snapshot"
+            ],
+            "status": "COMPLETED",
+            "startedAt": "2026-10-18T00:00:00Z",
+            "completedAt": "2026-10-18T00:00:00Z"
+          }
+        ],
+        "review": {
+          "status": "PENDING",
+          "reviewer": null,
+          "reviewedAt": null,
+          "decision": null,
+          "reason": null
+        },
+        "preview": "[人工构造的接口示例，非运行报告] 模拟协作草稿，待人工审核，未保存、未执行。",
+        "decisions": {
+          "status": "DISABLED",
+          "query": "",
+          "sources": []
+        }
+      },
+      "notes": [
+        "本例使用无知识服务参数的重载，decisions=DISABLED。",
+        "trace 及模型内容均为人工构造，不是实际执行记录。",
+        "完整 Run 仍待人工审核，不执行任务修改。"
+      ]
+    },
+    {
+      "id": "extract-decisions",
+      "javaMethod": "DecisionReviewService.extract(file)",
+      "arguments": {
+        "file": "examples/decision-discussion.json"
+      },
+      "resultType": "com.aiguanli.ai.DecisionReviewService$Extraction",
+      "result": {
+        "decisions": [
+          {
+            "id": "D-00000001",
+            "originalText": "确定先完成任务创建，再做任务分配。",
+            "approvedText": null,
+            "status": "PENDING_REVIEW",
+            "simulation": true,
+            "sourceFile": "decision-discussion.json",
+            "inputSha256": "c944b36ef844716f4f8d1542c5838aba9ccb0064f1f9272c9efb67c4e87be696",
+            "originalInput": "{\n  \"simulation\": true,\n  \"messages\": [\n    {\"id\": \"m1\", \"speaker\": \"小林\", \"content\": \"【模拟群聊，仅用于决策审核入库演示】我建议先完成任务创建，再做任务分配。\"},\n    {\"id\": \"m2\", \"speaker\": \"项目负责人\", \"content\": \"同意，确定先完成任务创建，再做任务分配。小林整理任务创建的字段草稿，明天下午前提供。\"},\n    {\"id\": \"m3\", \"speaker\": \"小林\", \"content\": \"好的，我明天下午前提交字段草稿。\"},\n    {\"id\": \"m4\", \"speaker\": \"小周\", \"content\": \"任务是否支持同时分配给多个人？目前还没有确认。\"},\n    {\"id\": \"m5\", \"speaker\": \"小周\", \"content\": \"建议增加任务分配通知，先作为可选功能讨论，还未决定。\"}\n  ]\n}\n",
+            "createdAt": "2026-10-18T00:00:00Z",
+            "sourceMessages": [
+              {
+                "id": "m2",
+                "speaker": "项目负责人",
+                "content": "同意，确定先完成任务创建，再做任务分配。小林整理任务创建的字段草稿，明天下午前提供。"
+              }
+            ],
+            "review": null,
+            "publishedAt": null
+          }
+        ],
+        "reused": false
+      },
+      "notes": [
+        "示例编号不能用于当前进程的审核命令，实际运行会生成新的 ID。"
+      ]
+    },
+    {
+      "id": "review-decision",
+      "javaMethod": "DecisionReviewService.review(id, action, reviewer, reason, modifiedText)",
+      "arguments": {
+        "id": "D-00000001",
+        "action": "ACCEPT",
+        "reviewer": "演示审核员",
+        "reason": "演示：核对来源后采纳。不是实际审批。",
+        "modifiedText": null
+      },
+      "resultType": "com.aiguanli.ai.DecisionReviewService$Candidate",
+      "result": {
+        "id": "D-00000001",
+        "originalText": "确定先完成任务创建，再做任务分配。",
+        "approvedText": "确定先完成任务创建，再做任务分配。",
+        "status": "APPROVED",
+        "simulation": true,
+        "sourceFile": "decision-discussion.json",
+        "inputSha256": "c944b36ef844716f4f8d1542c5838aba9ccb0064f1f9272c9efb67c4e87be696",
+        "originalInput": "{\n  \"simulation\": true,\n  \"messages\": [\n    {\"id\": \"m1\", \"speaker\": \"小林\", \"content\": \"【模拟群聊，仅用于决策审核入库演示】我建议先完成任务创建，再做任务分配。\"},\n    {\"id\": \"m2\", \"speaker\": \"项目负责人\", \"content\": \"同意，确定先完成任务创建，再做任务分配。小林整理任务创建的字段草稿，明天下午前提供。\"},\n    {\"id\": \"m3\", \"speaker\": \"小林\", \"content\": \"好的，我明天下午前提交字段草稿。\"},\n    {\"id\": \"m4\", \"speaker\": \"小周\", \"content\": \"任务是否支持同时分配给多个人？目前还没有确认。\"},\n    {\"id\": \"m5\", \"speaker\": \"小周\", \"content\": \"建议增加任务分配通知，先作为可选功能讨论，还未决定。\"}\n  ]\n}\n",
+        "createdAt": "2026-10-18T00:00:00Z",
+        "sourceMessages": [
+          {
+            "id": "m2",
+            "speaker": "项目负责人",
+            "content": "同意，确定先完成任务创建，再做任务分配。小林整理任务创建的字段草稿，明天下午前提供。"
+          }
+        ],
+        "review": {
+          "action": "ACCEPT",
+          "reviewer": "演示审核员",
+          "reason": "演示：核对来源后采纳。不是实际审批。",
+          "reviewedAt": "2026-10-18T00:00:00Z"
+        },
+        "publishedAt": null
+      },
+      "notes": [
+        "本例承接 extract-decisions 的演示候选。",
+        "APPROVED 不等于 PUBLISHED；publish 是另一次操作。",
+        "后端接入时审核身份必须经过认证，本例不表示真实审批。"
+      ]
+    }
+  ]
+}

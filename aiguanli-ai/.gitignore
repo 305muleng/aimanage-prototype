@@ -1,0 +1,10 @@
+/target/
+/.build/
+/.local/
+.env
+.env.*
+!.env.example
+application-local.yml
+application-local.yaml
+.idea/
+*.iml

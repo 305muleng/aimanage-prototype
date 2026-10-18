@@ -130,3 +130,9 @@ src/main/resources
 ## 原型说明
 
 本项目以课堂演示为目标。Sprint 1 的 8 条用户故事具备真实业务闭环，其他功能目前只实现前端展示。账号密码使用明文演示数据，未引入 Spring Security。正式系统应增加密码哈希、CSRF 防护、完整权限拦截、操作日志和更严格的参数校验。
+
+## AI 助手模块（独立原型，待平台接入）
+
+仓库另含 `aiguanli-ai/`：基于 Spring AI、DeepSeek 和向量检索的独立 AI 模块，支持群聊纪要、需求拆解、RAG 问答、模拟进度工具分析、固定三角色协作及人工审核决策入库。
+
+请先看 [AI 模块交接入口](AI-HANDOFF.md)，再按 [AI 模块运行说明](aiguanli-ai/README.md) 在该子目录单独启动。当前尚未连接本站页面、登录身份和数据库；网站中的 AI 预览入口不会自动调用该模块。交接字段与演示 JSON 见 [handoff](aiguanli-ai/handoff/README.md)。
