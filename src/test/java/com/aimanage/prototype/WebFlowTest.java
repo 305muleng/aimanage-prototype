@@ -69,7 +69,48 @@ class WebFlowTest {
             mockMvc.perform(get("/preview/" + module).session(session))
                     .andExpect(status().isOk())
                     .andExpect(view().name("prototype-page"))
-                    .andExpect(content().string(org.hamcrest.Matchers.containsString("功能清单")));
+                    .andExpect(content().string(org.hamcrest.Matchers.containsString(
+                            module.equals("ai") ? "候选决策" : "功能清单")));
         }
+    }
+
+    @Test
+    void aiPageUsesLoggedInRoleAndLoadsOnlyFrontendAssets() throws Exception {
+        for (String username : new String[]{"manager", "developer"}) {
+            MvcResult login = mockMvc.perform(post("/login")
+                            .param("username", username).param("password", "123456"))
+                    .andExpect(status().is3xxRedirection()).andReturn();
+            MockHttpSession session = (MockHttpSession) login.getRequest().getSession(false);
+            mockMvc.perform(get("/preview/ai").session(session))
+                    .andExpect(status().isOk())
+                    .andExpect(content().string(org.hamcrest.Matchers.containsString(
+                            "data-can-review=\"" + username.equals("manager") + "\"")))
+                    .andExpect(content().string(org.hamcrest.Matchers.containsString("/js/ai-workspace.js")))
+                    .andExpect(content().string(org.hamcrest.Matchers.containsString("审核理由（必填）")))
+                    .andExpect(content().string(org.hamcrest.Matchers.not(
+                            org.hamcrest.Matchers.matchesPattern("(?s).*<textarea[^>]*id=\"ai-question\"[^>]*\\sdisabled\\b.*"))))
+                    .andExpect(content().string(org.hamcrest.Matchers.not(
+                            org.hamcrest.Matchers.containsString("演示模式"))))
+                    .andExpect(content().string(org.hamcrest.Matchers.not(
+                            org.hamcrest.Matchers.containsString("配置 AI 智能体"))));
+        }
+    }
+
+    @Test
+    void anonymousVisitorCannotOpenAiPage() throws Exception {
+        mockMvc.perform(get("/preview/ai"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"));
+    }
+
+    @Test
+    void aiAssetsUseHttpOnlyAndDoNotExposeDemoData() throws Exception {
+        mockMvc.perform(get("/js/ai-api.js"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("/api/ai/workspace")))
+                .andExpect(content().string(org.hamcrest.Matchers.not(
+                        org.hamcrest.Matchers.containsString("createDemoAiApi"))));
+        mockMvc.perform(get("/js/ai-demo-data.js"))
+                .andExpect(status().isNotFound());
     }
 }
