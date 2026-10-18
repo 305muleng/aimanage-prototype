@@ -24,7 +24,7 @@
         <a th:href="@{/iterations}" th:classappend="${active == 'sprints'} ? 'active'">
             <svg viewBox="0 0 24 24"><path d="M6 2v4M18 2v4M3 9h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z"/></svg><span>Sprint 管理</span>
         </a>
-        <a th:href="@{/preview/tasks}" th:classappend="${active == 'tasks'} ? 'active'">
+        <a th:href="${roleLabel == '项目负责人' ? '/manager/tasks' : roleLabel == '开发人员' ? '/my-tasks' : '/preview/tasks'}" th:classappend="${active == 'tasks'} ? 'active'">
             <svg viewBox="0 0 24 24"><path d="M9 5h11M9 12h11M9 19h11M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg><span>任务与协作</span>
         </a>
         <a th:href="@{/preview/analytics}" th:classappend="${active == 'analytics'} ? 'active'">

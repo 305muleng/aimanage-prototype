@@ -22,16 +22,17 @@ public class ProjectTaskService {
     private final ProjectMemberRepository memberRepository;
     private final TaskRepository taskRepository;
     private final WorkItemRepository workItems;
+    private final SprintRepository sprints;
 
     public ProjectTaskService(ProjectRepository projectRepository,
                               UserRepository userRepository,
                               ProjectMemberRepository memberRepository,
-                              TaskRepository taskRepository, WorkItemRepository workItems) {
+                              TaskRepository taskRepository, WorkItemRepository workItems, SprintRepository sprints) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
         this.taskRepository = taskRepository;
-        this.workItems = workItems;
+        this.workItems = workItems; this.sprints = sprints;
     }
 
     /** 创建项目；只有项目负责人角色可以执行。 */
@@ -70,6 +71,7 @@ public class ProjectTaskService {
         requireOwnedProject(managerId, task.getProject().getId());
         User assignee = requireProjectMember(task.getProject().getId(), assigneeId);
         requireText(title, "任务标题不能为空");
+        if(task.getStartDate()!=null && dueDate!=null && dueDate.isBefore(task.getStartDate()))throw new BusinessException("截止日期不能早于开始日期");
         task.edit(title.trim(), cleanDescription(description), dueDate, assignee);
         return task;
     }
@@ -224,6 +226,13 @@ public class ProjectTaskService {
             story=workItems.findById(storyId).orElseThrow(()->new BusinessException("用户故事不存在"));
             if(!story.getType().equals("STORY")||!story.getProject().getId().equals(task.getProject().getId()))throw new BusinessException("只能关联当前项目的用户故事");
         }
+        sprints.lockProject(task.getProject().getId()).orElseThrow();
+        Long previous=task.getStory()==null?null:task.getStory().getId();
+        if(!java.util.Objects.equals(previous,storyId)){
+            if((task.getStory()!=null && task.getStory().getSprint()!=null && task.getStory().getSprint().getStatus()==SprintStatus.COMPLETED)
+                || (story!=null && story.getSprint()!=null && story.getSprint().getStatus()==SprintStatus.COMPLETED))
+                throw new BusinessException("已完成迭代的任务不能移入或移出");
+        }
         task.plan(priority,story);
     }
     public void scheduleTask(Long managerId,Long taskId,LocalDate start,LocalDate end){
@@ -239,6 +248,17 @@ public class ProjectTaskService {
 
     private User requireUser(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new BusinessException("用户不存在"));
+    }
+
+    public Task savePlannedTask(Long uid,Long pid,Long id,String title,String description,LocalDate due,Long assignee,Priority priority,Long storyId){
+        requireOwnedProject(uid,pid);
+        if(title==null || title.isBlank() || title.trim().length()>120 || (description!=null && description.length()>1000))
+            throw new BusinessException("任务标题需为1–120字符，说明最多1000字符");
+        if(id!=null && !requireTask(id).getProject().getId().equals(pid))throw new BusinessException("任务不属于当前项目");
+        var task=id==null?createTask(uid,pid,title,description,due,assignee):editTask(uid,id,title,description,due,assignee);
+        if(task.getStartDate()!=null && due!=null && due.isBefore(task.getStartDate()))throw new BusinessException("截止日期不能早于开始日期");
+        planTask(uid,task.getId(),priority,storyId);
+        return task;
     }
 
     private Task requireTask(Long id) {

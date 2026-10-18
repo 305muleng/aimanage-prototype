@@ -61,6 +61,26 @@ public class ManagerController {
         return "manager-dashboard";
     }
 
+    @GetMapping("/tasks")
+    public String tasks(@RequestParam(required=false) Long projectId,@RequestParam(required=false) Long storyId,HttpSession session,Model model){
+        String result=dashboard(session,model);if(result.startsWith("redirect:"))return result;
+        @SuppressWarnings("unchecked") var views=(List<ProjectView>)model.getAttribute("projects");
+        var view=views.stream().filter(v->projectId==null || v.project().getId().equals(projectId)).findFirst().orElse(null);
+        model.addAttribute("view",view);
+        model.addAttribute("selectedStory",view!=null && storyId!=null && view.stories().stream().anyMatch(i->i.getId().equals(storyId))?storyId:null);
+        return "task-workspace";
+    }
+    @PostMapping("/tasks/save")
+    public String saveTask(@RequestParam Long projectId,@RequestParam(required=false) Long id,@RequestParam String title,
+        @RequestParam(defaultValue="") String description,@RequestParam(required=false) @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate dueDate,
+        @RequestParam Long assigneeId,@RequestParam com.aimanage.prototype.domain.Priority priority,@RequestParam(required=false) Long storyId,
+        @RequestParam(defaultValue="") String csrfToken,HttpSession session,RedirectAttributes redirect){
+        if(requireManager(session)==null)return "redirect:/login";
+        try{checkToken(session,csrfToken);service.savePlannedTask(requireManager(session),projectId,id,title,description,dueDate,assigneeId,priority,storyId);redirect.addFlashAttribute("success","任务已保存");}
+        catch(BusinessException ex){redirect.addFlashAttribute("error",ex.getMessage());}
+        return "redirect:/manager/tasks?projectId="+projectId;
+    }
+
     @PostMapping("/projects")
     public String createProject(@RequestParam String name, @RequestParam(required = false) String description,
                                 HttpSession session, RedirectAttributes redirect) {

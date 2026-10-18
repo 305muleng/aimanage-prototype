@@ -57,7 +57,10 @@
     const row = rows.find(candidate => candidate.dataset.itemId === id);
     if (row?.hidden && view !== 'MAP') { search.value = ''; priority.value = ''; applyFilters(); }
     if (row) { row.classList.add('selected'); row.setAttribute('aria-current', 'true'); }
-    if (edit) panel.querySelector('.bp-editor input[name="title"]')?.focus({preventScroll: true});
+    if (edit) {
+      const editor = panel.querySelector(".bp-editor");
+      if (editor) {editor.open = true; editor.querySelector('input[name="title"]')?.focus({preventScroll: true});}
+    }
     requestAnimationFrame(positionDetail);
   }
   function syncNewForm() {

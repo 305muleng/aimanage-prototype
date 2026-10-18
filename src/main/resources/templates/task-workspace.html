@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>任务与协作 · 爱管理</title><link rel="stylesheet" th:href="@{/css/app.css}"><link rel="stylesheet" th:href="@{/css/task-workspace.css}"></head>
+<body class="app-page"><div class="app-shell"><aside th:replace="~{fragments/sidebar :: sidebar('tasks')}"></aside><main class="main-column"><header class="page-toolbar"><div class="breadcrumbs">爱管理 / 任务与协作</div></header>
+<div class="page-content task-page"><h1>任务与协作</h1><p class="task-context">需求 → 用户故事 → 任务 <span>Sprint 按故事安排，任务随故事归属</span></p>
+<p th:if="${error}" class="task-error" th:text="${error}"></p><p th:if="${success}" role="status" th:text="${success}"></p>
+<form method="get" class="task-project"><label>项目<select name="projectId" class="notion-input" onchange="this.form.requestSubmit()"><option th:each="v : ${projects}" th:value="${v.project.id}" th:selected="${view != null and v.project.id == view.project.id}" th:text="${v.project.name}"></option></select></label></form>
+<p th:if="${view == null}">请选择有权限访问的项目。</p>
+<th:block th:if="${view != null}">
+<div class="task-layout"><section class="task-list"><div class="task-filters"><input type="search" class="notion-input" placeholder="搜索任务或故事" aria-label="搜索任务或故事" id="task-search"><select class="notion-input" id="task-state" aria-label="任务状态"><option value="">全部状态</option><option value="TODO">待处理</option><option value="IN_PROGRESS">进行中</option><option value="DONE">已完成</option></select></div>
+<article th:each="task : ${view.tasks}" class="task-card" th:id="|task-${task.id}|" th:attr="data-search=${task.title + ' ' + (task.story == null ? '' : task.story.title)},data-status=${task.status.name()}">
+<div class="task-card-heading"><h2 th:text="${task.title}"></h2><span class="status-tag" th:classappend="${#strings.toLowerCase(task.status.name())}" th:text="${task.status.label}"></span></div>
+<div class="task-chain"><th:block th:if="${task.story != null}"><a th:if="${task.story.requirement != null}" th:href="@{/backlog(projectId=${view.project.id})} + '#item-' + ${task.story.requirement.id}" th:text="${task.story.requirement.title}"></a><a th:href="@{/backlog(projectId=${view.project.id})} + '#item-' + ${task.story.id}" th:text="|故事 · ${task.story.title}|"></a><a th:if="${task.story.sprint != null}" th:href="@{/iterations(projectId=${view.project.id},sprintId=${task.story.sprint.id})}" th:text="${task.story.sprint.name}"></a><span th:if="${task.story.sprint == null}">故事待规划</span></th:block><span th:if="${task.story == null}">独立任务 · 未关联故事，不计入迭代</span></div>
+<p class="task-description" th:text="${task.description}"></p><div class="task-meta"><span th:text="${task.assignee.displayName}"></span><span th:text="${task.dueDate == null ? '未设截止日期' : '截止 ' + task.dueDate}"></span><span th:text="${task.priority.name() == 'URGENT' ? '紧急' : task.priority.name() == 'HIGH' ? '高优先级' : task.priority.name() == 'LOW' ? '低优先级' : '中优先级'}"></span></div>
+<details><summary>编辑任务</summary><form th:replace="~{fragments/task-form :: taskForm(${task})}"></form></details></article>
+<p id="task-empty" class="task-empty" th:hidden="${!#lists.isEmpty(view.tasks)}">暂无匹配任务</p></section>
+<aside class="task-create" id="new-task"><h2>新建任务</h2><p>选择故事后，任务会归入该故事的迭代。</p><form th:replace="~{fragments/task-form :: taskForm(null)}"></form></aside></div></th:block></div></main></div>
+<script th:src="@{/js/task-workspace.js}" defer></script></body></html>

@@ -57,7 +57,7 @@ class BacklogFlowTest {
   var other=projects.createProject(m.getId(),"other map","");
   assertThatThrownBy(()->backlog.place(m.getId(),other.getId(),story.getId(),"EPIC1","SPRINT1","")).isInstanceOf(BusinessException.class);
   var s=new MockHttpSession();s.setAttribute("userId",m.getId());s.setAttribute("role",Role.PROJECT_MANAGER);
-  mvc.perform(get("/backlog").param("projectId",p.getId().toString()).session(s)).andExpect(status().isOk()).andExpect(content().string(org.hamcrest.Matchers.containsString("story-map-card"))).andExpect(content().string(org.hamcrest.Matchers.containsString("E2-10 多视图联动")));
+  mvc.perform(get("/backlog").param("projectId",p.getId().toString()).session(s)).andExpect(status().isOk()).andExpect(content().string(org.hamcrest.Matchers.containsString("story-map-card"))).andExpect(content().string(org.hamcrest.Matchers.not(org.hamcrest.Matchers.containsString("E2-10 多视图联动"))));
   mvc.perform(post("/backlog-map").session(s).param("projectId",p.getId().toString()).param("id",story.getId().toString()).param("epic","EPIC1").param("lane","SPRINT1")).andExpect(flash().attributeExists("error"));
   mvc.perform(post("/backlog-map").session(s).param("projectId",p.getId().toString()).param("id",story.getId().toString()).param("epic","EPIC3").param("lane","SPRINT3").param("csrfToken",s.getAttribute("backlogCsrf").toString())).andExpect(flash().attributeExists("success"));
   assertThat(story.getMapEpic()).isEqualTo("EPIC3");

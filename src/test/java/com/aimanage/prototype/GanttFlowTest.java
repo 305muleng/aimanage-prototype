@@ -17,6 +17,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest @AutoConfigureMockMvc @ActiveProfiles("test") @Transactional
 class GanttFlowTest {
  @Autowired MockMvc mvc;@Autowired ProjectTaskService service;@Autowired UserRepository users;@Autowired BacklogService backlog;
+ @Autowired SprintService sprints;
+ @Test void preservesRealIterationAndStoryContextWhenPagingAndSaving() throws Exception {
+  var m=users.findByUsername("manager").orElseThrow();var d=users.findByUsername("developer").orElseThrow();
+  var p=service.createProject(m.getId(),"context","");service.addMember(m.getId(),p.getId(),d.getId());
+  var start=LocalDate.of(2026,10,18);var it=sprints.save(m.getId(),p.getId(),null,"Real iteration","",start,start.plusDays(13));
+  var story=backlog.save(m.getId(),p.getId(),null,"STORY","context story","","accepted",Priority.HIGH,null);sprints.assign(m.getId(),p.getId(),story.getId(),it.getId());
+  var task=service.createTask(m.getId(),p.getId(),"context task","",null,d.getId());service.planTask(m.getId(),task.getId(),Priority.HIGH,story.getId());service.scheduleTask(m.getId(),task.getId(),start.minusDays(1),start.plusDays(3));
+  var s=session(m);
+  var html=mvc.perform(get("/sprints").session(s).param("projectId",p.getId().toString()).param("sprintId",it.getId().toString()).param("storyId",story.getId().toString())).andExpect(status().isOk()).andExpect(model().attribute("from",start)).andReturn().getResponse().getContentAsString();
+  assertThat(html).contains("超出所属迭代周期","兼容筛选","storyId="+story.getId(),"from=2026-11-15","sprintId="+it.getId());
+  mvc.perform(post("/sprints").session(s).param("projectId",p.getId().toString()).param("taskId",task.getId().toString()).param("startDate","2026-10-18").param("dueDate","2026-10-23").param("sprintId",it.getId().toString()).param("storyId",story.getId().toString()).param("from","2026-11-15").param("csrfToken",s.getAttribute("ganttCsrf").toString())).andExpect(redirectedUrl("/sprints?projectId="+p.getId()+"&sprintId="+it.getId()+"&storyId="+story.getId()+"&from=2026-11-15"));
+ }
  MockHttpSession session(User u){var s=new MockHttpSession();s.setAttribute("userId",u.getId());s.setAttribute("role",u.getRole());return s;}
  @Test void rendersRealBarsAndSavesValidatedSchedule() throws Exception {
   var m=users.findByUsername("manager").orElseThrow();var d=users.findByUsername("developer").orElseThrow();var p=service.createProject(m.getId(),"gantt","");service.addMember(m.getId(),p.getId(),d.getId());

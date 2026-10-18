@@ -7,8 +7,8 @@
  <div class="sprint-title-row"><span class="sprint-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3v4m8-4v4M4 10h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/></svg></span>
  <div><h1>Sprint 管理</h1><p>查看迭代目标、时间范围与交付进度。</p></div></div>
  <nav class="sprint-view-tabs" aria-label="Sprint 视图">
- <a th:href="@{/iterations(projectId=${projectId})}" th:classappend="${active == 'overview' ? 'is-active' : ''}" th:attr="aria-current=${active == 'overview' ? 'page' : null}">迭代概览</a>
- <a th:if="${roleLabel != '系统管理员'}" th:href="@{/sprints(projectId=${projectId})}" th:classappend="${active == 'gantt' ? 'is-active' : ''}" th:attr="aria-current=${active == 'gantt' ? 'page' : null}">任务甘特图</a>
+ <a th:href="@{/iterations(projectId=${projectId},sprintId=${sprintId})}" th:classappend="${active == 'overview' ? 'is-active' : ''}" th:attr="aria-current=${active == 'overview' ? 'page' : null}">迭代概览</a>
+ <a th:if="${roleLabel != '系统管理员'}" th:href="@{/sprints(projectId=${projectId},sprintId=${sprintId})}" th:classappend="${active == 'gantt' ? 'is-active' : ''}" th:attr="aria-current=${active == 'gantt' ? 'page' : null}">任务甘特图</a>
  </nav>
 </section>
 </body></html>

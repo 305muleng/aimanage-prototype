@@ -23,6 +23,7 @@ public class GanttController {
   if(projectId==null&&!accessible.isEmpty())projectId=accessible.get(0).getId();
   if(!List.of("ALL","SPRINT1","SPRINT2","SPRINT3","UNPLANNED").contains(lane))lane="ALL";
   List<Task> tasks=List.of();
+  m.addAttribute("iterations",List.of());
   if(projectId!=null){
    Long pid=projectId;
    if(accessible.stream().noneMatch(p->p.getId().equals(pid))){redirect.addFlashAttribute("error","无权访问该项目");return "redirect:/sprints";}
@@ -39,7 +40,9 @@ public class GanttController {
   var days=java.util.stream.IntStream.range(0,28).mapToObj(start::plusDays).toList();
   var rows=new ArrayList<Row>();
   for(var t:tasks){boolean valid=t.getStartDate()!=null&&t.getDueDate()!=null&&!t.getDueDate().isBefore(t.getStartDate());
-   rows.add(new Row(t,valid,days.stream().map(d->valid&&!d.isBefore(t.getStartDate())&&!d.isAfter(t.getDueDate())).toList()));
+   var it=t.getStory()==null?null:t.getStory().getSprint();
+   boolean outside=valid&&it!=null&&(t.getStartDate().isBefore(it.getStartDate())||t.getDueDate().isAfter(it.getEndDate()));
+   rows.add(new Row(t,valid,outside,days.stream().map(d->valid&&!d.isBefore(t.getStartDate())&&!d.isAfter(t.getDueDate())).toList()));
   }
   long done=tasks.stream().filter(t->t.getStatus()==TaskStatus.DONE).count();
   m.addAttribute("sprintId",sprintId);m.addAttribute("storyId",storyId);m.addAttribute("rows",rows);m.addAttribute("days",days);m.addAttribute("today",LocalDate.now());m.addAttribute("total",tasks.size());m.addAttribute("done",done);
@@ -53,13 +56,15 @@ public class GanttController {
  @PostMapping("/sprints") public String schedule(@RequestParam Long projectId,@RequestParam Long taskId,
   @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate startDate,
   @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate dueDate,
-  @RequestParam(defaultValue="") String csrfToken,HttpSession s,RedirectAttributes r){
+  @RequestParam(defaultValue="") String csrfToken,@RequestParam(required=false) Long sprintId,@RequestParam(required=false) Long storyId,@RequestParam(defaultValue="ALL") String lane,@RequestParam(required=false) @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate from,HttpSession s,RedirectAttributes r){
   try{if(csrfToken.isBlank()||!csrfToken.equals(s.getAttribute("ganttCsrf")))throw new BusinessException("请刷新页面后重试");
    Long uid=(Long)s.getAttribute("userId");
    if(service.projectTasks(uid,projectId).stream().noneMatch(t->t.getId().equals(taskId)))throw new BusinessException("任务不在当前项目");
    service.scheduleTask(uid,taskId,startDate,dueDate);r.addFlashAttribute("success","任务计划日期已保存");
   }catch(BusinessException e){r.addFlashAttribute("error",e.getMessage());}
-  return "redirect:/sprints?projectId="+projectId;
+  var url=org.springframework.web.util.UriComponentsBuilder.fromPath("/sprints").queryParam("projectId",projectId);
+  if(sprintId!=null)url.queryParam("sprintId",sprintId);if(storyId!=null)url.queryParam("storyId",storyId);if(!lane.equals("ALL"))url.queryParam("lane",lane);if(from!=null)url.queryParam("from",from);
+  return "redirect:"+url.build().encode().toUriString();
  }
- public record Row(Task task,boolean scheduled,List<Boolean> cells){}
+ public record Row(Task task,boolean scheduled,boolean outsideSprint,List<Boolean> cells){}
 }

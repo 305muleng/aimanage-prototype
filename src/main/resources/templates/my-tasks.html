@@ -62,7 +62,7 @@
                         </thead>
                         <tbody>
                         <tr class="group" th:each="task : ${tasks}" th:id="|task-${task.id}|">
-                            <td><span class="row-handle drag-handle">⋮⋮</span><b th:text="${task.title}">任务标题</b><small th:text="${task.description}">任务描述</small></td>
+                            <td><span class="row-handle drag-handle">⋮⋮</span><b th:text="${task.title}">任务标题</b><small th:text="${task.description}">任务描述</small><small th:if="${task.story != null}"><a th:href="@{/backlog(projectId=${task.project.id})} + '#item-' + ${task.story.id}" th:text="|故事 · ${task.story.title}|"></a><span th:text="${task.story.sprint == null ? ' · 待规划' : ' · ' + task.story.sprint.name}"></span></small><small th:if="${task.story == null}">独立任务 · 不计入迭代</small></td>
                             <td><span class="page-reference">📁 <span th:text="${task.project.name}">项目名称</span></span></td>
                             <td th:text="${task.dueDate != null ? task.dueDate : '未设置'}">未设置</td>
                             <td><span class="status-tag" th:classappend="${#strings.toLowerCase(task.status.name())}" th:text="${task.status.label}">待处理</span></td>

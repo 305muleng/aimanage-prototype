@@ -36,17 +36,15 @@ public class BacklogController {
     for(var story:linked)umlByStory.computeIfAbsent(story.getId(),k->new java.util.LinkedHashMap<>()).put(node.getView().getId(),node.getView());
    }
    m.addAttribute("umlByStory",umlByStory);
+   var stories=items.stream().filter(i->i.getType().equals("STORY")).toList();
    var rows=new java.util.ArrayList<MapRow>();
-   for(String lane:java.util.List.of("SPRINT1","SPRINT2","SPRINT3","UNPLANNED")){
-    var cells=new java.util.ArrayList<MapCell>();
-    for(String epic:java.util.List.of("EPIC1","EPIC2","EPIC3")){
-     var grouped=items.stream().filter(i->i.getType().equals("STORY")&&i.getMapLane().equals(lane)&&i.getMapEpic().equals(epic))
-       .collect(java.util.stream.Collectors.groupingBy(WorkItem::getMapFeature,java.util.TreeMap::new,java.util.stream.Collectors.toList()));
-     cells.add(new MapCell(epic,grouped));
-    }
-    rows.add(new MapRow(lane,lane.equals("UNPLANNED")?"待规划":lane.replace("SPRINT","Sprint "),cells));
+   for(var iteration:sprints.list(uid,projectId)){
+    var assigned=stories.stream().filter(i->i.getSprint()!=null && i.getSprint().getId().equals(iteration.getId())).toList();
+    if(!assigned.isEmpty())rows.add(new MapRow(iteration.getName(),iteration.getStartDate()+" — "+iteration.getEndDate(),iteration.getStatus().getLabel(),groups(assigned),assigned.size()));
    }
-   m.addAttribute("mapRows",rows);m.addAttribute("storyCount",items.stream().filter(i->i.getType().equals("STORY")).count());
+   var unassigned=stories.stream().filter(i->i.getSprint()==null).toList();
+   if(!unassigned.isEmpty())rows.add(new MapRow("待规划","","未加入迭代",groups(unassigned),unassigned.size()));
+   m.addAttribute("mapRows",rows);m.addAttribute("storyCount",stories.size());
   }
   return "backlog";
  }
@@ -58,6 +56,11 @@ public class BacklogController {
   try{if(csrfToken.isBlank()||!csrfToken.equals(s.getAttribute("backlogCsrf")))throw new BusinessException("请刷新页面后重试");backlog.place((Long)s.getAttribute("userId"),projectId,id,epic,lane,feature);r.addFlashAttribute("success","故事地图位置已保存");}catch(BusinessException e){r.addFlashAttribute("error",e.getMessage());}
   return "redirect:/backlog?projectId="+projectId+"#story-map";
  }
- public record MapCell(String epic,java.util.Map<String,java.util.List<WorkItem>> groups){}
- public record MapRow(String lane,String label,java.util.List<MapCell> cells){}
+ private static java.util.List<MapGroup> groups(java.util.List<WorkItem> stories){
+  var grouped=new java.util.LinkedHashMap<Long,java.util.List<WorkItem>>();
+  for(var story:stories)grouped.computeIfAbsent(story.getRequirement()==null?0L:story.getRequirement().getId(),k->new java.util.ArrayList<>()).add(story);
+  return grouped.values().stream().map(list->new MapGroup(list.get(0).getRequirement()==null?"未关联需求":list.get(0).getRequirement().getTitle(),list)).toList();
+ }
+ public record MapGroup(String title,java.util.List<WorkItem> stories){}
+ public record MapRow(String label,String cycle,String status,java.util.List<MapGroup> groups,int count){}
 }

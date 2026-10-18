@@ -14,7 +14,7 @@ public final class AccessPolicy {
         if (role == null) return false;
         if (path.equals("/uml") || path.startsWith("/uml/")) return role == Role.PROJECT_MANAGER || role == Role.DEVELOPER;
         if (path.equals("/sprints") || path.equals("/iterations")) return role == Role.PROJECT_MANAGER || role == Role.DEVELOPER;
-        if (path.equals("/backlog-sprint")) return role == Role.PROJECT_MANAGER;
+        if (path.equals("/backlog-sprint") || path.equals("/iterations/scope") || path.equals("/iterations/state")) return role == Role.PROJECT_MANAGER;
         if (path.equals("/backlog-map")) return role == Role.PROJECT_MANAGER;
         if (path.equals("/backlog")) return role == Role.PROJECT_MANAGER || role == Role.DEVELOPER;
         if (path.equals("/account") || path.equals("/logout") || path.equals("/access") || path.startsWith("/preview/")) return true;

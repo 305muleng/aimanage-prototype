@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
     boolean existsByProjectIdAndAssigneeId(Long projectId, Long assigneeId);
-    @EntityGraph(attributePaths = {"assignee", "project"})
+    @EntityGraph(attributePaths = {"assignee", "project", "story", "story.sprint", "story.requirement"})
     List<Task> findByProjectIdOrderByUpdatedAtDesc(Long projectId);
-    @EntityGraph(attributePaths = {"assignee", "project"})
+    @EntityGraph(attributePaths = {"assignee", "project", "story", "story.sprint", "story.requirement"})
     List<Task> findByAssigneeIdOrderByUpdatedAtDesc(Long assigneeId);
     long countByProjectOwnerId(Long ownerId);
     long countByProjectOwnerIdAndStatus(Long ownerId, TaskStatus status);
