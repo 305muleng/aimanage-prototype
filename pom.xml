@@ -14,8 +14,8 @@
     <groupId>com.aimanage</groupId>
     <artifactId>aimanage-prototype</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>爱管理 Sprint 1 原型</name>
-    <description>面向课程作业演示的项目任务管理原型</description>
+    <name>爱管理</name>
+    <description>项目与任务协作管理应用</description>
 
     <properties>
         <java.version>17</java.version>
