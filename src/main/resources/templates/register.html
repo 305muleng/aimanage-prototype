@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 · 爱管理</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="login-page">
+<main class="login-layout">
+    <section class="login-intro">
+        <div class="login-brand"><span>爱</span><strong>爱管理</strong></div>
+        <div class="intro-copy"><h1>加入团队，<br>开始协作。</h1><p>创建开发人员账号，登录后等待项目负责人添加你为成员并分配任务。</p></div>
+    </section>
+    <section class="login-form-area">
+        <div class="login-card notion-card">
+            <p class="page-kicker">开发人员注册</p>
+            <h2>创建账号</h2>
+            <p class="secondary-text">填写你的姓名和登录信息。</p>
+            <div class="notice error" role="alert" th:if="${error}" th:text="${error}"></div>
+            <form method="post" th:action="@{/register}" class="form-stack">
+                <label>姓名<input class="notion-input" name="displayName" th:value="${displayName}" autocomplete="name" maxlength="50" required autofocus></label>
+                <label>账号<input class="notion-input" name="username" th:value="${username}" autocomplete="username" minlength="3" maxlength="50" pattern="[A-Za-z0-9_]{3,50}" title="3–50 位字母、数字或下划线" placeholder="3–50 位字母、数字或下划线" required></label>
+                <label>密码<input class="notion-input" name="password" type="password" autocomplete="new-password" minlength="6" maxlength="64" placeholder="6–64 个字符" required></label>
+                <label>确认密码<input class="notion-input" name="confirmPassword" type="password" autocomplete="new-password" minlength="6" maxlength="64" required></label>
+                <button class="notion-button primary-action" type="submit">注册</button>
+            </form>
+            <p class="secondary-text" style="margin-top:18px">已有账号？<a class="notion-button" th:href="@{/login}">返回登录 →</a></p>
+        </div>
+    </section>
+</main>
+</body>
+</html>

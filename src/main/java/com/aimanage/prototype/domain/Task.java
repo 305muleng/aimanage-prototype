@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/** Sprint 1 的任务实体，保存项目归属、负责人、状态和最后更新时间。 */
 @Entity
 @Table(name = "project_task")
 public class Task {
@@ -23,6 +24,14 @@ public class Task {
     private TaskStatus status;
 
     private LocalDate dueDate;
+    private LocalDate startDate;
+    public LocalDate getStartDate(){return startDate;}
+    public void schedule(LocalDate start,LocalDate end){startDate=start;dueDate=end;updatedAt=LocalDateTime.now();}
+    @Enumerated(EnumType.STRING) private Priority priority;
+    @ManyToOne private WorkItem story;
+    public Priority getPriority(){return priority==null?Priority.MEDIUM:priority;}
+    public WorkItem getStory(){return story;}
+    public void plan(Priority priority,WorkItem story){this.priority=priority;this.story=story;this.updatedAt=LocalDateTime.now();}
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Project project;
@@ -46,6 +55,7 @@ public class Task {
         this.updatedAt = LocalDateTime.now();
     }
 
+    /** 编辑任务内容时同步刷新更新时间。 */
     public void edit(String title, String description, LocalDate dueDate, User assignee) {
         this.title = title;
         this.description = description;
@@ -54,6 +64,7 @@ public class Task {
         this.updatedAt = LocalDateTime.now();
     }
 
+    /** 修改任务状态时同步刷新更新时间。 */
     public void changeStatus(TaskStatus status) {
         this.status = status;
         this.updatedAt = LocalDateTime.now();

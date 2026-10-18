@@ -1,0 +1,119 @@
+/* One shared frame keeps the library and canvas aligned at every desktop size. */
+.uml-diagram-links{flex:0 0 auto;padding:10px 14px 12px;border-top:1px solid #e5ebef;background:#fbfcfd}
+.uml-related-heading{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:6px}
+.uml-related-heading h3{margin:0;font-size:11px;font-weight:600;color:#536d7e;white-space:nowrap}
+.uml-related-heading>span{font-size:10px;color:#8a9ba6;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.uml-related-list{max-height:120px;overflow-y:auto;scrollbar-width:thin;overscroll-behavior:contain}
+.uml-related-group h4{font-size:10px;font-weight:500;color:#8a9ba6;margin:7px 0 3px}
+.uml-related-group h4 span{margin-left:4px}
+.uml-related-row{display:flex;align-items:center;gap:8px;min-height:28px}
+.uml-related-row>a:first-child{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#427798;font-size:12px;text-decoration:none}
+.uml-related-row>a:hover{text-decoration:underline}
+.uml-related-row .uml-related-edit{color:#6c8799;font-size:10px;text-decoration:none;padding:4px;flex-shrink:0}
+.uml-related-empty{color:#91a0aa;font-size:11px;margin:5px 0 0}
+.page-content.uml-page {
+  --uml-frame-height: clamp(480px, calc(100dvh - 220px), 1100px);
+  --uml-accent: #467c9f;
+  --uml-border: #e1e8ed;
+  padding-bottom: 20px;
+}
+.uml-page .uml-layout {
+  grid-template-columns: 294px minmax(0, 1fr);
+  gap: 16px;
+  height: var(--uml-frame-height);
+  align-items: stretch;
+}
+.uml-page .uml-left-rail,
+.uml-page .uml-canvas-panel {
+  position: static;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  max-height: none;
+  border: 1px solid var(--uml-border);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #29435a04;
+}
+.uml-page .uml-canvas-panel { display: flex; flex-direction: column; }
+.uml-page .uml-canvas-heading {
+  flex: 0 0 auto;
+  min-height: 64px;
+  padding: 12px 18px;
+  background: #fbfcfd;
+  border-color: var(--uml-border);
+}
+.uml-page .uml-canvas-heading h2 { font-size: 15px; line-height: 1.4; overflow-wrap: anywhere; }
+.uml-page .uml-canvas-scroll {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  flex: 1;
+  scrollbar-width: thin;
+  scrollbar-color: #bccbd5 transparent;
+  overscroll-behavior: contain;
+  background-image: radial-gradient(#dfe7ed .8px, transparent .8px);
+}
+.uml-library-heading { padding: 13px 16px 9px; color: #526979; letter-spacing: .02em; }
+.uml-library-heading { width: 100%; flex-shrink: 0; border: 0; background: #fff; font-family: inherit; text-align: left; cursor: pointer; }
+.uml-library-heading b { margin-left: 5px; padding: 1px 5px; border-radius: 4px; background: #f1f5f8; font-size: 10px; font-weight: 500; }
+.uml-library-chevron { color: #8c9da8; transition: transform .15s; }
+.uml-library-heading[aria-expanded=false] .uml-library-chevron { transform: rotate(180deg); }
+.uml-page .uml-left-rail .uml-views[hidden] { display: none; }
+.uml-page .uml-left-rail .uml-views {
+  max-height: clamp(112px, 19vh, 210px);
+  gap: 2px;
+  padding: 0 8px 8px;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #c5d1d9 transparent;
+}
+.uml-page .uml-left-rail .uml-view-card a {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 6px;
+  transition: background-color .15s;
+}
+.uml-page .uml-left-rail .uml-view-card a:not(.active):hover { background: #f5f8fa; }
+.uml-page .uml-left-rail .uml-view-card a small { color: #81929e; }
+.uml-page .uml-left-rail .uml-view-card a.active span { color: #2f6285; font-weight: 600; }
+.uml-page .uml-delete-view button { min-height: 28px; border-radius: 5px; }
+.uml-page .uml-view-card:not(:hover):not(:focus-within) .uml-delete-view button { color: #a3aeb6; }
+.uml-left-rail .uml-panel.uml-inspector { flex: 1; min-height: 0; }
+.uml-inspector-tabs { background: #f6f8fa; }
+.uml-inspector-tabs button { padding: 8px; font-size: 12px; border-radius: 6px; }
+.uml-inspector-body { padding: 14px; overscroll-behavior: contain; scrollbar-color: #c5d1d9 transparent; }
+.uml-left-rail .uml-inspector .uml-tools { padding-bottom: 12px; margin-bottom: 14px; gap: 6px; }
+.uml-inspector .uml-tools .notion-button { padding: 6px 10px; border: 1px solid #e1e9ef; border-radius: 6px; background: #f8fafc; color: #4d718c; }
+.uml-inspector .uml-tools .notion-button:hover { background: #edf4f9; }
+.uml-inspector .uml-tools .connecting { background: #467c9f; color: #fff; border-color: #467c9f; }
+.uml-inspector .uml-inspector-body h3 { font-size: 13px; color: #3e5362; margin-bottom: 12px; }
+.uml-inspector label { color: #526674; font-weight: 500; }
+.uml-inspector .notion-input { border-color: #e0e7ed; border-radius: 6px; font-size: 12px; }
+.uml-inspector .notion-input:focus { border-color: #8aafc9; box-shadow: 0 0 0 3px #467c9f12; }
+.uml-inspector .uml-edge-settings { padding: 0; margin: 0; border: 0; }
+.uml-inspector .uml-edge-list { padding-top: 12px; border-top: 1px solid #e8edf1; }
+.uml-inspector .uml-edge-list form { padding: 6px 0; }
+.uml-inspector .uml-edge-list .notion-button { font-size: 11px; color: #8d6670; }
+.uml-inspector #uml-edge-form > .primary-action,
+.uml-inspector .uml-edge-settings > section > form > button {
+  background: var(--uml-accent); color: #fff; border: 1px solid var(--uml-accent); border-radius: 6px; padding: 9px 12px;
+}
+.uml-left-rail .uml-inspector #uml-node-actions { padding: 11px 14px; gap: 8px; }
+.uml-inspector #uml-node-actions button { font-size: 12px; border-radius: 6px; padding: 9px; }
+.uml-inspector #uml-node-actions #uml-clear { border: 1px solid #e0e7ed; background: #fff; color: #536c7c; }
+.uml-page :is(button, summary, a):focus-visible { outline: 2px solid #81a9c5; outline-offset: 2px; }
+#uml-canvas .uml-node:focus-visible .node-shape { stroke: #467c9f; stroke-width: 2.5; }
+@media (min-width: 1600px) { .uml-page .uml-layout { grid-template-columns: 314px minmax(0, 1fr); } }
+@media (max-width: 1000px) { .uml-page .uml-layout { grid-template-columns: 260px minmax(0, 1fr); } }
+@media (max-width: 760px) {
+  .uml-page .uml-layout { grid-template-columns: 230px minmax(0, 1fr); }
+  .uml-inspector-body { padding: 12px; }
+}
+@media (max-width: 650px) {
+  .uml-page .uml-layout { height: auto; grid-template-columns: 1fr; gap: 14px; }
+  .uml-page .uml-left-rail { height: 510px; }
+  .uml-page .uml-canvas-panel { height: 540px; }
+  .uml-page .uml-left-rail .uml-views { max-height: 112px; }
+}

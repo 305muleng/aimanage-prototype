@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="|${page.title} · 爱管理|">功能总览 · 爱管理</title>
     <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:if="${page.slug == 'sprints'}" th:href="@{/css/sprint-header.css}">
 </head>
 <body class="app-page">
 <div class="app-shell">
     <aside th:replace="~{fragments/sidebar :: sidebar(${page.slug})}"></aside>
 
     <main class="main-column">
-        <header class="page-toolbar">
+        <th:block th:if="${page.slug == 'sprints'}"><header th:replace="~{fragments/sprint-header :: toolbar('overview')}"></header></th:block>
+        <header th:unless="${page.slug == 'sprints'}" class="page-toolbar">
             <div class="breadcrumbs"><span>爱管理</span><b>/</b><span th:text="${page.title}">功能模块</span></div>
             <div class="toolbar-actions">
                 <span class="prototype-badge neutral">界面预览</span>
@@ -21,7 +23,11 @@
         </header>
 
         <div class="page-content">
-            <section class="document-title compact-title">
+            <th:block th:if="${page.slug == 'sprints'}">
+                <section th:replace="~{fragments/sprint-header :: heading('overview')}"></section>
+                <div class="callout sprint-overview-note"><b>原型说明</b><span>页面中的“已实现”功能可完成真实操作，其余按钮用于展示完整产品规划，点击后会提示当前为界面预览。</span></div>
+            </th:block>
+            <section th:unless="${page.slug == 'sprints'}" class="document-title compact-title">
                 <div class="page-icon" th:text="${page.icon}">□</div>
                 <h1 th:text="${page.title}">功能模块</h1>
                 <p th:text="${page.description}">功能模块说明。</p>
@@ -88,7 +94,7 @@
                     <table class="notion-table">
                         <thead><tr><th>用户故事</th><th>Epic</th><th>优先级</th><th>状态</th><th>Sprint</th><th>操作</th></tr></thead>
                         <tbody>
-                        <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>作为负责人，我希望创建项目</b><small>Epic1-US07</small></td><td>项目基础</td><td><span class="status-tag red">高</span></td><td><span class="status-tag green">已完成</span></td><td>Sprint 1</td><td><button class="notion-button" type="button" data-placeholder="编辑用户故事">编辑</button></td></tr>
+                        <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>作为负责人，我希望创建项目</b><small>E1-US05</small></td><td>项目基础</td><td><span class="status-tag red">高</span></td><td><span class="status-tag green">已完成</span></td><td>Sprint 1</td><td><button class="notion-button" type="button" data-placeholder="编辑用户故事">编辑</button></td></tr>
                         <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>作为成员，我希望查看任务看板</b><small>Epic2-US10</small></td><td>任务协作</td><td><span class="status-tag yellow">中</span></td><td><span class="status-tag gray">待规划</span></td><td>—</td><td><button class="notion-button" type="button" data-placeholder="将故事加入 Sprint">加入 Sprint</button></td></tr>
                         <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>作为负责人，我希望查看项目仪表盘</b><small>Epic3-US09</small></td><td>数据分析</td><td><span class="status-tag yellow">中</span></td><td><span class="status-tag blue">已评审</span></td><td>Sprint 2</td><td><button class="notion-button" type="button" data-placeholder="调整故事优先级">调整</button></td></tr>
                         </tbody>
@@ -110,9 +116,9 @@
                     <div><span class="timeline-date">09/21</span><i></i><b>评审与回顾</b><small>演示增量并记录改进项</small></div>
                 </div>
                 <div class="section-toolbar minor"><div><h2>迭代范围</h2><span>8 条用户故事</span></div><button class="notion-button" type="button" data-placeholder="从 Backlog 添加故事">＋ 添加故事</button></div>
-                <div class="sprint-item group"><span class="drag-handle">⋮⋮</span><span class="status-tag green">已完成</span><div><b>登录与角色识别</b><small>Epic1-US02 · Epic1-US03</small></div><span>2 / 2</span></div>
-                <div class="sprint-item group"><span class="drag-handle">⋮⋮</span><span class="status-tag blue">进行中</span><div><b>项目与成员管理</b><small>Epic1-US07 · Epic1-US09</small></div><span>1 / 2</span></div>
-                <div class="sprint-item group"><span class="drag-handle">⋮⋮</span><span class="status-tag yellow">待验收</span><div><b>任务执行闭环</b><small>Epic2-US06 · US07 · US09 · US11</small></div><span>2 / 4</span></div>
+                <div class="sprint-item group"><span class="drag-handle">⋮⋮</span><span class="status-tag green">已完成</span><div><b>登录与角色识别</b><small>E1-US02 · E1-US13</small></div><span>2 / 2</span></div>
+                <div class="sprint-item group"><span class="drag-handle">⋮⋮</span><span class="status-tag green">已完成</span><div><b>项目与成员管理</b><small>E1-US05 · E1-US07</small></div><span>2 / 2</span></div>
+                <div class="sprint-item group"><span class="drag-handle">⋮⋮</span><span class="status-tag green">已完成</span><div><b>任务执行闭环</b><small>E2-US05 · E2-US06 · E2-US08 · E2-US09</small></div><span>4 / 4</span></div>
             </section>
 
             <!-- 任务与协作 -->

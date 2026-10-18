@@ -37,4 +37,5 @@ public class Project {
     public String getDescription() { return description; }
     public User getOwner() { return owner; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+    public void edit(String name, String description) { this.name = name; this.description = description; }
 }

@@ -64,12 +64,53 @@ class WebFlowTest {
                 .andReturn();
 
         MockHttpSession session = (MockHttpSession) login.getRequest().getSession(false);
-        String[] modules = {"account", "projects", "permissions", "backlog", "sprints", "tasks", "ai", "analytics"};
+        mockMvc.perform(get("/preview/account").session(session)).andExpect(redirectedUrl("/account"));
+        mockMvc.perform(get("/account").session(session)).andExpect(status().isOk()).andExpect(view().name("account"));
+        mockMvc.perform(get("/preview/permissions").session(session)).andExpect(redirectedUrl("/admin/roles"));
+        String[] modules = {"projects", "backlog", "sprints", "tasks", "ai", "analytics"};
         for (String module : modules) {
             mockMvc.perform(get("/preview/" + module).session(session))
                     .andExpect(status().isOk())
                     .andExpect(view().name("prototype-page"))
                     .andExpect(content().string(org.hamcrest.Matchers.containsString("功能清单")));
         }
+    }
+
+    @Test
+    void wrongPasswordShouldRenderClearError() throws Exception {
+        mockMvc.perform(post("/login")
+                        .param("username", "manager")
+                        .param("password", "wrong"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("账号或密码错误")));
+    }
+
+    @Test
+    void developerCannotOpenManagerDashboard() throws Exception {
+        MvcResult login = mockMvc.perform(post("/login")
+                        .param("username", "developer")
+                        .param("password", "123456"))
+                .andExpect(status().is3xxRedirection())
+                .andReturn();
+
+        MockHttpSession session = (MockHttpSession) login.getRequest().getSession(false);
+        mockMvc.perform(get("/manager").session(session))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"));
+    }
+
+    @Test
+    void managerCannotOpenDeveloperTaskPage() throws Exception {
+        MvcResult login = mockMvc.perform(post("/login")
+                        .param("username", "manager")
+                        .param("password", "123456"))
+                .andExpect(status().is3xxRedirection())
+                .andReturn();
+
+        MockHttpSession session = (MockHttpSession) login.getRequest().getSession(false);
+        mockMvc.perform(get("/my-tasks").session(session))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"));
     }
 }

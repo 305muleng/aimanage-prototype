@@ -20,6 +20,8 @@ public class PreviewController {
         if (session.getAttribute(SessionKeys.USER_ID) == null) {
             return "redirect:/login";
         }
+        if (slug.equals("account")) return "redirect:/account";
+        if (slug.equals("permissions")) return "redirect:/admin/roles";
         PageSpec page = PAGES.get(slug);
         if (page == null) {
             return "redirect:/preview/account";
@@ -36,18 +38,18 @@ public class PreviewController {
         Map<String, PageSpec> pages = new LinkedHashMap<>();
         pages.put("account", new PageSpec("account", "账户与个人资料", "账号访问、个人资料与身份信息界面。", "用户",
                 List.of(
-                        f("Epic1-US01", "用户注册", "创建开发人员账号并进入平台。", "注册账号", false),
-                        f("Epic1-US02", "用户登录", "开发人员登录并访问参与的项目与任务。", "已实现", true),
-                        f("Epic1-US03", "项目负责人登录", "负责人登录并进入项目管理空间。", "已实现", true),
-                        f("Epic1-US04", "系统管理员登录", "管理员进入用户、角色与权限管理空间。", "管理员入口", false),
+                        f("E1-US01", "用户注册", "在登录页创建开发人员账号，注册后登录平台。", "已实现", true),
+                        f("E1-US02", "用户登录", "开发人员登录并访问参与的项目与任务。", "已实现", true),
+                        f("E1-US13", "项目负责人登录（角色权限场景）", "负责人登录并进入项目管理空间。", "已实现", true),
+                        f("E1-US02", "系统管理员登录", "管理员可以登录；角色管理与资料编辑仍是预览。", "已实现", true),
                         f("Epic1-US05", "个人信息查看", "查看账号、角色、联系方式与项目身份。", "查看资料", false),
                         f("Epic1-US06", "个人信息修改", "维护姓名、联系方式和个人简介。", "编辑资料", false)
                 )));
         pages.put("projects", new PageSpec("projects", "项目与成员", "建立项目空间，维护团队成员与职责。", "文件夹",
                 List.of(
-                        f("Epic1-US07", "项目创建", "创建项目并填写名称与简介。", "已实现", true),
+                        f("E1-US05", "项目创建", "创建项目并填写名称与简介。", "已实现", true),
                         f("Epic1-US08", "项目基本信息维护", "查看和修改项目基础资料。", "编辑项目", false),
-                        f("Epic1-US09", "项目成员加入", "邀请开发人员加入项目。", "已实现", true),
+                        f("E1-US07", "项目成员加入", "邀请开发人员加入项目。", "已实现", true),
                         f("Epic1-US10", "项目成员移除", "移除不再参与项目的成员。", "移除成员", false),
                         f("Epic1-US11", "项目成员状态管理", "维护成员正常、暂停等参与状态。", "管理状态", false),
                         f("Epic1-US16", "项目成员身份与职责查看", "负责人查看团队身份和职责分工。", "查看职责", false),
@@ -78,12 +80,12 @@ public class PreviewController {
                 )));
         pages.put("tasks", new PageSpec("tasks", "任务与协作", "以看板和任务详情组织团队执行。", "勾选",
                 List.of(
-                        f("Epic2-US06", "任务创建与编辑", "创建任务并维护任务详情。", "已实现", true),
-                        f("Epic2-US07", "任务负责人分配", "将任务分配给项目成员。", "已实现", true),
+                        f("E2-US05", "任务创建与编辑", "创建任务并维护任务详情。", "已实现", true),
+                        f("E2-US06", "任务负责人分配", "将任务分配给项目成员。", "已实现", true),
                         f("Epic2-US08", "任务优先级与截止时间设置", "配置任务优先级和计划日期。", "设置计划", false),
-                        f("Epic2-US09", "任务状态更新", "开发人员同步任务进展。", "已实现", true),
-                        f("Epic2-US10", "任务看板", "按状态查看当前 Sprint 任务。", "打开看板", false),
-                        f("Epic2-US11", "我的任务", "查看只分配给自己的任务。", "已实现", true),
+                        f("E2-US08", "任务状态更新", "开发人员同步任务进展。", "已实现", true),
+                        f("E2-US09", "任务看板", "按状态查看当前 Sprint 任务；本轮以“我的任务”视图验收。", "已实现", true),
+                        f("E2-US09", "我的任务（任务看板验收视图）", "查看只分配给自己的任务。", "已实现", true),
                         f("Epic2-US12", "任务搜索、筛选与排序", "按多种条件定位任务。", "筛选任务", false),
                         f("Epic2-US13", "任务评论与协作记录", "围绕任务沟通并保留记录。", "发表评论", false),
                         f("Epic2-US14", "任务阻塞情况记录", "说明阻塞状态和原因。", "记录阻塞", false),

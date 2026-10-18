@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -53,7 +54,7 @@ class ProjectTaskServiceTest {
         Project project = service.createProject(manager.getId(), "测试项目", "项目描述");
         service.addMember(manager.getId(), project.getId(), developer.getId());
 
-        assertThat(service.members(project.getId())).hasSize(1);
+        assertThat(service.members(manager.getId(), project.getId())).hasSize(1);
         assertThatThrownBy(() -> service.addMember(manager.getId(), project.getId(), developer.getId()))
                 .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("不能重复添加");
@@ -88,5 +89,56 @@ class ProjectTaskServiceTest {
         assertThatThrownBy(() -> service.updateStatus(outsider.getId(), task.getId(), TaskStatus.DONE))
                 .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("自己的任务");
+    }
+
+    @Test
+    void shouldPersistEditedTaskFieldsAndReassignment() {
+        Project project = service.createProject(manager.getId(), "测试项目", "项目描述");
+        service.addMember(manager.getId(), project.getId(), developer.getId());
+        service.addMember(manager.getId(), project.getId(), outsider.getId());
+        Task task = service.createTask(manager.getId(), project.getId(), "原始标题", "原始描述",
+                LocalDate.now().plusDays(1), developer.getId());
+
+        LocalDate newDueDate = LocalDate.now().plusDays(7);
+        service.editTask(manager.getId(), task.getId(), "修改后标题", "修改后描述",
+                newDueDate, outsider.getId());
+        taskRepository.flush();
+
+        Task persisted = taskRepository.findById(task.getId()).orElseThrow();
+        assertThat(persisted.getTitle()).isEqualTo("修改后标题");
+        assertThat(persisted.getDescription()).isEqualTo("修改后描述");
+        assertThat(persisted.getDueDate()).isEqualTo(newDueDate);
+        assertThat(persisted.getAssignee().getId()).isEqualTo(outsider.getId());
+    }
+
+    @Test
+    void shouldReturnOnlyTasksAssignedToCurrentDeveloper() {
+        Project project = service.createProject(manager.getId(), "测试项目", "项目描述");
+        service.addMember(manager.getId(), project.getId(), developer.getId());
+        service.addMember(manager.getId(), project.getId(), outsider.getId());
+        service.createTask(manager.getId(), project.getId(), "开发任务", "", null, developer.getId());
+        service.createTask(manager.getId(), project.getId(), "其他任务", "", null, outsider.getId());
+
+        List<Task> myTasks = service.myTasks(developer.getId());
+
+        assertThat(myTasks).extracting(Task::getTitle).containsExactly("开发任务");
+    }
+
+    @Test
+    void shouldRejectProjectCreationByDeveloperRole() {
+        assertThatThrownBy(() -> service.createProject(developer.getId(), "越权项目", ""))
+                .isInstanceOf(BusinessException.class)
+                .hasMessageContaining("只有项目负责人");
+    }
+
+    @Test
+    void shouldRejectOperationsOnAnotherManagersProject() {
+        User anotherManager = userRepository.save(
+                new User("manager-other", "123456", "其他负责人", Role.PROJECT_MANAGER));
+        Project project = service.createProject(manager.getId(), "测试项目", "项目描述");
+
+        assertThatThrownBy(() -> service.addMember(anotherManager.getId(), project.getId(), developer.getId()))
+                .isInstanceOf(BusinessException.class)
+                .hasMessageContaining("无权操作其他负责人");
     }
 }

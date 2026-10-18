@@ -61,19 +61,20 @@
                         <tr><th>任务名称</th><th>所属项目</th><th>截止日期</th><th>当前状态</th><th>更新状态</th></tr>
                         </thead>
                         <tbody>
-                        <tr class="group" th:each="task : ${tasks}">
+                        <tr class="group" th:each="task : ${tasks}" th:id="|task-${task.id}|">
                             <td><span class="row-handle drag-handle">⋮⋮</span><b th:text="${task.title}">任务标题</b><small th:text="${task.description}">任务描述</small></td>
                             <td><span class="page-reference">📁 <span th:text="${task.project.name}">项目名称</span></span></td>
                             <td th:text="${task.dueDate != null ? task.dueDate : '未设置'}">未设置</td>
                             <td><span class="status-tag" th:classappend="${#strings.toLowerCase(task.status.name())}" th:text="${task.status.label}">待处理</span></td>
                             <td>
-                                <form method="post" th:action="@{/my-tasks/{id}/status(id=${task.id})}" class="inline-status-form">
+                                <form th:if="${#lists.contains(editableTaskIds, task.id)}" method="post" th:action="@{/my-tasks/{id}/status(id=${task.id})}" class="inline-status-form">
                                     <label class="sr-only" th:for="|status-${task.id}|">更新任务状态</label>
                                     <select class="notion-input compact" name="status" th:id="|status-${task.id}|" aria-label="选择任务状态">
                                         <option th:each="status : ${statuses}" th:value="${status}" th:selected="${status == task.status}" th:text="${status.label}">状态</option>
                                     </select>
                                     <button class="notion-button" type="submit">保存</button>
                                 </form>
+                                <span th:unless="${#lists.contains(editableTaskIds, task.id)}" class="secondary-text">暂停参与，只读</span>
                             </td>
                         </tr>
                         </tbody>

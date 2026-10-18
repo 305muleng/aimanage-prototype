@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>基础权限说明 · 爱管理</title><link rel="stylesheet" th:href="@{/css/app.css}"></head>
+<body class="app-page"><div class="app-shell">
+<aside th:replace="~{fragments/sidebar :: sidebar('access')}"></aside>
+<main class="main-column"><header class="page-toolbar"><div class="breadcrumbs"><span>爱管理</span><b>/</b><span>基础权限说明</span></div><span class="prototype-badge">Sprint 1 已实现</span></header>
+<div class="page-content"><section class="document-title"><h1>三角色权限体系</h1><p>页面访问与后端业务规则共同控制权限，隐藏菜单不是唯一的安全措施。</p></section>
+<section class="database-section"><div class="table-scroll"><table class="notion-table">
+<thead><tr><th>功能</th><th>系统管理员</th><th>项目负责人</th><th>开发人员</th></tr></thead>
+<tbody>
+<tr><td>查看、修改个人资料</td><td>本人</td><td>本人</td><td>本人</td></tr>
+<tr><td>创建角色、分配用户角色</td><td>允许</td><td>禁止</td><td>禁止</td></tr>
+<tr><td>创建、编辑项目</td><td>禁止</td><td>自己负责的项目</td><td>禁止</td></tr>
+<tr><td>查看项目、团队分工</td><td>禁止</td><td>自己负责的项目</td><td>已加入的项目</td></tr>
+<tr><td>添加、移除成员，维护职责状态</td><td>禁止</td><td>自己负责的项目</td><td>禁止</td></tr>
+<tr><td>创建、编辑、分配任务</td><td>禁止</td><td>自己负责的项目</td><td>禁止</td></tr>
+<tr><td>查看任务</td><td>禁止</td><td>自己项目的任务</td><td>分配给本人且仍在项目内的任务</td></tr>
+<tr><td>更新任务状态</td><td>禁止</td><td>禁止</td><td>本人任务，且成员状态正常</td></tr>
+<tr><td>规划功能预览（不写入数据）</td><td>允许</td><td>允许</td><td>允许</td></tr>
+</tbody></table></div></section>
+<p class="secondary-text">自定义角色继承所选基础权限。管理员不自动拥有所有业务权限；更换角色后下一次请求按数据库中的新角色生效。未登录不能访问业务页。暂停成员可只读查看已有任务。</p>
+</div></main></div></body></html>

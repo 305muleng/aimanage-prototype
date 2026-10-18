@@ -31,6 +31,12 @@ document.querySelectorAll('dialog').forEach(dialog => {
 });
 
 let toastTimer;
+// Only dialogs already rendered for this authenticated user can be opened.
+const linkedTaskId = new URLSearchParams(location.search).get('editTask');
+if (linkedTaskId && /^\d+$/.test(linkedTaskId)) {
+    const linkedTaskDialog = document.getElementById('edit-' + linkedTaskId);
+    if (linkedTaskDialog instanceof HTMLDialogElement) linkedTaskDialog.showModal();
+}
 document.querySelectorAll('[data-placeholder]').forEach(control => {
     control.addEventListener('click', event => {
         event.preventDefault();

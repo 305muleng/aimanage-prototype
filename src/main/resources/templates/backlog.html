@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Product Backlog · 爱管理</title><link rel="stylesheet" th:href="@{/css/app.css}"><link rel="stylesheet" th:href="@{/css/story-map.css}"><link rel="stylesheet" th:href="@{/css/backlog.css(v='20261018-5')}"></head>
+<body class="app-page"><div class="app-shell"><aside th:replace="~{fragments/sidebar :: sidebar('backlog')}"></aside><main class="main-column"><header class="page-toolbar"><div class="breadcrumbs"><span>爱管理</span><b>/</b><span>Product Backlog</span></div></header><div class="page-content backlog-page" id="backlog-workspace" th:attr="data-editable=${editable}">
+<div class="bp-page-heading"><div><h1>Product Backlog</h1><p>需求、用户故事与规划地图</p></div><a th:if="${editable && projectId != null}" href="#new-item" class="notion-button primary-action">＋ 新增条目</a></div>
+<p th:if="${error}" th:text="${error}" class="notice error"></p><p th:if="${success}" th:text="${success}" class="bp-save-result" role="status"></p>
+<form class="bp-project" method="get" th:action="@{/backlog}" th:if="${!#lists.isEmpty(projects)}"><label>项目<select name="projectId" class="notion-input" onchange="this.form.requestSubmit()"><option th:each="p : ${projects}" th:value="${p.id}" th:text="${p.name}" th:selected="${p.id == projectId}"></option></select></label></form>
+<p th:if="${#lists.isEmpty(projects)}" class="bp-empty">暂无可访问的项目。</p>
+<div th:if="${projectId != null}">
+<nav class="bp-tabs" aria-label="Backlog 视图"><button type="button" data-view="REQUIREMENT" aria-pressed="true">需求清单 <span th:text="${#lists.size(requirements)}"></span></button><button type="button" data-view="STORY" aria-pressed="false">用户故事 <span th:text="${storyCount}"></span></button><button type="button" data-view="MAP" aria-pressed="false">故事地图</button></nav>
+<div class="bp-workbench">
+<div class="bp-main">
+<section id="backlog-list" class="bp-list-panel">
+<div class="bp-filters"><label class="bp-search"><span class="sr-only">搜索标题或说明</span><input type="search" id="bp-search" class="notion-input" placeholder="搜索标题或说明" autocomplete="off"></label><label><span class="sr-only">筛选优先级</span><select id="bp-priority" class="notion-input"><option value="">全部优先级</option><option value="URGENT">紧急</option><option value="HIGH">高</option><option value="MEDIUM">中</option><option value="LOW">低</option></select></label><button type="button" id="bp-reset" class="notion-button">重置</button></div>
+<div class="bp-list-meta"><span id="bp-result-count" role="status"></span><span>优先级 / 关联</span></div>
+<div class="bp-rows">
+<a th:each="item : ${items}" class="bp-row" th:href="|#item-${item.id}|" th:attr="data-type=${item.type},data-priority=${item.priority},data-search=${item.title + ' ' + item.description},data-item-id=${item.id}">
+<span class="bp-row-content"><span class="bp-row-code" th:text="|${item.type == 'STORY' ? 'US' : 'REQ'}-${item.id}|"></span><strong th:text="${item.title}"></strong><small th:if="${item.type == 'STORY'}" th:text="${item.requirement == null ? '未关联需求' : item.requirement.title}"></small></span>
+<span class="bp-row-meta"><span class="bp-priority" th:classappend="${item.priority}" th:text="${item.priority.name() == 'URGENT' ? '紧急' : item.priority.name() == 'HIGH' ? '高' : item.priority.name() == 'LOW' ? '低' : '中'}"></span><small th:if="${item.type == 'REQUIREMENT'}" th:text="|${#maps.containsKey(storiesByRequirement,item.id) ? #lists.size(storiesByRequirement[item.id]) : 0} 个故事|"></small><span aria-hidden="true">›</span></span></a>
+</div><div id="bp-list-empty" class="bp-empty" hidden><h2>暂无匹配条目</h2><p>可以调整筛选条件，或新增条目。</p></div></section>
+<section id="story-map" class="story-map-section"><div class="map-heading"><div><span class="map-eyebrow">PRODUCT STORY MAP</span><h2>用户故事地图总览</h2></div><span class="map-count" th:text="|${storyCount} 个用户故事|"></span></div>
+<div class="story-map-scroll"><div class="story-map-board">
+<div class="map-grid map-header"><div class="map-axis">规划阶段 / Epic</div><div class="epic-heading epic1">Epic 1 · 用户管理与权限</div><div class="epic-heading epic2">Epic 2 · 任务与协作</div><div class="epic-heading epic3">Epic 3 · 数据与分析</div></div>
+<div th:each="row : ${mapRows}" class="map-grid map-lane" th:classappend="${#strings.toLowerCase(row.lane)}">
+<div class="lane-heading"><h3 th:text="${row.label}"></h3><p th:text="${row.lane == 'SPRINT1' ? '基础项目与任务管理' : row.lane == 'SPRINT2' ? '迭代协作与多视图联动' : row.lane == 'SPRINT3' ? '分析与平台交付' : '尚未安排规划阶段'}"></p><small>规划分层</small></div>
+<div th:each="cell : ${row.cells}" class="map-cell" th:classappend="${#strings.toLowerCase(cell.epic)}">
+<span th:if="${#maps.isEmpty(cell.groups)}" class="map-cell-empty">暂无故事</span>
+<div th:each="group : ${cell.groups}" class="map-feature"><h4 th:text="${group.key}"></h4>
+<a th:each="story : ${group.value}" class="story-map-card" th:href="|#item-${story.id}|"><span class="story-code" th:text="|US-${story.id}|"></span><strong th:text="${story.title}"></strong><span class="story-card-meta"><span th:text="${story.priority.name() == 'URGENT' ? '紧急' : story.priority.name() == 'HIGH' ? '高优先级' : story.priority.name() == 'LOW' ? '低优先级' : '中优先级'}"></span><span>查看 ↗</span></span></a>
+</div></div></div></div></div></section>
+
+</div>
+<aside class="bp-detail-panel" aria-label="条目详情"><div id="bp-detail-empty" class="bp-detail-placeholder"><span>条目详情</span><p>选择一条需求或用户故事</p></div>
+<section id="new-item" th:if="${editable}" class="bp-detail bp-new"><div class="bp-detail-heading"><h2>新增条目</h2><button type="button" class="notion-button bp-close" aria-label="关闭详情">×</button></div><form method="post" th:action="@{/backlog}" class="form-stack">
+<input type="hidden" name="projectId" th:value="${projectId}"><input type="hidden" name="csrfToken" th:value="${csrf}">
+<label>类型<select name="type" id="bp-new-type" class="notion-input"><option value="REQUIREMENT">需求</option><option value="STORY">用户故事</option></select></label>
+<label>标题<input name="title" maxlength="120" required class="notion-input"></label><label>说明<textarea name="description" maxlength="2000" class="notion-input"></textarea></label>
+<label>验收标准<textarea name="acceptance" maxlength="2000" class="notion-input"></textarea></label>
+<label>优先级<select name="priority" class="notion-input"><option th:each="p : ${priorities}" th:value="${p}" th:text="${p.name() == 'URGENT' ? '紧急' : p.name() == 'HIGH' ? '高' : p.name() == 'LOW' ? '低' : '中'}" th:selected="${p.name() == 'MEDIUM'}"></option></select></label>
+<label>所属需求（仅用户故事可选）<select name="requirementId" class="notion-input"><option value="">无关联</option><option th:each="r : ${requirements}" th:value="${r.id}" th:text="${r.title}"></option></select></label><div class="bp-form-actions"><button type="submit" class="notion-button primary-action">创建并保存</button></div></form></section>
+
+<article th:each="item : ${items}" th:id="|item-${item.id}|" class="bp-detail backlog-item" th:attr="data-type=${item.type}"><div class="bp-detail-heading"><div><small th:text="|${item.type == 'STORY' ? '用户故事' : '需求'} #${item.id}|"></small><h2 th:text="${item.title}"></h2></div><button type="button" class="notion-button bp-close" aria-label="关闭详情">×</button></div>
+<section th:if="${item.type == 'STORY'}" class="bp-links">
+<h3>所属迭代</h3><p th:text="${item.sprint == null ? '尚未加入迭代' : item.sprint.label}"></p>
+<form th:if="${editable}" method="post" th:action="@{/backlog-sprint}" class="form-stack">
+<input type="hidden" name="projectId" th:value="${projectId}"><input type="hidden" name="id" th:value="${item.id}"><input type="hidden" name="csrfToken" th:value="${csrf}">
+<label>选择迭代<select name="sprintId" class="notion-input"><option value="">暂不加入迭代</option><option th:each="it : ${iterations}" th:value="${it.id}" th:selected="${item.sprint != null and it.id == item.sprint.id}" th:text="${it.label}"></option></select></label><button class="notion-button">更新所属迭代</button></form>
+<a th:href="@{/iterations(projectId=${projectId})}">管理迭代 ↗</a>
+<details open><summary>关联视图</summary><h4>任务</h4><p th:if="${!#maps.containsKey(tasksByStory,item.id)}">暂无关联任务</p>
+<a class="bp-child" th:each="task : ${tasksByStory[item.id]}" th:href="${editable ? '/manager#task-' + task.id : '/my-tasks'}"><span th:text="${task.title}"></span><small th:text="${task.status.label}"></small></a>
+<h4>UML</h4><p th:if="${!#maps.containsKey(umlByStory,item.id)}">暂无关联 UML</p><th:block th:if="${#maps.containsKey(umlByStory,item.id)}"><a class="bp-child" th:each="entry : ${umlByStory[item.id]}" th:href="@{/uml(projectId=${projectId},viewId=${entry.key})}" th:text="${entry.value.name}"></a></th:block>
+<a class="bp-child" th:href="@{/sprints(projectId=${projectId},storyId=${item.id})}">查看本故事的任务甘特图 ↗</a></details></section>
+<details th:if="${editable and item.type == 'STORY'}" class="map-placement"><summary>调整故事地图位置</summary>
+<form method="post" th:action="@{/backlog-map}" class="form-stack">
+<input type="hidden" name="projectId" th:value="${projectId}"><input type="hidden" name="id" th:value="${item.id}"><input type="hidden" name="csrfToken" th:value="${csrf}">
+<div class="form-grid"><label>Epic<select class="notion-input" name="epic"><option th:each="e : ${epics}" th:value="${e}" th:selected="${e == item.mapEpic}" th:text="${e == 'EPIC1' ? 'Epic 1 · 用户管理与权限' : e == 'EPIC2' ? 'Epic 2 · 任务与协作' : 'Epic 3 · 数据与分析'}"></option></select></label>
+<label>规划阶段<select class="notion-input" name="lane"><option th:each="l : ${lanes}" th:value="${l}" th:selected="${l == item.mapLane}" th:text="${l == 'UNPLANNED' ? '待规划' : l.replace('SPRINT','Sprint ')}"></option></select></label></div>
+<label>功能分组<input class="notion-input" name="feature" maxlength="80" th:value="${item.mapFeature == '未分组' ? '' : item.mapFeature}" placeholder="例如：E1-01 注册、登录与身份认证"></label><div><button class="notion-button primary-action">保存地图位置</button></div>
+</form></details>
+<div th:if="${!editable}" class="bp-readonly"><p th:text="${item.description}"></p><p th:text="|优先级：${item.priority}|"></p><h3 th:if="${item.type == 'STORY'}">验收标准</h3><p th:if="${item.type == 'STORY'}" th:text="${item.acceptance}"></p></div><a th:if="${item.requirement != null}" class="bp-parent" th:href="|#item-${item.requirement.id}|" th:text="|所属需求 · ${item.requirement.title}|"></a>
+<section th:if="${item.type == 'REQUIREMENT'}" class="bp-children"><div class="bp-children-heading"><h3>用户故事</h3><button th:if="${editable}" type="button" class="notion-button" th:attr="data-new-story=${item.id}">＋ 添加故事</button></div><p th:if="${!#maps.containsKey(storiesByRequirement,item.id)}" class="bp-muted">暂无用户故事</p><a th:each="child : ${storiesByRequirement[item.id]}" class="bp-child" th:href="|#item-${child.id}|"><span th:text="${child.title}"></span><small th:text="${child.priority.name() == 'URGENT' ? '紧急' : child.priority.name() == 'HIGH' ? '高' : child.priority.name() == 'LOW' ? '低' : '中'}"></small><span aria-hidden="true">↗</span></a></section>
+<div th:if="${editable}" class="bp-editor"><form method="post" th:action="@{/backlog}" class="form-stack">
+<input type="hidden" name="id" th:value="${item.id}"><input type="hidden" name="type" th:value="${item.type}"><input type="hidden" name="projectId" th:value="${projectId}"><input type="hidden" name="csrfToken" th:value="${csrf}">
+<label>标题<input name="title" th:value="${item.title}" maxlength="120" required class="notion-input"></label><label>说明<textarea name="description" th:text="${item.description}" maxlength="2000" class="notion-input"></textarea></label>
+<label th:if="${item.type == 'STORY'}">验收标准<textarea th:required="${item.type == 'STORY'}" name="acceptance" th:text="${item.acceptance}" maxlength="2000" class="notion-input"></textarea></label><input th:if="${item.type == 'REQUIREMENT'}" type="hidden" name="acceptance" th:value="${item.acceptance}">
+<label>优先级<select name="priority" class="notion-input"><option th:each="p : ${priorities}" th:value="${p}" th:text="${p.name() == 'URGENT' ? '紧急' : p.name() == 'HIGH' ? '高' : p.name() == 'LOW' ? '低' : '中'}" th:selected="${p == item.priority}"></option></select></label>
+<label th:if="${item.type == 'STORY'}">所属需求<select name="requirementId" class="notion-input"><option value="">无关联需求</option><option th:each="r : ${requirements}" th:value="${r.id}" th:text="${r.title}" th:selected="${item.requirement != null and r.id == item.requirement.id}"></option></select></label><div class="bp-form-actions"><button type="submit" class="notion-button primary-action">保存修改</button></div></form></div></article>
+</aside></div></div></div></main></div><script th:src="@{/js/backlog-links.js(v='20261018-5')}" defer></script></body></html>

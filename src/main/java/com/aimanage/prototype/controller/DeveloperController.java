@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/** 处理开发人员“我的任务”查询及本人任务状态更新。 */
 @Controller
 public class DeveloperController {
 
@@ -19,6 +20,7 @@ public class DeveloperController {
         this.service = service;
     }
 
+    /** 仅返回当前登录开发人员被分配的任务。 */
     @GetMapping("/my-tasks")
     public String myTasks(HttpSession session, Model model) {
         Long developerId = requireDeveloper(session);
@@ -28,6 +30,7 @@ public class DeveloperController {
         model.addAttribute("displayName", session.getAttribute(SessionKeys.DISPLAY_NAME));
         model.addAttribute("roleLabel", "开发人员");
         model.addAttribute("tasks", tasks);
+        model.addAttribute("editableTaskIds", tasks.stream().filter(t -> service.activeMember(t.getProject().getId(), developerId)).map(t -> t.getId()).toList());
         model.addAttribute("statuses", TaskStatus.values());
         model.addAttribute("todoCount", tasks.stream().filter(t -> t.getStatus() == TaskStatus.TODO).count());
         model.addAttribute("doingCount", tasks.stream().filter(t -> t.getStatus() == TaskStatus.IN_PROGRESS).count());
@@ -49,6 +52,18 @@ public class DeveloperController {
         return "redirect:/my-tasks";
     }
 
+    @GetMapping("/projects")
+    public String projects(HttpSession session, Model model) {
+        if (session.getAttribute(SessionKeys.ROLE) == Role.PROJECT_MANAGER) return "redirect:/manager";
+        Long id = requireDeveloper(session);
+        if (id == null) return "redirect:/login";
+        model.addAttribute("projects", service.projectsForDeveloper(id));
+        model.addAttribute("displayName", session.getAttribute(SessionKeys.DISPLAY_NAME));
+        model.addAttribute("roleLabel", "开发人员");
+        return "member-projects";
+    }
+
+    /** 校验当前会话是否属于开发人员。 */
     private Long requireDeveloper(HttpSession session) {
         Object id = session.getAttribute(SessionKeys.USER_ID);
         Object role = session.getAttribute(SessionKeys.ROLE);

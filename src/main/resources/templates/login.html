@@ -29,12 +29,14 @@
             <p class="secondary-text">请选择演示身份，或输入账号密码。</p>
 
             <div class="notice error" th:if="${error}" th:text="${error}"></div>
+            <div class="notice success" th:if="${success}" th:text="${success}"></div>
 
             <form method="post" th:action="@{/login}" class="form-stack">
                 <label>账号<input class="notion-input" name="username" th:value="${username}" placeholder="请输入账号" autocomplete="username" autofocus required></label>
                 <label>密码<input class="notion-input" type="password" name="password" placeholder="请输入密码" autocomplete="current-password" required></label>
                 <button class="notion-button primary-action" type="submit">登录</button>
             </form>
+            <p class="secondary-text" style="margin-top:18px">还没有账号？<a class="notion-button" th:href="@{/register}">注册开发人员账号 →</a></p>
 
             <div class="demo-section">
                 <div class="section-label"><span>演示账号</span><small>密码均为 123456</small></div>
@@ -44,8 +46,8 @@
                 <button type="button" class="account-row group" data-user="developer">
                     <span class="drag-handle">⋮⋮</span><span class="account-icon blue">开</span><span><b>开发人员</b><small>developer</small></span><i>→</i>
                 </button>
-                <button type="button" class="account-row group" data-placeholder="系统管理员登录">
-                    <span class="drag-handle">⋮⋮</span><span class="account-icon green">管</span><span><b>系统管理员</b><small>界面占位 · 暂未实现登录</small></span><i>→</i>
+                <button type="button" class="account-row group" data-user="admin">
+                    <span class="drag-handle">⋮⋮</span><span class="account-icon green">管</span><span><b>系统管理员</b><small>admin</small></span><i>→</i>
                 </button>
             </div>
         </div>
