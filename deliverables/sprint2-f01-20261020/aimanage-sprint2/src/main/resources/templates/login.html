@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 · 爱管理</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="login-page">
+<main class="login-layout">
+    <section class="login-intro">
+        <div class="login-brand"><span>爱</span><strong>爱管理</strong></div>
+        <div class="intro-copy">
+            <h1>团队工作，<br>从一个清晰的空间开始。</h1>
+            <p>组织项目、成员和任务，用一个简单的工作台保持团队同步。</p>
+        </div>
+        <div class="intro-blocks" aria-hidden="true">
+            <div class="document-block group"><span class="drag-handle">⋮⋮</span><i>☑</i><span>创建项目与任务</span></div>
+            <div class="document-block group"><span class="drag-handle">⋮⋮</span><i>◎</i><span>明确成员与职责</span></div>
+            <div class="document-block group"><span class="drag-handle">⋮⋮</span><i>↗</i><span>持续同步进度</span></div>
+        </div>
+    </section>
+
+    <section class="login-form-area">
+        <div class="login-card notion-card group">
+            <span class="drag-handle card-handle">⋮⋮</span>
+            <p class="page-kicker">Sprint 1 原型</p>
+            <h2>登录工作台</h2>
+            <p class="secondary-text">请选择演示身份，或输入账号密码。</p>
+
+            <div class="notice error" th:if="${error}" th:text="${error}"></div>
+            <div class="notice success" th:if="${success}" th:text="${success}"></div>
+
+            <form method="post" th:action="@{/login}" class="form-stack">
+                <label>账号<input class="notion-input" name="username" th:value="${username}" placeholder="请输入账号" autocomplete="username" autofocus required></label>
+                <label>密码<input class="notion-input" type="password" name="password" placeholder="请输入密码" autocomplete="current-password" required></label>
+                <button class="notion-button primary-action" type="submit">登录</button>
+            </form>
+            <p class="secondary-text" style="margin-top:18px">还没有账号？<a class="notion-button" th:href="@{/register}">注册开发人员账号 →</a></p>
+
+            <div class="demo-section">
+                <div class="section-label"><span>演示账号</span><small>密码均为 123456</small></div>
+                <button type="button" class="account-row group" data-user="manager">
+                    <span class="drag-handle">⋮⋮</span><span class="account-icon">负</span><span><b>项目负责人</b><small>manager</small></span><i>→</i>
+                </button>
+                <button type="button" class="account-row group" data-user="developer">
+                    <span class="drag-handle">⋮⋮</span><span class="account-icon blue">开</span><span><b>开发人员</b><small>developer</small></span><i>→</i>
+                </button>
+                <button type="button" class="account-row group" data-user="admin">
+                    <span class="drag-handle">⋮⋮</span><span class="account-icon green">管</span><span><b>系统管理员</b><small>admin</small></span><i>→</i>
+                </button>
+            </div>
+        </div>
+    </section>
+</main>
+<div class="toast" role="status" aria-live="polite"></div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

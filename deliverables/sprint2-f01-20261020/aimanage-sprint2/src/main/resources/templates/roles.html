@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>角色管理与分配 · 爱管理</title><link rel="stylesheet" th:href="@{/css/app.css}"></head>
+<body class="app-page"><div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar('permissions')}"></aside>
+    <main class="main-column">
+        <header class="page-toolbar"><div class="breadcrumbs"><span>爱管理</span><b>/</b><span>角色管理与分配</span></div><span class="prototype-badge">Sprint 1 已实现</span></header>
+        <div class="page-content">
+            <section class="document-title"><div class="page-icon">🔐</div><h1>角色管理与分配</h1><p>建立团队角色，为用户分配相应的系统权限。</p></section>
+            <div class="notice success" role="status" th:if="${success}" th:text="${success}"></div>
+            <div class="notice error" role="alert" th:if="${error}" th:text="${error}"></div>
+            <section><h2>新建角色</h2>
+                <form method="post" th:action="@{/admin/roles}" class="form-stack" style="max-width:680px">
+                    <input type="hidden" name="csrfToken" th:value="${roleCsrf}">
+                    <div class="form-grid"><label>角色名称<input class="notion-input" name="name" th:value="${draftName}" maxlength="50" required placeholder="例如：测试工程师"></label>
+                    <label>权限类型<select class="notion-input" name="accessType" required><option value="" disabled th:selected="${draftAccessType == null}">请选择权限类型</option><option th:each="type : ${accessTypes}" th:value="${type}" th:text="${type.label}" th:selected="${type.name() == draftAccessType}"></option></select></label></div>
+                    <label>角色说明<textarea class="notion-input" name="description" th:text="${draftDescription}" maxlength="500" rows="3" placeholder="说明角色用途和职责"></textarea></label>
+                    <p class="secondary-text">开发人员：查看参与项目、更新本人任务。项目负责人：管理自己创建的项目、成员和任务。系统管理员：管理系统角色和用户角色分配。自定义角色继承所选权限类型。</p>
+                    <div><button class="notion-button primary-action" type="submit">创建角色</button></div>
+                </form>
+            </section>
+            <section class="database-section"><h2>角色列表</h2><div class="table-scroll"><table class="notion-table"><thead><tr><th>角色名称</th><th>权限类型</th><th>说明</th><th>来源</th></tr></thead><tbody>
+                <tr th:each="role : ${roles}"><td th:text="${role.name}"></td><td th:text="${role.accessType.label}"></td><td th:text="${#strings.isEmpty(role.description) ? '未填写' : role.description}" style="white-space:pre-wrap"></td><td th:text="${role.builtInCode == null ? '自定义' : '内置'}"></td></tr>
+            </tbody></table></div></section>
+            <section class="database-section"><h2>用户角色分配</h2><p class="secondary-text">每个用户分配一个系统角色。修改会在用户下次请求时生效；最后一个管理员不能降级。有项目职责的用户应先处理项目和任务，再更改权限类型。</p>
+                <div class="table-scroll"><table class="notion-table"><thead><tr><th>姓名</th><th>账号</th><th>当前角色</th><th>分配角色</th></tr></thead><tbody>
+                    <tr th:each="user : ${users}"><td th:text="${user.displayName}"></td><td th:text="${user.username}"></td><td><b th:text="${user.roleName}"></b><small th:text="${user.accessType.label}"></small></td><td>
+                        <form method="post" th:action="@{/admin/roles/users/{id}(id=${user.id})}" class="inline-status-form">
+                            <input type="hidden" name="csrfToken" th:value="${roleCsrf}">
+                            <select class="notion-input" name="roleId" required th:aria-label="|为 ${user.username} 分配角色|" style="min-width:170px"><option th:each="role : ${roles}" th:value="${role.id}" th:selected="${role.id == user.roleId}" th:text="|${role.name}（${role.accessType.label}）|"></option></select>
+                            <button type="submit" class="notion-button">保存分配</button>
+                        </form>
+                    </td></tr>
+                </tbody></table></div>
+            </section>
+        </div>
+    </main>
+</div><div class="toast" role="status" aria-live="polite"></div><script th:src="@{/js/app.js}"></script></body></html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="|${page.title} · 爱管理|">功能总览 · 爱管理</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="app-page">
+<div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar(${page.slug})}"></aside>
+
+    <main class="main-column">
+        <header class="page-toolbar">
+            <div class="breadcrumbs"><span>爱管理</span><b>/</b><span th:text="${page.title}">功能模块</span></div>
+            <div class="toolbar-actions">
+                <span class="prototype-badge neutral">界面预览</span>
+                <button class="notion-button" type="button" data-placeholder="收藏当前页面">☆ 收藏</button>
+                <button class="notion-button" type="button" data-placeholder="分享当前页面">分享</button>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <section class="document-title compact-title">
+                <div class="page-icon" th:text="${page.icon}">□</div>
+                <h1 th:text="${page.title}">功能模块</h1>
+                <p th:text="${page.description}">功能模块说明。</p>
+                <div class="callout"><b>原型说明</b><span>页面中的“已实现”功能可完成真实操作，其余按钮用于展示完整产品规划，点击后会提示当前为界面预览。</span></div>
+            </section>
+
+            <!-- 账户与个人资料 -->
+            <section class="preview-canvas" th:if="${page.slug == 'account'}">
+                <div class="section-toolbar"><div><h2>个人资料</h2><span>基础信息与项目身份</span></div><button class="notion-button" type="button" data-placeholder="编辑个人资料">编辑资料</button></div>
+                <div class="profile-layout">
+                    <div class="profile-summary group"><span class="drag-handle card-handle">⋮⋮</span><span class="profile-avatar" th:text="${#strings.substring(displayName,0,1)}">陈</span><h3 th:text="${displayName}">陈项目</h3><p th:text="${roleLabel}">项目负责人</p><span class="status-tag green">账号正常</span></div>
+                    <form class="plain-form" onsubmit="return false">
+                        <div class="form-grid"><label>显示名称<input class="notion-input" th:value="${displayName}"></label><label>登录账号<input class="notion-input" value="manager" readonly></label></div>
+                        <label>电子邮箱<input class="notion-input" value="demo@aimanage.local"></label>
+                        <label>个人简介<textarea class="notion-input" rows="3" placeholder="介绍你的工作方向">负责项目范围与团队推进。</textarea></label>
+                        <div class="form-actions"><button class="notion-button" type="button" data-placeholder="取消资料修改">取消</button><button class="notion-button primary-action" type="button" data-placeholder="保存个人资料">保存修改</button></div>
+                    </form>
+                </div>
+                <div class="section-toolbar minor"><div><h2>项目身份</h2><span>你在不同项目中的职责</span></div></div>
+                <div class="identity-row group"><span class="drag-handle">⋮⋮</span><span>📁</span><div><b>爱管理课程项目</b><small>项目负责人 · 负责范围确认与迭代验收</small></div><button class="notion-button" type="button" data-placeholder="查看项目职责">查看职责</button></div>
+            </section>
+
+            <!-- 项目与成员 -->
+            <section class="preview-canvas" th:if="${page.slug == 'projects'}">
+                <div class="section-toolbar"><div><h2>项目目录</h2><span>2 个项目</span></div><div><button class="notion-button" type="button" data-placeholder="项目筛选">筛选</button><button class="notion-button" type="button" data-placeholder="新建项目">＋ 新建</button></div></div>
+                <div class="table-scroll">
+                    <table class="notion-table">
+                        <thead><tr><th>项目名称</th><th>负责人</th><th>成员</th><th>状态</th><th>操作</th></tr></thead>
+                        <tbody>
+                        <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>爱管理课程项目</b><small>软件工程 Sprint 实践</small></td><td>陈项目</td><td><span class="avatar-stack"><i>李</i><i>王</i><i>＋</i></span></td><td><span class="status-tag green">进行中</span></td><td><button class="notion-button" type="button" data-placeholder="编辑项目基本信息">编辑</button></td></tr>
+                        <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>移动端体验优化</b><small>第二阶段规划</small></td><td>陈项目</td><td><span class="avatar-stack"><i>李</i><i>＋</i></span></td><td><span class="status-tag yellow">规划中</span></td><td><button class="notion-button" type="button" data-placeholder="打开项目详情">打开</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="section-toolbar minor"><div><h2>成员与职责</h2><span>爱管理课程项目</span></div><button class="notion-button" type="button" data-placeholder="添加项目成员">＋ 添加成员</button></div>
+                <div class="member-directory">
+                    <div class="member-row group"><span class="drag-handle">⋮⋮</span><i class="avatar">李</i><div><b>李开发</b><small>开发人员 · 前端页面与交互</small></div><span class="status-tag green">正常</span><button class="notion-button" type="button" data-placeholder="管理成员状态">管理</button></div>
+                    <div class="member-row group"><span class="drag-handle">⋮⋮</span><i class="avatar">王</i><div><b>王开发</b><small>开发人员 · 接口与数据模型</small></div><span class="status-tag green">正常</span><button class="notion-button" type="button" data-placeholder="移除项目成员">移除</button></div>
+                </div>
+            </section>
+
+            <!-- 角色与权限 -->
+            <section class="preview-canvas" th:if="${page.slug == 'permissions'}">
+                <div class="section-toolbar"><div><h2>角色列表</h2><span>3 个系统角色</span></div><button class="notion-button" type="button" data-placeholder="创建新角色">＋ 新建角色</button></div>
+                <div class="role-tabs"><button class="notion-button selected" type="button">项目负责人</button><button class="notion-button" type="button" data-placeholder="切换开发人员角色">开发人员</button><button class="notion-button" type="button" data-placeholder="切换系统管理员角色">系统管理员</button></div>
+                <div class="table-scroll">
+                    <table class="notion-table permission-table">
+                        <thead><tr><th>功能模块</th><th>查看</th><th>创建</th><th>编辑</th><th>删除</th></tr></thead>
+                        <tbody>
+                        <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>项目与成员</b></td><td><input type="checkbox" checked aria-label="允许查看项目"></td><td><input type="checkbox" checked aria-label="允许创建项目"></td><td><input type="checkbox" checked aria-label="允许编辑项目"></td><td><input type="checkbox" aria-label="允许删除项目"></td></tr>
+                        <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>任务与协作</b></td><td><input type="checkbox" checked aria-label="允许查看任务"></td><td><input type="checkbox" checked aria-label="允许创建任务"></td><td><input type="checkbox" checked aria-label="允许编辑任务"></td><td><input type="checkbox" aria-label="允许删除任务"></td></tr>
+                        <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>数据与分析</b></td><td><input type="checkbox" checked aria-label="允许查看分析"></td><td><input type="checkbox" aria-label="允许创建分析"></td><td><input type="checkbox" aria-label="允许编辑分析"></td><td><input type="checkbox" aria-label="允许删除分析"></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions"><button class="notion-button" type="button" data-placeholder="放弃权限修改">取消</button><button class="notion-button primary-action" type="button" data-placeholder="保存权限矩阵">保存权限</button></div>
+            </section>
+
+            <!-- Backlog -->
+            <section class="preview-canvas" th:if="${page.slug == 'backlog'}">
+                <div class="section-toolbar"><div><h2>Product Backlog</h2><span>12 条用户故事</span></div><div><button class="notion-button" type="button" data-placeholder="筛选用户故事">筛选</button><button class="notion-button" type="button" data-placeholder="新建用户故事">＋ 新建故事</button></div></div>
+                <div class="view-tabs"><button class="notion-button selected" type="button">全部</button><button class="notion-button" type="button" data-placeholder="查看高优先级故事">高优先级</button><button class="notion-button" type="button" data-placeholder="查看未规划故事">未规划</button></div>
+                <div class="table-scroll">
+                    <table class="notion-table">
+                        <thead><tr><th>用户故事</th><th>Epic</th><th>优先级</th><th>状态</th><th>Sprint</th><th>操作</th></tr></thead>
+                        <tbody>
+                        <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>作为负责人，我希望创建项目</b><small>E1-US05</small></td><td>项目基础</td><td><span class="status-tag red">高</span></td><td><span class="status-tag green">已完成</span></td><td>Sprint 1</td><td><button class="notion-button" type="button" data-placeholder="编辑用户故事">编辑</button></td></tr>
+                        <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>作为成员，我希望查看任务看板</b><small>Epic2-US10</small></td><td>任务协作</td><td><span class="status-tag yellow">中</span></td><td><span class="status-tag gray">待规划</span></td><td>—</td><td><button class="notion-button" type="button" data-placeholder="将故事加入 Sprint">加入 Sprint</button></td></tr>
+                        <tr class="group"><td><span class="row-handle drag-handle">⋮⋮</span><b>作为负责人，我希望查看项目仪表盘</b><small>Epic3-US09</small></td><td>数据分析</td><td><span class="status-tag yellow">中</span></td><td><span class="status-tag blue">已评审</span></td><td>Sprint 2</td><td><button class="notion-button" type="button" data-placeholder="调整故事优先级">调整</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sprint -->
+            <section class="preview-canvas" th:if="${page.slug == 'sprints'}">
+                <div class="section-toolbar"><div><h2>Sprint 1</h2><span>基础项目协作闭环</span></div><button class="notion-button" type="button" data-placeholder="创建新 Sprint">＋ 新建 Sprint</button></div>
+                <div class="sprint-summary">
+                    <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>周期</small><strong>2 周</strong><p>09/08 — 09/21</p></div>
+                    <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>用户故事</small><strong>8</strong><p>首个发布切片</p></div>
+                    <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>完成率</small><strong>62%</strong><div class="progress-track"><span style="width:62%"></span></div></div>
+                </div>
+                <div class="timeline" aria-label="Sprint 时间线">
+                    <div><span class="timeline-date">09/08</span><i></i><b>Sprint 计划会</b><small>确认目标与 8 条用户故事</small></div>
+                    <div><span class="timeline-date">09/14</span><i></i><b>中期检查</b><small>联调登录、项目与任务流程</small></div>
+                    <div><span class="timeline-date">09/21</span><i></i><b>评审与回顾</b><small>演示增量并记录改进项</small></div>
+                </div>
+                <div class="section-toolbar minor"><div><h2>迭代范围</h2><span>8 条用户故事</span></div><button class="notion-button" type="button" data-placeholder="从 Backlog 添加故事">＋ 添加故事</button></div>
+                <div class="sprint-item group"><span class="drag-handle">⋮⋮</span><span class="status-tag green">已完成</span><div><b>登录与角色识别</b><small>E1-US02 · E1-US13</small></div><span>2 / 2</span></div>
+                <div class="sprint-item group"><span class="drag-handle">⋮⋮</span><span class="status-tag green">已完成</span><div><b>项目与成员管理</b><small>E1-US05 · E1-US07</small></div><span>2 / 2</span></div>
+                <div class="sprint-item group"><span class="drag-handle">⋮⋮</span><span class="status-tag green">已完成</span><div><b>任务执行闭环</b><small>E2-US05 · E2-US06 · E2-US08 · E2-US09</small></div><span>4 / 4</span></div>
+            </section>
+
+            <!-- 任务与协作 -->
+            <section class="preview-canvas" th:if="${page.slug == 'tasks'}">
+                <div class="section-toolbar"><div><h2>Sprint 1 任务看板</h2><span>6 条任务</span></div><div><button class="notion-button" type="button" data-placeholder="搜索和筛选任务">筛选</button><button class="notion-button" type="button" data-placeholder="创建新任务">＋ 新建任务</button></div></div>
+                <div class="kanban-board">
+                    <section class="kanban-column"><header><span class="status-tag gray">待处理</span><b>2</b><button class="notion-button icon-only" type="button" data-placeholder="添加待处理任务">＋</button></header><article class="kanban-card group"><span class="drag-handle card-handle">⋮⋮</span><b>补充项目详情字段</b><p>完善项目基本信息编辑界面。</p><footer><span class="status-tag red">高</span><span class="avatar small">王</span></footer></article><article class="kanban-card group"><span class="drag-handle card-handle">⋮⋮</span><b>整理接口文档</b><p>记录任务相关接口和请求示例。</p><footer><span class="status-tag yellow">中</span><span class="avatar small">李</span></footer></article></section>
+                    <section class="kanban-column"><header><span class="status-tag blue">进行中</span><b>2</b><button class="notion-button icon-only" type="button" data-placeholder="添加进行中任务">＋</button></header><article class="kanban-card group"><span class="drag-handle card-handle">⋮⋮</span><b>完成登录页面</b><p>统一账号入口与角色提示。</p><footer><span class="comment-count">☵ 2</span><span class="avatar small">李</span></footer></article><article class="kanban-card group"><span class="drag-handle card-handle">⋮⋮</span><b>任务状态联调</b><p>校验开发人员只能修改自己的任务。</p><footer><span class="status-tag red">阻塞</span><span class="avatar small">王</span></footer></article></section>
+                    <section class="kanban-column"><header><span class="status-tag green">已完成</span><b>2</b><button class="notion-button icon-only" type="button" data-placeholder="添加已完成任务">＋</button></header><article class="kanban-card group"><span class="drag-handle card-handle">⋮⋮</span><b>设计数据表</b><p>完成用户、项目、成员和任务模型。</p><footer><span class="status-tag green">已验收</span><span class="avatar small">王</span></footer></article><article class="kanban-card group"><span class="drag-handle card-handle">⋮⋮</span><b>确认 Sprint 范围</b><p>选定首个发布切片的 8 条故事。</p><footer><span class="status-tag green">已验收</span><span class="avatar small">陈</span></footer></article></section>
+                </div>
+                <div class="task-detail-strip group"><span class="drag-handle">⋮⋮</span><b>协作功能</b><button class="notion-button" type="button" data-placeholder="发表评论">☵ 评论</button><button class="notion-button" type="button" data-placeholder="记录任务阻塞">⊘ 阻塞</button><button class="notion-button" type="button" data-placeholder="添加任务依赖">↳ 依赖</button><button class="notion-button" type="button" data-placeholder="设置截止日期">◷ 截止日期</button></div>
+            </section>
+
+            <!-- AI 协作 -->
+            <section class="preview-canvas" th:if="${page.slug == 'ai'}">
+                <div class="section-toolbar"><div><h2>AI 项目助手</h2><span>当前上下文：爱管理课程项目</span></div><button class="notion-button" type="button" data-placeholder="配置 AI 智能体">⚙ 配置</button></div>
+                <div class="ai-layout">
+                    <div class="ai-conversation">
+                        <div class="chat-message group"><span class="drag-handle">⋮⋮</span><i class="avatar">陈</i><div><b>你</b><p>请总结 Sprint 1 的任务进展，并指出主要风险。</p></div></div>
+                        <div class="chat-message assistant group"><span class="drag-handle">⋮⋮</span><i class="ai-mark">✦</i><div><b>爱管理助手</b><p>当前 6 条任务中，2 条已完成、2 条进行中、2 条待处理。主要风险是“任务状态联调”处于阻塞状态，建议优先确认权限校验逻辑。</p><div class="message-actions"><button class="notion-button" type="button" data-placeholder="复制 AI 回复">复制</button><button class="notion-button" type="button" data-placeholder="将摘要添加到 Sprint">添加到 Sprint</button></div></div></div>
+                        <div class="prompt-box"><textarea class="notion-input" rows="3" placeholder="询问项目进展、任务风险或生成摘要…"></textarea><div><button class="notion-button" type="button" data-placeholder="添加任务上下文">＋ 添加上下文</button><button class="notion-button primary-action" type="button" data-placeholder="发送 AI 消息">发送</button></div></div>
+                    </div>
+                    <aside class="context-panel"><h3>当前上下文</h3><div class="context-row group"><span class="drag-handle">⋮⋮</span><span>📁</span><div><b>爱管理课程项目</b><small>项目</small></div><button class="notion-button icon-only" type="button" data-placeholder="移除项目上下文">×</button></div><div class="context-row group"><span class="drag-handle">⋮⋮</span><span>☑</span><div><b>Sprint 1</b><small>迭代</small></div><button class="notion-button icon-only" type="button" data-placeholder="移除 Sprint 上下文">×</button></div><h3>快捷操作</h3><button class="quick-command" type="button" data-placeholder="生成 AI 任务摘要">生成任务摘要 <span>→</span></button><button class="quick-command" type="button" data-placeholder="分析项目风险">分析项目风险 <span>→</span></button><button class="quick-command" type="button" data-placeholder="配置协作智能体">配置协作智能体 <span>→</span></button></aside>
+                </div>
+            </section>
+
+            <!-- 数据与分析 -->
+            <section class="preview-canvas" th:if="${page.slug == 'analytics'}">
+                <div class="section-toolbar"><div><h2>项目数据仪表盘</h2><span>更新于今天 10:30</span></div><div><button class="notion-button" type="button" data-placeholder="选择统计周期">本 Sprint⌄</button><button class="notion-button" type="button" data-placeholder="导出数据报告">导出</button></div></div>
+                <div class="metric-row analytics-metrics"><div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>项目进度</small><strong>62%</strong><p class="positive">较上周 +18%</p></div><div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>完成任务</small><strong>8 / 13</strong><p>剩余 5 条</p></div><div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>即将到期</small><strong>2</strong><p class="warning-text">需要关注</p></div><div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>阻塞任务</small><strong>1</strong><p class="danger-text">需要处理</p></div></div>
+                <div class="analytics-grid">
+                    <section class="chart-block group"><span class="drag-handle card-handle">⋮⋮</span><div class="chart-heading"><div><h3>任务状态趋势</h3><span>最近 7 天</span></div><button class="notion-button icon-only" type="button" data-placeholder="图表更多操作">•••</button></div><div class="bar-chart" aria-label="任务状态趋势柱状图"><div style="height:36%"><span>周一</span></div><div style="height:48%"><span>周二</span></div><div style="height:42%"><span>周三</span></div><div style="height:65%"><span>周四</span></div><div style="height:58%"><span>周五</span></div><div style="height:76%"><span>周六</span></div><div style="height:88%"><span>今天</span></div></div></section>
+                    <section class="chart-block group"><span class="drag-handle card-handle">⋮⋮</span><div class="chart-heading"><div><h3>成员任务负载</h3><span>进行中与待处理</span></div><button class="notion-button icon-only" type="button" data-placeholder="负载详情">•••</button></div><div class="workload-list"><div><span><i class="avatar small">李</i>李开发</span><b>5</b><div class="progress-track"><span style="width:72%"></span></div></div><div><span><i class="avatar small">王</i>王开发</span><b>3</b><div class="progress-track"><span style="width:45%"></span></div></div><div><span><i class="avatar small">陈</i>陈项目</span><b>2</b><div class="progress-track"><span style="width:30%"></span></div></div></div></section>
+                </div>
+                <div class="section-toolbar minor"><div><h2>异常提醒</h2><span>3 条需要关注</span></div><button class="notion-button" type="button" data-placeholder="查看全部异常">查看全部</button></div>
+                <div class="alert-row group"><span class="drag-handle">⋮⋮</span><span class="status-tag red">阻塞</span><div><b>任务状态联调</b><small>已阻塞 2 天 · 负责人 王开发</small></div><button class="notion-button" type="button" data-placeholder="处理阻塞任务">处理</button></div>
+                <div class="alert-row group"><span class="drag-handle">⋮⋮</span><span class="status-tag yellow">即将到期</span><div><b>完成登录页面</b><small>明天到期 · 负责人 李开发</small></div><button class="notion-button" type="button" data-placeholder="查看即将到期任务">查看</button></div>
+            </section>
+
+            <section class="feature-index">
+                <div class="section-toolbar"><div><h2>功能清单</h2><span th:text="|本模块共 ${#lists.size(page.features)} 项|">本模块功能</span></div></div>
+                <div class="feature-list">
+                    <article class="feature-row group" th:each="feature : ${page.features}">
+                        <span class="drag-handle">⋮⋮</span>
+                        <code th:text="${feature.code}">Epic1-US01</code>
+                        <div><h3 th:text="${feature.title}">用户故事</h3><p th:text="${feature.description}">功能说明</p></div>
+                        <span class="status-tag" th:classappend="${feature.implemented ? 'green' : 'gray'}" th:text="${feature.implemented ? '已实现' : '界面预览'}">界面预览</span>
+                        <a th:if="${feature.implemented and roleLabel == '项目负责人'}" class="notion-button" th:href="@{/manager}" th:text="${feature.action}">打开</a>
+                        <a th:if="${feature.implemented and roleLabel == '开发人员'}" class="notion-button" th:href="@{/my-tasks}" th:text="${feature.action}">打开</a>
+                        <button th:unless="${feature.implemented}" class="notion-button" type="button" th:attr="data-placeholder=${feature.title}" th:text="${feature.action}">预览</button>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+<div class="toast" role="status" aria-live="polite"></div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

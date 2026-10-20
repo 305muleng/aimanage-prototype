@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务看板 · 爱管理</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/collaboration.css}">
+</head>
+<body class="app-page"><div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar('tasks')}"></aside>
+    <main class="main-column">
+        <header class="page-toolbar"><div class="breadcrumbs"><span>爱管理</span><b>/</b><span>任务与协作</span></div></header>
+        <div class="page-content">
+            <section class="document-title"><h1>任务看板</h1><p>查看项目任务，打开详情讨论、记录阻塞和维护依赖。</p></section>
+            <div class="notice success" th:if="${success}" th:text="${success}"></div>
+            <div class="notice error" th:if="${error}" th:text="${error}"></div>
+            <div class="empty-state notion-card" th:if="${#lists.isEmpty(projects)}"><h2>暂无可访问的项目</h2><p>创建项目或加入项目后即可查看任务。</p></div>
+            <form class="task-filters" method="get" th:action="@{/tasks}" th:unless="${#lists.isEmpty(projects)}">
+                <label>项目<select class="notion-input" name="projectId"><option th:each="p : ${projects}" th:value="${p.id}" th:selected="${p.id == projectId}" th:text="${p.name}"></option></select></label>
+                <label>关键词<input class="notion-input" name="keyword" maxlength="120" th:value="${filter.keyword}" placeholder="任务标题或描述"></label>
+                <label>负责人<select class="notion-input" name="assigneeId"><option value="">全部</option><option th:each="m : ${members}" th:value="${m.user.id}" th:selected="${m.user.id == filter.assigneeId}" th:text="${m.user.displayName}"></option></select></label>
+                <label>状态<select class="notion-input" name="status"><option value="">全部</option><option th:each="s : ${statuses}" th:value="${s}" th:selected="${s == filter.status}" th:text="${s.label}"></option></select></label>
+                <label>优先级<select class="notion-input" name="priority"><option value="">全部</option><option th:each="p : ${priorities}" th:value="${p}" th:selected="${p == filter.priority}" th:text="${p}"></option></select></label>
+                <label>截止起始<input class="notion-input" type="date" name="from" th:value="${filter.from}"></label>
+                <label>截止结束<input class="notion-input" type="date" name="to" th:value="${filter.to}"></label>
+                <label>阻塞<select class="notion-input" name="blocked"><option value="">全部</option><option value="true" th:selected="${filter.blocked != null and filter.blocked}">阻塞</option><option value="false" th:selected="${filter.blocked != null and !filter.blocked}">未阻塞</option></select></label>
+                <label>排序<select class="notion-input" name="sort">
+                    <option value="updated" th:selected="${filter.sort == 'updated'}">最近更新</option>
+                    <option value="due" th:selected="${filter.sort == 'due'}">截止日期从近到远</option>
+                    <option value="priority" th:selected="${filter.sort == 'priority'}">优先级从高到低</option>
+                    <option value="title" th:selected="${filter.sort == 'title'}">标题</option>
+                </select></label>
+                <button class="notion-button primary-action" type="submit">查询</button>
+                <a class="notion-button" th:href="@{/tasks(projectId=${projectId})}">重置</a>
+            </form>
+            <section th:if="${tasks != null}">
+                <p class="secondary-text" th:text="|共 ${#lists.size(tasks)} 条任务|"></p>
+                <div class="live-board">
+                    <section class="live-column" th:each="s : ${statuses}">
+                        <h2 th:text="${s.label}"></h2>
+                        <article class="live-card" th:each="t : ${tasks}" th:if="${t.status == s}">
+                            <a class="task-title" th:href="@{/tasks/{id}(id=${t.id})}" th:text="${t.title}"></a>
+                            <p th:text="|负责人：${t.assigneeName}|"></p>
+                            <p th:text="|优先级：${t.priority} · 截止：${t.dueDate != null ? t.dueDate : '未设置'}|"></p>
+                            <span class="status-tag red" th:if="${t.blocked}" th:text="|阻塞：${t.blockedReason}|"></span>
+                            <a class="notion-button" th:href="@{/tasks/{id}(id=${t.id})}">详情与讨论</a>
+                        </article>
+                    </section>
+                </div>
+                <div class="empty-state" th:if="${#lists.isEmpty(tasks)}">没有符合条件的任务</div>
+            </section>
+        </div>
+    </main>
+</div></body></html>

@@ -1,0 +1,100 @@
+{
+  "started_at": "2026-10-20T09:02:42.009795+08:00",
+  "finished_at": "2026-10-20T09:02:49.499848+08:00",
+  "scope": "F01 repair copy based on supplied Sprint 2 zip; story association retained; fresh H2 memory database; HTTP forms and JSON, no browser UI verification",
+  "command": [
+    "java",
+    "-Duser.timezone=Asia/Shanghai",
+    "-jar",
+    "/workspace/scratch/cae2d1518148/sprint2_f01_fix_20261020/aimanage-sprint2/dist/aimanage-prototype-0.0.1-SNAPSHOT.jar",
+    "--server.address=127.0.0.1",
+    "--server.port=52167",
+    "--spring.profiles.active=h2",
+    "--spring.datasource.url=jdbc:h2:mem:aimanage-check;MODE=MySQL;DB_CLOSE_DELAY=-1",
+    "--spring.jpa.hibernate.ddl-auto=create-drop"
+  ],
+  "passed_checks": 11,
+  "failed_checks": 0,
+  "checks": [
+    {
+      "id": "H01",
+      "name": "应用启动与四个演示账号登录",
+      "expected": "登录后进入对应角色入口",
+      "actual": "四个账号均进入对应入口",
+      "result": "PASS"
+    },
+    {
+      "id": "H02",
+      "name": "任务关联故事后的页面渲染",
+      "expected": "保留故事关联时两页能完整显示",
+      "actual": "工作台显示关联故事，工作台和我的任务均完整返回；保留关联继续检查",
+      "result": "PASS"
+    },
+    {
+      "id": "H03",
+      "name": "未完成前置任务拦截",
+      "expected": "拒绝完成B且状态不变",
+      "actual": "提示前置任务未完成，B保持TODO",
+      "result": "PASS"
+    },
+    {
+      "id": "H04",
+      "name": "成员执行与评论留痕",
+      "expected": "A完成说明、时间和评论保存",
+      "actual": "A完成，说明及时间存在，评论可重新读取",
+      "result": "PASS"
+    },
+    {
+      "id": "H05",
+      "name": "独立阻塞及后续任务完成",
+      "expected": "A完成不会自动清除B阻塞，解除后才能完成",
+      "actual": "B先被阻塞规则拦截，解除后完成；专用项目两项任务均DONE",
+      "result": "PASS"
+    },
+    {
+      "id": "H06",
+      "name": "项目外人员与角色权限",
+      "expected": "外部成员403，管理员及未登录者跳转且无数据",
+      "actual": "developer2返回403；admin和未登录会话返回302至登录页",
+      "result": "PASS"
+    },
+    {
+      "id": "H07",
+      "name": "缺少表单令牌",
+      "expected": "拒绝写入且评论数量不变",
+      "actual": "提示页面失效，评论数量未增加",
+      "result": "PASS"
+    },
+    {
+      "id": "H08",
+      "name": "过期版本写入",
+      "expected": "拒绝旧版本且数据不变",
+      "actual": "提示刷新页面，任务版本未改变",
+      "result": "PASS"
+    },
+    {
+      "id": "H09",
+      "name": "重开与角色职责",
+      "expected": "负责人可重开，不能代成员完成，后续任务不自动回退",
+      "actual": "A重开后B仍DONE；负责人完成请求未生效，成员可再次完成A",
+      "result": "PASS"
+    },
+    {
+      "id": "H10",
+      "name": "任务筛选与负责人统计",
+      "expected": "两项DONE任务可筛选，汇总口径与数据相符",
+      "actual": "专用项目2/2完成；负责人全部项目共3项任务、完成2项，页面67%；⋮⋮我的项目2；⋮⋮任务总数3；⋮⋮已完成2；⋮⋮整体进度67%",
+      "result": "PASS"
+    },
+    {
+      "id": "H11",
+      "name": "预览边界与Backlog旧入口",
+      "expected": "区分真实Backlog和预览页",
+      "actual": "四个preview地址均保留占位交互；真实Backlog可保存，工作台旧Backlog链接仍指向预览",
+      "result": "PASS"
+    }
+  ],
+  "failure": null,
+  "application_stopped": true,
+  "story_association_retained": true
+}

@@ -1,0 +1,10 @@
+target/
+.m2-cache/
+.m2repo/
+.idea/
+.vscode/
+*.iml
+*.log
+data/
+.local/
+.tools/

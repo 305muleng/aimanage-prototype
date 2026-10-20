@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目工作台 · 爱管理</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/task-layout.css}">
+</head>
+<body class="app-page">
+<div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar('home')}"></aside>
+
+    <main class="main-column">
+        <header class="page-toolbar">
+            <div class="breadcrumbs"><span>爱管理</span><b>/</b><span>项目工作台</span></div>
+            <div class="toolbar-actions">
+                <span class="prototype-badge">Sprint 1 已实现</span>
+                <button class="notion-button" type="button" data-placeholder="分享项目工作台">分享</button>
+                <button class="notion-button" type="button" data-dialog-open="create-project">＋ 新建项目</button>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <section class="document-title">
+                <div class="page-icon">📋</div>
+                <h1>项目工作台</h1>
+                <p>管理项目、成员和任务，掌握当前 Sprint 的执行状态。</p>
+            </section>
+
+            <div class="notice success" th:if="${success}" th:text="${success}"></div>
+            <div class="notice error" th:if="${error}" th:text="${error}"></div>
+
+            <section class="metric-row" aria-label="项目统计">
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>我的项目</small><strong th:text="${projectCount}">1</strong></div>
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>任务总数</small><strong th:text="${taskCount}">1</strong></div>
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>已完成</small><strong th:text="${doneCount}">0</strong></div>
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>整体进度</small><strong th:text="|${progress}%|">0%</strong></div>
+            </section>
+
+            <section class="database-section">
+                <div class="database-heading">
+                    <div><h2>项目列表</h2><span th:text="|${projectCount} 个项目|">1 个项目</span></div>
+                    <div class="database-actions">
+                        <button class="notion-button" type="button" data-placeholder="项目筛选">筛选</button>
+                        <button class="notion-button" type="button" data-placeholder="项目排序">排序</button>
+                        <button class="notion-button" type="button" data-placeholder="更多视图选项">•••</button>
+                    </div>
+                </div>
+
+                <div class="empty-state notion-card group" th:if="${#lists.isEmpty(projects)}">
+                    <span class="drag-handle card-handle">⋮⋮</span>
+                    <span class="empty-icon">□</span><h2>还没有项目</h2><p>创建第一个项目，然后添加成员并分配任务。</p>
+                    <button class="notion-button" type="button" data-dialog-open="create-project">＋ 创建项目</button>
+                </div>
+
+                <article class="project-block notion-card group" th:each="view : ${projects}">
+                    <span class="drag-handle card-handle">⋮⋮</span>
+                    <header class="project-block-header">
+                        <div>
+                            <div class="title-line"><span class="project-page-icon">📁</span><h2 th:text="${view.project.name}">项目名称</h2><span class="status-tag green">进行中</span></div>
+                            <p th:text="${view.project.description}">项目简介</p>
+                        </div>
+                        <div class="inline-actions">
+                            <button class="notion-button" type="button" th:attr="data-dialog-open=|member-${view.project.id}|">＋ 添加成员</button>
+                            <button class="notion-button" type="button" th:disabled="${#lists.isEmpty(view.activeMembers)}" th:attr="data-dialog-open=|task-${view.project.id}|">＋ 新建任务</button>
+                            <button class="notion-button" type="button" th:attr="data-dialog-open=|project-edit-${view.project.id}|">编辑项目</button>
+                        </div>
+                    </header>
+
+                    <div class="property-row">
+                        <span class="property-name">成员</span>
+                        <div class="member-list"><span th:each="member : ${view.members}"><i class="avatar small" th:text="${#strings.substring(member.user.displayName,0,1)}">李</i><b th:text="${member.user.displayName}">李开发</b></span><em th:if="${#lists.isEmpty(view.members)}">暂无成员</em></div>
+                        <span class="property-name">任务</span><b th:text="${#lists.size(view.tasks)}">1</b>
+                    </div>
+
+                    <details style="margin:16px 0">
+                        <summary>成员状态与职责管理</summary>
+                        <p class="secondary-text">暂停成员不能接收新任务或更新任务状态。移除前请先转交其全部任务；移除只解除项目关系，不删除账号。</p>
+                        <div class="table-scroll">
+                            <table class="notion-table">
+                                <thead><tr><th>成员</th><th>参与状态</th><th>项目身份</th><th>职责</th><th>操作</th></tr></thead>
+                                <tbody>
+                                <tr th:each="member : ${view.members}">
+                                    <td th:text="|${member.user.displayName}（${member.user.username}）|"></td>
+                                    <td th:text="${member.status.label}"></td>
+                                    <td th:text="${member.projectIdentity}"></td>
+                                    <td th:text="${#strings.isEmpty(member.responsibilities) ? '未填写' : member.responsibilities}" style="white-space:pre-wrap"></td>
+                                    <td><button type="button" class="notion-button" th:attr="data-dialog-open=|member-edit-${member.id}|">编辑</button><button type="button" class="notion-button" th:attr="data-dialog-open=|member-remove-${member.id}|">移除</button></td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(view.members)}"><td colspan="5">暂无成员，请先添加开发人员。</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+
+                    <dialog class="modal" th:id="|project-edit-${view.project.id}|">
+                        <form method="post" th:action="@{/manager/projects/{id}/edit(id=${view.project.id})}" class="form-stack">
+                            <input type="hidden" name="csrfToken" th:value="${projectCsrf}">
+                            <div class="modal-header"><h3>编辑项目</h3><button type="button" class="notion-button modal-close" aria-label="关闭">×</button></div>
+                            <label>项目名称<input class="notion-input" name="name" th:value="${view.project.name}" maxlength="100" required></label>
+                            <label>项目简介<textarea class="notion-input" name="description" th:text="${view.project.description}" maxlength="500" rows="4"></textarea></label>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button type="submit" class="notion-button primary-action">保存项目</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" th:each="member : ${view.members}" th:id="|member-edit-${member.id}|">
+                        <form method="post" th:action="@{/manager/projects/{pid}/members/{uid}/edit(pid=${view.project.id},uid=${member.user.id})}" class="form-stack">
+                            <input type="hidden" name="csrfToken" th:value="${projectCsrf}">
+                            <div class="modal-header"><div><h3>编辑成员</h3><p th:text="${member.user.displayName}"></p></div><button type="button" class="notion-button modal-close" aria-label="关闭">×</button></div>
+                            <label>参与状态<select class="notion-input" name="status"><option th:each="status : ${memberStatuses}" th:value="${status}" th:text="${status.label}" th:selected="${status == member.status}"></option></select></label>
+                            <label>项目身份<input class="notion-input" name="projectIdentity" th:value="${member.projectIdentity}" maxlength="50" placeholder="例如：前端开发、测试负责人" required></label>
+                            <label>职责说明<textarea class="notion-input" name="responsibilities" th:text="${member.responsibilities}" maxlength="500" rows="4"></textarea></label>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button type="submit" class="notion-button primary-action">保存成员</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" th:each="member : ${view.members}" th:id="|member-remove-${member.id}|">
+                        <form method="post" th:action="@{/manager/projects/{pid}/members/{uid}/remove(pid=${view.project.id},uid=${member.user.id})}" class="form-stack">
+                            <input type="hidden" name="csrfToken" th:value="${projectCsrf}">
+                            <h3>确认移除成员</h3><p th:text="|将 ${member.user.displayName} 移出 ${view.project.name}？|"></p>
+                            <p class="secondary-text">其账号仍保留。未完成任务需先转交其他正常参与的成员；已完成任务保留原负责人。</p>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button type="submit" class="notion-button primary-action">确认移除</button></div>
+                        </form>
+                    </dialog>
+
+                    <div class="table-scroll">
+                        <table class="notion-table">
+                            <thead><tr><th>任务名称与计划</th><th>负责人</th><th>截止日期</th><th>状态</th><th>操作</th></tr></thead>
+                            <tbody>
+                            <tr class="group" th:each="task : ${view.tasks}">
+                                <td class="task-summary"><span class="row-handle drag-handle">⋮⋮</span><b th:text="${task.title}">任务标题</b><small th:text="${task.description}">描述</small>
+                                <div class="task-plan-summary"><span class="priority-pill" th:classappend="${#strings.toLowerCase(task.priority.name())}" th:text="${task.priority.name() == 'URGENT' ? '紧急' : task.priority.name() == 'HIGH' ? '高优先级' : task.priority.name() == 'LOW' ? '低优先级' : '中优先级'}"></span><span class="story-summary" th:text="${task.story != null ? '故事 · ' + task.story.title : '未关联故事'}"></span></div></td>
+                                <td><span class="person-cell"><i class="avatar small" th:text="${#strings.substring(task.assignee.displayName,0,1)}">李</i><span th:text="${task.assignee.displayName}">李开发</span></span></td>
+                                <td th:text="${task.dueDate != null ? task.dueDate : '未设置'}">未设置</td>
+                                <td><span class="status-tag" th:classappend="${#strings.toLowerCase(task.status.name())}" th:text="${task.status.label}">待处理</span></td>
+                                <td class="task-actions"><div class="task-action-buttons"><button class="notion-button" type="button" title="编辑任务" th:attr="data-dialog-open=|edit-${task.id}|">编辑</button>
+                                <button class="notion-button" type="button" th:attr="data-dialog-open=|plan-${task.id}|">计划设置</button></div>
+                                <dialog class="modal task-plan-dialog" th:id="|plan-${task.id}|">
+                                <form class="form-stack" method="post" th:action="@{/manager/tasks/{id}/plan(id=${task.id})}">
+                                <input type="hidden" name="version" th:value="${task.version}">
+                                <div class="modal-header"><div><h3>任务计划设置</h3><p th:text="${task.title}"></p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                                <input type="hidden" name="csrfToken" th:value="${projectCsrf}">
+                                <label>优先级<select name="priority" class="notion-input"><option th:each="p : ${T(com.aimanage.prototype.domain.Priority).values()}" th:value="${p}" th:text="${p.name() == 'URGENT' ? '紧急' : p.name() == 'HIGH' ? '高' : p.name() == 'LOW' ? '低' : '中'}" th:selected="${p == task.priority}"></option></select></label>
+                                <label>用户故事<select name="storyId" class="notion-input"><option value="">不关联</option><option th:each="story : ${view.stories}" th:value="${story.id}" th:text="${story.title}" th:selected="${task.story != null and task.story.id == story.id}"></option></select></label>
+                                <p class="form-note">只能关联当前项目的用户故事。选择“不关联”可解除关联。</p>
+                                <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">保存关联与优先级</button></div></form></dialog></td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(view.tasks)}"><td colspan="5" class="table-empty">添加项目成员后，即可创建和分配任务。</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <dialog class="modal" th:id="|member-${view.project.id}|">
+                        <form method="post" th:action="@{/manager/projects/{id}/members(id=${view.project.id})}" class="form-stack">
+                            <input type="hidden" name="csrfToken" th:value="${projectCsrf}">
+                            <div class="modal-header"><div><span class="page-icon small-icon">👥</span><h3>添加项目成员</h3><p>选择一名开发人员加入当前项目。</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                            <label>开发人员<select class="notion-input" name="userId" required><option value="" disabled selected>请选择成员</option><option th:each="developer : ${developers}" th:value="${developer.id}" th:text="|${developer.displayName}（${developer.username}）|">成员</option></select></label>
+                            <div class="form-note">同一成员不能重复加入同一个项目。</div>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">确认添加</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" th:id="|task-${view.project.id}|">
+                        <form method="post" th:action="@{/manager/projects/{id}/tasks(id=${view.project.id})}" class="form-stack">
+                            <input type="hidden" name="csrfToken" th:value="${projectCsrf}">
+                            <div class="modal-header"><div><span class="page-icon small-icon">☑️</span><h3>创建并分配任务</h3><p>填写任务信息并指定项目成员。</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                            <label>任务标题<input class="notion-input" name="title" placeholder="例如：完成项目列表页面" required maxlength="120"></label>
+                            <label>任务描述<textarea class="notion-input" name="description" placeholder="补充任务目标与验收要点" rows="3" maxlength="1000"></textarea></label>
+                            <div class="form-grid"><label>负责人<select class="notion-input" name="assigneeId" required><option th:each="member : ${view.activeMembers}" th:value="${member.user.id}" th:text="${member.user.displayName}">成员</option></select></label><label>截止日期<input class="notion-input" type="date" name="dueDate"></label></div>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">创建任务</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" th:each="task : ${view.tasks}" th:id="|edit-${task.id}|">
+                        <form method="post" th:action="@{/manager/tasks/{id}/edit(id=${task.id})}" class="form-stack">
+                            <input type="hidden" name="csrfToken" th:value="${projectCsrf}">
+                            <input type="hidden" name="version" th:value="${task.version}">
+                            <div class="modal-header"><div><span class="page-icon small-icon">✏️</span><h3>编辑任务</h3><p>更新任务信息或重新分配负责人。</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                            <label>任务标题<input class="notion-input" name="title" th:value="${task.title}" required maxlength="120"></label>
+                            <label>任务描述<textarea class="notion-input" name="description" rows="3" maxlength="1000" th:text="${task.description}"></textarea></label>
+                            <p class="secondary-text" th:if="${task.status.name() == 'DONE'}">修改工作内容或负责人前，请进入任务详情填写原因并重开。</p>
+                            <div class="form-grid"><label>负责人<select class="notion-input" name="assigneeId" required><option th:if="${task.status.name() == 'DONE' and !#lists.contains(view.activeMembers.![user.id], task.assignee.id)}" th:value="${task.assignee.id}" selected th:text="|${task.assignee.displayName}（历史负责人）|"></option><option value="" disabled th:selected="${task.status.name() != 'DONE' and !#lists.contains(view.activeMembers.![user.id], task.assignee.id)}">请选择正常参与的成员</option><option th:each="member : ${view.activeMembers}" th:value="${member.user.id}" th:selected="${member.user.id == task.assignee.id}" th:text="${member.user.displayName}">成员</option></select></label><label>截止日期<input class="notion-input" type="date" name="dueDate" th:value="${task.dueDate}"></label></div>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">保存修改</button></div>
+                        </form>
+                    </dialog>
+                </article>
+            </section>
+
+            <section class="linked-pages">
+                <h2>更多功能界面</h2>
+                <div class="linked-page-grid">
+                    <a class="linked-page group" th:href="@{/preview/backlog}"><span class="drag-handle">⋮⋮</span><i>≡</i><span><b>Product Backlog</b><small>用户故事与优先级</small></span></a>
+                    <a class="linked-page group" th:href="@{/preview/tasks}"><span class="drag-handle">⋮⋮</span><i>☑</i><span><b>任务看板</b><small>筛选、评论与依赖</small></span></a>
+                    <a class="linked-page group" th:href="@{/preview/analytics}"><span class="drag-handle">⋮⋮</span><i>↗</i><span><b>数据与分析</b><small>进度、负载与风险</small></span></a>
+                    <a class="linked-page group" th:href="@{/preview/ai}"><span class="drag-handle">⋮⋮</span><i>✦</i><span><b>AI 协作</b><small>摘要与智能体</small></span></a>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<dialog class="modal" id="create-project">
+    <form method="post" th:action="@{/manager/projects}" class="form-stack">
+        <input type="hidden" name="csrfToken" th:value="${projectCsrf}">
+        <div class="modal-header"><div><span class="page-icon small-icon">📁</span><h3>创建项目</h3><p>建立一个新的团队协作空间。</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+        <label>项目名称<input class="notion-input" name="name" placeholder="请输入项目名称" required maxlength="100"></label>
+        <label>项目简介<textarea class="notion-input" name="description" placeholder="用一句话说明项目目标" rows="4" maxlength="500"></textarea></label>
+        <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">创建项目</button></div>
+    </form>
+</dialog>
+<div class="toast" role="status" aria-live="polite"></div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

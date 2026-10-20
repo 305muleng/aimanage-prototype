@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Product Backlog</title><link rel="stylesheet" th:href="@{/css/app.css}"></head>
+<body class="app-page"><div class="app-shell"><aside th:replace="~{fragments/sidebar :: sidebar('backlog')}"></aside><main class="main-column"><div class="page-content">
+<h1>Product Backlog 与用户故事</h1><p>优先级：URGENT 紧急、HIGH 高、MEDIUM 中、LOW 低。负责人维护，项目成员只读查看。</p>
+<p th:if="${error}" th:text="${error}" class="notice error"></p><p th:if="${success}" th:text="${success}" class="notice success"></p>
+<form method="get" th:action="@{/backlog}"><label>选择项目<select name="projectId" class="notion-input"><option th:each="p : ${projects}" th:value="${p.id}" th:text="${p.name}" th:selected="${p.id == projectId}"></option></select></label><button class="notion-button">打开项目需求</button></form>
+<div th:if="${projectId != null}">
+<section th:if="${editable}"><h2>新增需求 / 用户故事</h2><form method="post" th:action="@{/backlog}" class="form-stack">
+<input type="hidden" name="projectId" th:value="${projectId}"><input type="hidden" name="csrfToken" th:value="${csrf}">
+<label>类型<select name="type" class="notion-input"><option value="REQUIREMENT">需求</option><option value="STORY">用户故事</option></select></label>
+<label>标题<input name="title" maxlength="120" required class="notion-input"></label><label>说明<textarea name="description" maxlength="2000" class="notion-input"></textarea></label>
+<label>验收标准（用户故事必填）<textarea name="acceptance" maxlength="2000" class="notion-input"></textarea></label>
+<label>优先级<select name="priority" class="notion-input"><option th:each="p : ${priorities}" th:value="${p}" th:text="${p}" th:selected="${p.name() == 'MEDIUM'}"></option></select></label>
+<label>所属需求（仅用户故事可选）<select name="requirementId" class="notion-input"><option value="">无关联</option><option th:each="r : ${requirements}" th:value="${r.id}" th:text="${r.title}"></option></select></label><button class="notion-button">新增并保存</button></form></section>
+<section><h2>需求清单与用户故事</h2><p th:if="${#lists.isEmpty(items)}">暂无条目，请先新增需求或用户故事。</p>
+<article th:each="item : ${items}" class="database-section"><h3 th:text="|${item.type == 'STORY' ? '用户故事' : '需求'} #${item.id} · ${item.title}|"></h3>
+<p th:text="|${item.priority} · ${item.description}|"></p><p th:text="|验收标准：${item.acceptance}|"></p><p th:if="${item.requirement != null}" th:text="|所属需求：${item.requirement.title}|"></p>
+<details th:if="${editable}"><summary>编辑条目</summary><form method="post" th:action="@{/backlog}" class="form-stack">
+<input type="hidden" name="id" th:value="${item.id}"><input type="hidden" name="type" th:value="${item.type}"><input type="hidden" name="projectId" th:value="${projectId}"><input type="hidden" name="csrfToken" th:value="${csrf}">
+<label>标题<input name="title" th:value="${item.title}" maxlength="120" required class="notion-input"></label><label>说明<textarea name="description" th:text="${item.description}" maxlength="2000" class="notion-input"></textarea></label>
+<label>验收标准<textarea name="acceptance" th:text="${item.acceptance}" maxlength="2000" class="notion-input"></textarea></label>
+<label>优先级<select name="priority" class="notion-input"><option th:each="p : ${priorities}" th:value="${p}" th:text="${p}" th:selected="${p == item.priority}"></option></select></label>
+<select name="requirementId" th:if="${item.type == 'STORY'}" class="notion-input"><option value="">无关联需求</option><option th:each="r : ${requirements}" th:value="${r.id}" th:text="${r.title}" th:selected="${item.requirement != null and r.id == item.requirement.id}"></option></select><button class="notion-button">保存修改</button></form></details></article>
+</section></div></div></main></div></body></html>

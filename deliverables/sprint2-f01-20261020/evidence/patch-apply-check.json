@@ -1,0 +1,6 @@
+{
+  "command": "git apply --check changes/F01.patch",
+  "baseline": "original uploaded Sprint 2 snapshot",
+  "exit_code": 0,
+  "output": ""
+}

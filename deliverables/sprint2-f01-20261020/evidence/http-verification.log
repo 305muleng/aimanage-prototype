@@ -1,0 +1,12 @@
+H01 应用启动与四个演示账号登录 PASS
+H02 任务关联故事后的页面渲染 PASS
+H03 未完成前置任务拦截 PASS
+H04 成员执行与评论留痕 PASS
+H05 独立阻塞及后续任务完成 PASS
+H06 项目外人员与角色权限 PASS
+H07 缺少表单令牌 PASS
+H08 过期版本写入 PASS
+H09 重开与角色职责 PASS
+H10 任务筛选与负责人统计 PASS
+H11 预览边界与Backlog旧入口 PASS
+{"passed_checks": 11, "failed_checks": 0, "failure": null, "application_stopped": true}
