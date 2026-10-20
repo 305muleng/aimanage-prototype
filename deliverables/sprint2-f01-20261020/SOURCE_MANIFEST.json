@@ -1,0 +1,557 @@
+{
+  "description": "Sprint 2 F01 standalone repair snapshot; evidence is from the prior local H2 verification",
+  "upload_account": "CHMgGa",
+  "snapshot_date": "2026-10-20",
+  "source_zip": "aimanage-sprint2(2).zip",
+  "source_zip_sha256": "8caff38590df4a1e5df24fdfa3c4cd859e366ac610d3c84d2d4337366e11e827",
+  "branch_base_main_commit": "db78532b51960c9ee4236733686fafa8081a2151",
+  "compared_weiyi_commit": "f014420efe1dcf8ff91a534a3cf1aa3f87e5ee01",
+  "tested_jar_sha256": "960fa76dda07235d8826f8161decc2467aed69e8a6f2d989735c7e899f349f1b",
+  "project_files_copied": 80,
+  "byte_identical_project_files_except_readme": 79,
+  "readme_adapted_for_source_only_upload": true,
+  "local_tests": {
+    "tests": 68,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "local_http": {
+    "passed": 11,
+    "failed": 0,
+    "story_association_retained": true
+  },
+  "manifest_self_excluded": true,
+  "files": {
+    "README.md": {
+      "bytes": 5514,
+      "sha256": "9c2cd34a117e6d1b9c1b09b16e871d4c9976df4b4ef40461c8809ba6b89153c1",
+      "git_blob_sha1": "1ed0f846cc395b6baf92fdd71921e80a28aec073"
+    },
+    "aimanage-sprint2/.gitignore": {
+      "bytes": 83,
+      "sha256": "7c3906edd9e0103b73f097b15b5ad86cd897fc1640dd95e0a901e12c6d9a0b73",
+      "git_blob_sha1": "a07fd13a736b700f6f0430161f1f406f13b17336"
+    },
+    "aimanage-sprint2/README.md": {
+      "bytes": 6152,
+      "sha256": "05c60c2ca1fe041556142f99ec151957633a586629e6eb3f2b57b678fe611cbe",
+      "git_blob_sha1": "c5cabb041b2048f487e0c14c4140b791673d033c"
+    },
+    "aimanage-sprint2/RELEASE_NOTES_F01.md": {
+      "bytes": 1719,
+      "sha256": "fe536ea1558f1b7be6b4fe1dbf6f8fa4ea84bdae023652fa36d3e05dd6a1330d",
+      "git_blob_sha1": "df0037df98b6af17fa2ef692b40a5cb14e87ec7f"
+    },
+    "aimanage-sprint2/pom.xml": {
+      "bytes": 2191,
+      "sha256": "f9fe182ff44a63943c9ba69ea37c19172e2deea59c0629977eb291734bf79dac",
+      "git_blob_sha1": "75cf9c539aca4ec4a9a8880c076e52ffde1755fe"
+    },
+    "aimanage-sprint2/scripts/start-mysql.ps1": {
+      "bytes": 1113,
+      "sha256": "b75c32c51f38f64c76f8d8a5e7e83bf540826970baf84f36ada6f2a3e71c1307",
+      "git_blob_sha1": "ae83a7fd6a9d769cf78c2ba58c65ce75af56c3a3"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/AiManageApplication.java": {
+      "bytes": 512,
+      "sha256": "7d64e4884e62d36005d741bd99d1c138415ccee97e4b13ad8c294cce3c10e407",
+      "git_blob_sha1": "23302fe4f70518bd3fb3b0c3c83f1efcb8926394"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/config/AccessPolicy.java": {
+      "bytes": 1310,
+      "sha256": "24046d5407b0dc85ead9fa71d2dd2fd925f98b2a89a6c40921bf8339f19723a9",
+      "git_blob_sha1": "c535bab3d67a871aa037f35bd8be6bf580a6d1da"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/config/DemoDataInitializer.java": {
+      "bytes": 2744,
+      "sha256": "27056193fe04c26abbf39b32be05a8b52af194ee3cdd41cad0d6ff0d7e516ad6",
+      "git_blob_sha1": "c49fc513571fc896a460db5f7170aa9e0f848145"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/config/SessionIdentityConfig.java": {
+      "bytes": 2589,
+      "sha256": "c9a375fab98d3ec7e10c7d4a6097a8f0885b67d6c07b6c2f7522fe641e1d3ee5",
+      "git_blob_sha1": "c553b57cfdf5bd5fa7f250f13ce1a0885ca9360e"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/controller/AccessController.java": {
+      "bytes": 631,
+      "sha256": "e678432271cf95c579d2b308abebe644241c86faf81b32280e6870beb652fd3e",
+      "git_blob_sha1": "dadb3c129251b3e3bef827deaf386438da8c4c35"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/controller/AuthController.java": {
+      "bytes": 3607,
+      "sha256": "d91777b5fc0607d1a9bda5fc8ffd79ac91a73add8269d2d45d799c5f3ce735f7",
+      "git_blob_sha1": "5ea91ede3d47a86a1a738b0b4072dba11949f2c8"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/controller/BacklogController.java": {
+      "bytes": 2573,
+      "sha256": "f0155d33c135d5111c4ffca38b0be87158f08d77103ebd11218902ac1cf98dfc",
+      "git_blob_sha1": "654eb9199622a255a6c02b0839d1134373f8a99c"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/controller/DeveloperController.java": {
+      "bytes": 4124,
+      "sha256": "6866ba78e72ce02db08a8dba936196964e40b2ee4549fbb1e2308f302643b65d",
+      "git_blob_sha1": "b792ee37ca778a89489da195ed17e1cee9e5ff47"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/controller/ManagerController.java": {
+      "bytes": 10174,
+      "sha256": "7992001e1f7fc66c1330b1017be7324077a8dabfa37ee15547bed8cfa406929c",
+      "git_blob_sha1": "e9e2d296472782057b90fa1c5282910b4f9a4579"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/controller/PreviewController.java": {
+      "bytes": 10685,
+      "sha256": "df6e23665525d39150168cc8d3094723ab2c620e230ef89a89e82ecf61ba26c4",
+      "git_blob_sha1": "acee07cffb8e8528c7caae7beae854020bbcc0c6"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/controller/ProfileController.java": {
+      "bytes": 3153,
+      "sha256": "c79b16271e2c08adfb3f5538cbb1b5778803ac1930a48950eee59e83110a1047",
+      "git_blob_sha1": "d37a84f763992b7ae36c2fe88e0377e12a6ac5fb"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/controller/RoleManagementController.java": {
+      "bytes": 3522,
+      "sha256": "560afd938315f88110c0d130533185e265fb04eea2841a713c395a822400fcb9",
+      "git_blob_sha1": "9431441cd31a842a2767d39fb00a7a704c78a3bc"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/controller/SessionKeys.java": {
+      "bytes": 282,
+      "sha256": "8b6bb9e4ff0b4c546aa68909c5baabb840d75783a5d676a5656a04b2aaf176a0",
+      "git_blob_sha1": "7d5ba7ec27a27584c09cdb16c6869938bf3a4938"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/controller/TaskCollaborationController.java": {
+      "bytes": 7994,
+      "sha256": "43bc584cebe94083885530578b971d34bc50dd1e502a1079639b0cbd04a0228b",
+      "git_blob_sha1": "d8ef81743ade8423e91a10f8a2260857b740648e"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/controller/TaskConflictAdvice.java": {
+      "bytes": 1233,
+      "sha256": "c865fb82cde2d2d3fd0ef8f2a9e811590cb46098e67007efd33d0e614c51f616",
+      "git_blob_sha1": "49a2d8245859d0b5124c905407e29446b7685c29"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/ManagedRole.java": {
+      "bytes": 1146,
+      "sha256": "b6e6528ab12978837e5dc50c744ddee7a24c6ff29ec03d414f288ea29ef5e2d1",
+      "git_blob_sha1": "c62355be8d1ff6c8940e8a9847ff29e4e5decdf5"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/MemberStatus.java": {
+      "bytes": 254,
+      "sha256": "26f98077b72428863024889769217a6fed3de6292c0366005caae397889947f9",
+      "git_blob_sha1": "3e1ba099b9649d7590b8111d9202c081a9967766"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/Priority.java": {
+      "bytes": 90,
+      "sha256": "fd91521365cfb99ae7ff15959787d53c38cddb7c486c03453e5f5994626c37a3",
+      "git_blob_sha1": "d4c94c59ca0db0a0441eb15c6e5bfb36da85c407"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/Project.java": {
+      "bytes": 1163,
+      "sha256": "f2fc31a415b31c7e333a11cb6e5df635aecf2c11433e6b3a645a03a089cab4a2",
+      "git_blob_sha1": "b6d66c3a077b6fdcec527364509c1e28f5235e56"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/ProjectMember.java": {
+      "bytes": 1649,
+      "sha256": "dfff2dd5b03fd07f2e84cb7a521aa26764f932a287d479ed7e6450351f72de92",
+      "git_blob_sha1": "f554a0c0b8d29e41e7dc757f130049bd170c8b5b"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/Role.java": {
+      "bytes": 337,
+      "sha256": "5fbd98dbd518a84cf6f44f9cd431f053d37ec77a33ab050c5266bd36ce20056b",
+      "git_blob_sha1": "17e9a808426f87056cae3aad4df68613588fc7d6"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/Task.java": {
+      "bytes": 4026,
+      "sha256": "fb2bb283ccdac0d04f31ad50f75c3786415f078a1667fc6ab244f74e83e9e7da",
+      "git_blob_sha1": "fa1c5fce0e4fee3dcfd17b450fdceaeeb4a0241e"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/TaskDependency.java": {
+      "bytes": 948,
+      "sha256": "11d111d28cf18847de0061fe97f43e369303dd16db468b5c585d16b7ee1e474b",
+      "git_blob_sha1": "fc46aee31d336c31580880f7765a20fe440d87cb"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/TaskEntry.java": {
+      "bytes": 1411,
+      "sha256": "72cdb14abd271a9b340ac0b62b26106e5a42889367c740fb98bb4d70f45c2786",
+      "git_blob_sha1": "b725653ece3bbe2aabb5ce049003f7d5de9656bc"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/TaskStatus.java": {
+      "bytes": 319,
+      "sha256": "626baa9bf6e8f1c2d050ab313af0446161a695b6dd89823ff2db9d46639fac7a",
+      "git_blob_sha1": "2c62355831128a4059862b859d1753d979ce9693"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/User.java": {
+      "bytes": 2079,
+      "sha256": "b6dafbd8b124a92d5ab04b6a042e4d3e4f017946eaa6da26ea08d06d949982c5",
+      "git_blob_sha1": "8f43343f97466d52b41fc705f50c9218c3b3699a"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/domain/WorkItem.java": {
+      "bytes": 1272,
+      "sha256": "8926e4c3f8f41a1a6e70a4cf175cd5737ebb457a26ebcb65f3f9c3f867b10b70",
+      "git_blob_sha1": "492c7f0aa6dc2e3433b1eb2630f2b7e7ec9c297e"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/repository/ManagedRoleRepository.java": {
+      "bytes": 412,
+      "sha256": "f467be0044beab43a1ea866ca025d2309df33a6a2608bc33d85232baf85de122",
+      "git_blob_sha1": "eaf3d657ceabb584fdda71d40baa93bc0739eb1a"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/repository/ProjectMemberRepository.java": {
+      "bytes": 793,
+      "sha256": "e39a9f18aa7ddec44f4bf30e04b72b3d4e4eff6fe35680b6061a57db3d943a82",
+      "git_blob_sha1": "5b9640b2c39c8a860ccc6a25bb42d1833b4c31db"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/repository/ProjectRepository.java": {
+      "bytes": 330,
+      "sha256": "b915d949d4d53dcac749c606d07654a0ad8335fb6911fff67ca24ead8b56e9d8",
+      "git_blob_sha1": "322a041fe00c38e446b4a978bab3b703687a02ff"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/repository/TaskDependencyRepository.java": {
+      "bytes": 836,
+      "sha256": "24428266ea034a25f47cac740dfbb003c17683dd56c18318ddbf3046fca7c66f",
+      "git_blob_sha1": "37293e2bc0980f2133a25d353e22c9a91bc56359"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/repository/TaskEntryRepository.java": {
+      "bytes": 331,
+      "sha256": "bc44a9bb3ae2e8e00cea338f906e861c47c11b630703cd1545f2bf6112e481a0",
+      "git_blob_sha1": "d8aa35339e48b242dfe93c50dad11e3f512b00e5"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/repository/TaskRepository.java": {
+      "bytes": 949,
+      "sha256": "6485432ca56f97a8762cc4734b2c3debca840d2a204c274987dbe4d9a87b95eb",
+      "git_blob_sha1": "55ed149f4ab16debc101e37bf35be29ca46a9d30"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/repository/UserRepository.java": {
+      "bytes": 712,
+      "sha256": "6a12c6c13e4545166899d1039425447a8f6c5fa4578511ea4cf859012766811f",
+      "git_blob_sha1": "004f1a2ce730155bdc461d25313c753263a0dbba"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/repository/WorkItemRepository.java": {
+      "bytes": 314,
+      "sha256": "217793fd56df561ca4c1310acf472ee993e2a82a5edc7c77c37a53ef2247b745",
+      "git_blob_sha1": "86b46b545c443f423150adcc833b937026cedabe"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/service/AuthService.java": {
+      "bytes": 3624,
+      "sha256": "ad571700f380b002722f1e1ca24860024c68201f9c7d1754bf73a5201028a982",
+      "git_blob_sha1": "2e63ee08de7991b185aab5e2322b04c2f3c705b6"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/service/BacklogService.java": {
+      "bytes": 2772,
+      "sha256": "28260d53bbcb2f3e8cb0f757c8d274122e0ba3827a041095ce01bbdc72189f34",
+      "git_blob_sha1": "baf957f474ac1c1ab5edb2f395a7a8782085a23f"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/service/BusinessException.java": {
+      "bytes": 185,
+      "sha256": "e9c80622768c4a112d20bbf099a5e2192b89836711a7a837cd01b33f094f87bc",
+      "git_blob_sha1": "f8a060cf2302b1f7f4a3089f64827444911b47cb"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/service/PasswordCodec.java": {
+      "bytes": 1841,
+      "sha256": "6e69b1b41816c2da3fdb664487d143247d925c90f2f91cf273966dd1fd379646",
+      "git_blob_sha1": "42bf05089b6d9eb82398d10e2b584a94f0a12fa6"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/service/ProfileService.java": {
+      "bytes": 2317,
+      "sha256": "d18281198e31c671a6cd22e645b263b0ef335798675fe2d2dc5aaf7d74459921",
+      "git_blob_sha1": "36c2d1c76a70b9ef2e0c2c8dc28a6c556ccf45c2"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/service/ProjectTaskService.java": {
+      "bytes": 19564,
+      "sha256": "28d81a8d0f26ece4509e65889793fad333dcfce95b7bfe302b6b278f057c81d8",
+      "git_blob_sha1": "3d5a9c34e94317b04f151d4de7318625acbe0b8d"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/service/RoleManagementService.java": {
+      "bytes": 4608,
+      "sha256": "2c973c972a7c688aa21547751656d30f6a237fa67008e37ab75af155c85d505b",
+      "git_blob_sha1": "40f3d0bc1b612e80858ad64c48328e3de2a20f67"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/service/TaskCollaborationService.java": {
+      "bytes": 13158,
+      "sha256": "acc9933fd04ce80bbb1bc6c24846098dff86b81f1845cc564b9513b4e9e942f7",
+      "git_blob_sha1": "15b2a4870a47171311151c038fc2c7af6b865ed9"
+    },
+    "aimanage-sprint2/src/main/java/com/aimanage/prototype/service/TaskJournal.java": {
+      "bytes": 882,
+      "sha256": "83fa19956635f108170a3527e4ded53fbf2054930ec0b5d86b8b1cd1e0933ab7",
+      "git_blob_sha1": "01f683975efa4d405beb751bfdfe59b4b117fabe"
+    },
+    "aimanage-sprint2/src/main/resources/application-mysql.properties": {
+      "bytes": 521,
+      "sha256": "04220532930cbb2a2023dc0e6eb7f013cbb75f0e7f9d64aed2e56b7388804fa2",
+      "git_blob_sha1": "2182bcda9ec1b4bf67d952d77a868161d3ca6819"
+    },
+    "aimanage-sprint2/src/main/resources/application.properties": {
+      "bytes": 617,
+      "sha256": "59af234913e01936550a4c83ff812cbf1f033a92dc0c5b4fc58a63a0112cb10c",
+      "git_blob_sha1": "1b8554896c32151a04618af20687a725278fa3bc"
+    },
+    "aimanage-sprint2/src/main/resources/static/css/app.css": {
+      "bytes": 24169,
+      "sha256": "1d0cbabf78f6adfa8abed4f5a468464c97a6bb4214cd41b39288431a3165b711",
+      "git_blob_sha1": "e505bf8680c5a703fb921797005e136cf33ce5ff"
+    },
+    "aimanage-sprint2/src/main/resources/static/css/collaboration.css": {
+      "bytes": 1604,
+      "sha256": "a880369f26eb4b629180462fe1cd79c5f701149f0f67345bf4be69e57a1aa0e2",
+      "git_blob_sha1": "73c8d060304e7dee85f81049546c7dcb80a42f1c"
+    },
+    "aimanage-sprint2/src/main/resources/static/css/task-layout.css": {
+      "bytes": 1214,
+      "sha256": "b634ca9af126b5d72f00f169530bdabe3e66bb856ea6af63208a1daf9417b755",
+      "git_blob_sha1": "47d1c8a4520738b41b768ac6ec9dc02123d88814"
+    },
+    "aimanage-sprint2/src/main/resources/static/js/app.js": {
+      "bytes": 2368,
+      "sha256": "bc74a35e77a5211c64d6f47332c51cde9c40683275c2ea432568b5fb6fb20432",
+      "git_blob_sha1": "07bd1b7a4023aaa00d99d9de87893f6124140757"
+    },
+    "aimanage-sprint2/src/main/resources/templates/access.html": {
+      "bytes": 2315,
+      "sha256": "779fd59b16a9504d03b064aebc7fc8104ed7e849122f5709545a1c6bb3a21075",
+      "git_blob_sha1": "0da00a851ce189d766d1411fa8ead171b2fa5864"
+    },
+    "aimanage-sprint2/src/main/resources/templates/account.html": {
+      "bytes": 2896,
+      "sha256": "8692f99bb4a2f46a135ced6f558975159a1cb08651a70c946c1e3ccda9b743f0",
+      "git_blob_sha1": "638f9a9776fbebcedd8f7ed7329b0630e1f29ded"
+    },
+    "aimanage-sprint2/src/main/resources/templates/backlog.html": {
+      "bytes": 4133,
+      "sha256": "34b9763254964c06af5f4512347cae395ec4947bf281296ca99e7a6cd31de78e",
+      "git_blob_sha1": "65f670b4f1c298984bd404718c9bc665c6110731"
+    },
+    "aimanage-sprint2/src/main/resources/templates/fragments/sidebar.html": {
+      "bytes": 3920,
+      "sha256": "2623ccd317596c0e8a6f16646acf4a74e4a281e5585260552e0fceb4399c2de6",
+      "git_blob_sha1": "d1cbbc7d365b080edae3672ea00f93797ec94d6a"
+    },
+    "aimanage-sprint2/src/main/resources/templates/login.html": {
+      "bytes": 3576,
+      "sha256": "d4b9b1efe5f118c059b152930c47f335fc355fdbcc8aa439d77375c01a0668df",
+      "git_blob_sha1": "ec730b14f83a469ffba5c736cab706fc956f1478"
+    },
+    "aimanage-sprint2/src/main/resources/templates/manager-dashboard.html": {
+      "bytes": 21846,
+      "sha256": "45ca47e89f8ba9ac06cbf1bb61948c079c75e88b65c3a418dfbe1c637995a56d",
+      "git_blob_sha1": "90c52593fd146b9b0fa5add3051855364ed0c703"
+    },
+    "aimanage-sprint2/src/main/resources/templates/member-projects.html": {
+      "bytes": 2414,
+      "sha256": "2c04d2dc672713a5094cf376a8139cb94a180f30798f4212c76bafe5337456f3",
+      "git_blob_sha1": "7d6899454b704aa1c162fd125038b0cfb977e9ec"
+    },
+    "aimanage-sprint2/src/main/resources/templates/my-tasks.html": {
+      "bytes": 6995,
+      "sha256": "8d731953ded897fc4628d08512a28f96cc555121f94e48428093eb9bebdd22e4",
+      "git_blob_sha1": "342d52863bd5cee89164404675ef8cbdb124e66e"
+    },
+    "aimanage-sprint2/src/main/resources/templates/prototype-page.html": {
+      "bytes": 25223,
+      "sha256": "3ba4d923d0be58f8ee960cea9802e2680a0fb651706e11c37c2261e8a92a0038",
+      "git_blob_sha1": "5148abd65a52e888f5d81e01be553eb4233274fb"
+    },
+    "aimanage-sprint2/src/main/resources/templates/register.html": {
+      "bytes": 2217,
+      "sha256": "7fe6cbbf331aba8fa2ca81e14cbede6f2335ba6acc9e26f24bc43373d9b0a842",
+      "git_blob_sha1": "6e60b50280f283d0638e7793f7518e011b176c4f"
+    },
+    "aimanage-sprint2/src/main/resources/templates/roles.html": {
+      "bytes": 4666,
+      "sha256": "0c389f759fe3d16ebb0fe337cd1e10b53fc89c82c8ecf426f66133141209c3ed",
+      "git_blob_sha1": "7c5552f8c70b20a1d6ba5bfff3946aba616142ed"
+    },
+    "aimanage-sprint2/src/main/resources/templates/task-board.html": {
+      "bytes": 4969,
+      "sha256": "9169f626ebe954f3faf3c6f5cf3d7465d5e5013a9579fb3b8add1ebd6027e1ee",
+      "git_blob_sha1": "27e930d0d457034ee2b318a61564459293b43942"
+    },
+    "aimanage-sprint2/src/main/resources/templates/task-detail.html": {
+      "bytes": 7015,
+      "sha256": "8b785689cf0b73de03bb0b63692db9ec3494bd0e4de1d4e6feebef74a5ffc5ec",
+      "git_blob_sha1": "74b482aab4407c4dd2ca029e1b30d542fda300a0"
+    },
+    "aimanage-sprint2/src/test/java/com/aimanage/prototype/AccessControlTest.java": {
+      "bytes": 6797,
+      "sha256": "e5f406dfac060eb0b1a6163815e0d4aa45a390643250a1f8158ae9a1e9f8372e",
+      "git_blob_sha1": "6750bd8d3223e54f6c41975647ae2cda6c2e644a"
+    },
+    "aimanage-sprint2/src/test/java/com/aimanage/prototype/AuthRegistrationTest.java": {
+      "bytes": 4827,
+      "sha256": "3b1b3f847a6e8f4d4fe56ddeebc01439f4302f5fde792a7baaaca92ceba7012d",
+      "git_blob_sha1": "26a3c11907936894c95120fba0cfe4f36b853649"
+    },
+    "aimanage-sprint2/src/test/java/com/aimanage/prototype/BacklogFlowTest.java": {
+      "bytes": 4229,
+      "sha256": "e568ef176e1dd32d3f4b4882d26e4bbb6365d8cd89cb36f60782dda2734cdfff",
+      "git_blob_sha1": "d0a472c03f6afad1a51c8414645b2e0019b0e0ca"
+    },
+    "aimanage-sprint2/src/test/java/com/aimanage/prototype/ProfileFlowTest.java": {
+      "bytes": 5734,
+      "sha256": "f40f5ee6efd66e6a99c534d70787d4e1de0746e2fa71d283ddeb4ce8fc4076c0",
+      "git_blob_sha1": "a74413318794e0fa3c0eac363e0ca23c539a1c09"
+    },
+    "aimanage-sprint2/src/test/java/com/aimanage/prototype/ProjectMemberFlowTest.java": {
+      "bytes": 9226,
+      "sha256": "2593a72bcd932c2cb7a8db73cba730c62e3e16172b694c431e6fd41497d7deff",
+      "git_blob_sha1": "89bbf38690c177ee49115d6fa1b723913c5c7cf3"
+    },
+    "aimanage-sprint2/src/test/java/com/aimanage/prototype/RoleManagementFlowTest.java": {
+      "bytes": 7870,
+      "sha256": "17f8eccb6fc0b80989620b960ab17b6836794fe2cdcc0ac39b64d8beb1ebf868",
+      "git_blob_sha1": "8d5b9e09cee689b2b315bc8dac16c1e23700d288"
+    },
+    "aimanage-sprint2/src/test/java/com/aimanage/prototype/TaskBusinessRulesTest.java": {
+      "bytes": 14468,
+      "sha256": "58f2059fbad7323f08adda6ac9cec0592f0276e93ffc524c9e048841049aa152",
+      "git_blob_sha1": "6e460892245890921661506538187f8ed694c8d3"
+    },
+    "aimanage-sprint2/src/test/java/com/aimanage/prototype/TaskCollaborationTest.java": {
+      "bytes": 13417,
+      "sha256": "e1ed280f50159ebd905fbe4478c8208360702dc39dd9994d32fb5b19ae9278ee",
+      "git_blob_sha1": "1eba09d3b9c5a7feb3dc790595ce0bbee77819bb"
+    },
+    "aimanage-sprint2/src/test/java/com/aimanage/prototype/TaskStoryRenderingRegressionTest.java": {
+      "bytes": 5341,
+      "sha256": "449b0631c5b70379262b8cd1d0d86b795b9a1b4c46624bf4ede155a9c659e414",
+      "git_blob_sha1": "ac18e0047996654ee39f63f6d42e9ee775e04114"
+    },
+    "aimanage-sprint2/src/test/java/com/aimanage/prototype/WebFlowTest.java": {
+      "bytes": 5691,
+      "sha256": "84b68756a8e42a73771cdb4cf855416e8ad81f6db503914f903b255903cbeb54",
+      "git_blob_sha1": "f83d064594c5e0b5d9d085a8bec0755e0315d9d6"
+    },
+    "aimanage-sprint2/src/test/java/com/aimanage/prototype/service/ProjectTaskServiceTest.java": {
+      "bytes": 7077,
+      "sha256": "a10c3bc25c33559a53c6bd0470ae520918c0d41ae464feb6411c78e9ce46d569",
+      "git_blob_sha1": "a1a4038700c7c719357133eddd705259e092af68"
+    },
+    "aimanage-sprint2/src/test/resources/application-test.properties": {
+      "bytes": 263,
+      "sha256": "a121d171670080c8d80ae57af7145d9cde9ab1a2399855f140bf27f15e0e3ed8",
+      "git_blob_sha1": "50d327c9aca4d70e607f4b84e49bd6c9893191e8"
+    },
+    "changes/F01.patch": {
+      "bytes": 6497,
+      "sha256": "0a0a2d741839ba7ec06f38ed679c9d04d1024aab8e722deedf06dc7e97e52b96",
+      "git_blob_sha1": "fc8c1db4455d091821fbdcc803ebf91aa1763ba7"
+    },
+    "evidence/application-smoke.log": {
+      "bytes": 5337,
+      "sha256": "e272d2b71e46df35e0b3666f8f03eb084ef4809922610493c8c7bd8e5767cca5",
+      "git_blob_sha1": "e5223f72e240940f5c4eff1288e60cfeb08d390e"
+    },
+    "evidence/http-verification.json": {
+      "bytes": 3718,
+      "sha256": "a0e2fd71dcaa87de6c4f4c03e31f72e7342e3d15421a7b77e78557dc4e90d326",
+      "git_blob_sha1": "b5662392ae317287fe0e2b78828e260c41370fee"
+    },
+    "evidence/http-verification.log": {
+      "bytes": 508,
+      "sha256": "44223d3a08254bda379854bf6169dd2a21f183c34ed4956bdab88136741346bd",
+      "git_blob_sha1": "eb2993c66d4dc0b1e6032b3f76536e0e0dbaac88"
+    },
+    "evidence/package-result.json": {
+      "bytes": 373,
+      "sha256": "ef3f9220544323111516e434fb022614fee72af75a5361cc80ded5559527b802",
+      "git_blob_sha1": "8576bbfc32aa24a69930b6bf78e1626a19a3bdca"
+    },
+    "evidence/package.log": {
+      "bytes": 2353,
+      "sha256": "6618f57e987ee97d5e87f964c78c7c793fd111fdf7f10288350de19186314272",
+      "git_blob_sha1": "0a0e2fdfd7fdb921a440f5081e2f0adfd9144a42"
+    },
+    "evidence/patch-apply-check.json": {
+      "bytes": 141,
+      "sha256": "b166c2375d71aa3181e8b8429febac1dcdb72efa9bce682c406522c79e4b1e2b",
+      "git_blob_sha1": "810596cba099942df5664f7926ac6313df284a9e"
+    },
+    "evidence/regression-before-reports/com.aimanage.prototype.TaskStoryRenderingRegressionTest.txt": {
+      "bytes": 12295,
+      "sha256": "2024ffac3852b8d77c26b75ed6c71178391234d789289ed632e84a5be4ac159c",
+      "git_blob_sha1": "b11822d4e4d2dce53f863f8afd97e89743bcbd52"
+    },
+    "evidence/regression-before-result.json": {
+      "bytes": 578,
+      "sha256": "a2cc1efe51043dadf5e03ce8027b5909d96a6b2422e66a6096cd00efc10145ab",
+      "git_blob_sha1": "e9c4afd89de6a242ee2c2d0e64a955980fc4d26d"
+    },
+    "evidence/regression-before.log": {
+      "bytes": 83485,
+      "sha256": "527c9ae5d1bebc9f6fd1565a1493675a5fa559780feab3ecd1ea20acb438e7e9",
+      "git_blob_sha1": "70896d60b2eedeb3e0ceaf329b9c1264a88c0058"
+    },
+    "evidence/test-after-reports/com.aimanage.prototype.AccessControlTest.txt": {
+      "bytes": 330,
+      "sha256": "d7bf6254577c85c2a207568f12c597960b79fcbb984815d076bff5d7039a5edb",
+      "git_blob_sha1": "6d16fdffd6934905164673a78c9c46ce98ac8da1"
+    },
+    "evidence/test-after-reports/com.aimanage.prototype.AuthRegistrationTest.txt": {
+      "bytes": 336,
+      "sha256": "3f794fc41321388f8eb341d89456ef5d5452688217441c7bf606b447394a71b7",
+      "git_blob_sha1": "bd3c70974c2ff42bf6a8b089cc87da1c5ecaacf1"
+    },
+    "evidence/test-after-reports/com.aimanage.prototype.BacklogFlowTest.txt": {
+      "bytes": 326,
+      "sha256": "1428d626a14d0420b14c78ffb16a15c3db9715c27ada36115918d741c9d35d71",
+      "git_blob_sha1": "3b4a74f7435b1248d293d4695bb8e281e2e9f4a7"
+    },
+    "evidence/test-after-reports/com.aimanage.prototype.ProfileFlowTest.txt": {
+      "bytes": 326,
+      "sha256": "79003f04cdc59db97f3022bbf1b1351176b74198056f39ad89c792f56f72c96a",
+      "git_blob_sha1": "5f826f465f75dda3f79dcd672250fa934e88baf4"
+    },
+    "evidence/test-after-reports/com.aimanage.prototype.ProjectMemberFlowTest.txt": {
+      "bytes": 338,
+      "sha256": "04306a5b282cf0b3a6fe76a52a919696e3f5f58b8555a7330dc7562e0e854831",
+      "git_blob_sha1": "fde695066a4e259242ba20cee8d6a10001f755f3"
+    },
+    "evidence/test-after-reports/com.aimanage.prototype.RoleManagementFlowTest.txt": {
+      "bytes": 340,
+      "sha256": "20a0a77db6d3eb26b38b6c37a2020d14ac12d502c73eb9d453e5ff361a3ba992",
+      "git_blob_sha1": "80d9249c4389ade9c2a2872d3321123fb3a746d2"
+    },
+    "evidence/test-after-reports/com.aimanage.prototype.TaskBusinessRulesTest.txt": {
+      "bytes": 339,
+      "sha256": "95e00f4dcd6526ee5db0f632fa84a51c696ecb63a61fe369fce2bfb3568137b1",
+      "git_blob_sha1": "adaa3aad561fbeeaab7f3189976b8d1ce521abfc"
+    },
+    "evidence/test-after-reports/com.aimanage.prototype.TaskCollaborationTest.txt": {
+      "bytes": 339,
+      "sha256": "551e0cbc1edb6318288c51c3f1f8af81430f6f4566a24301250efb006204f350",
+      "git_blob_sha1": "1be6f03dd6f84c6925d1d38f8d467df904b52bd3"
+    },
+    "evidence/test-after-reports/com.aimanage.prototype.TaskStoryRenderingRegressionTest.txt": {
+      "bytes": 360,
+      "sha256": "912d520b21075d18a007a43b719abe2f73ee7382131aa3a7741ec830eaf2d8bc",
+      "git_blob_sha1": "afe988aa682d74bc802a0e0574b640915c4d4cbb"
+    },
+    "evidence/test-after-reports/com.aimanage.prototype.WebFlowTest.txt": {
+      "bytes": 318,
+      "sha256": "765eb6bfc6437392b274c8269022ba96c975b6eeb350e5ca98db5c08a48cbd68",
+      "git_blob_sha1": "aaf46c524d20eaa6deec7781e1c469b9a7196fb6"
+    },
+    "evidence/test-after-reports/com.aimanage.prototype.service.ProjectTaskServiceTest.txt": {
+      "bytes": 356,
+      "sha256": "7c6190641d169662a6b8df290b8f520cdefb7a3eb688795b804297448cf8c7b3",
+      "git_blob_sha1": "908045dd473215b2a34e8555b04253f797a72f69"
+    },
+    "evidence/test-after-result.json": {
+      "bytes": 531,
+      "sha256": "d6adf653f3fadf43b1cef2784f14d5ed47d185b83f8aff9e18d1d466e39b38c1",
+      "git_blob_sha1": "96931176f2bc89e7258e008b22ea309e65577962"
+    },
+    "evidence/test-after.log": {
+      "bytes": 25831,
+      "sha256": "f9cbc41bcd2135bae3dbd34509b5ec2f70115ad09aecc12ee27778a1e9beaff1",
+      "git_blob_sha1": "df2651afce6d3ec2c345836c084e3bc2650a4c12"
+    },
+    "evidence/test-summary.json": {
+      "bytes": 1865,
+      "sha256": "da3dbc0d771ff1674743af62effb3aa650b244721ed22d992bd6a69a4260c8a9",
+      "git_blob_sha1": "34ee5b2eefc90ddf7ca701d5f2526235a58bd1f3"
+    },
+    "verify_http_flow.py": {
+      "bytes": 15385,
+      "sha256": "a4fc440eac835ed5b4a02f7a5f2ce94bb7f5c7d4afb0a820a2c5e1dd585e0fb7",
+      "git_blob_sha1": "7be13fc247d37ba754b5ddfaced15fff1cb46fce"
+    }
+  }
+}

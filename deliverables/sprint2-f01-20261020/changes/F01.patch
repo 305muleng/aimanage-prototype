@@ -1,0 +1,110 @@
+--- a/src/main/java/com/aimanage/prototype/repository/TaskRepository.java
++++ b/src/main/java/com/aimanage/prototype/repository/TaskRepository.java
+@@ -10,9 +10,9 @@
+ public interface TaskRepository extends JpaRepository<Task, Long> {
+     boolean existsByProjectIdAndAssigneeId(Long projectId, Long assigneeId);
+     boolean existsByProjectIdAndAssigneeIdAndStatusNot(Long projectId, Long assigneeId, TaskStatus status);
+-    @EntityGraph(attributePaths = {"assignee", "project"})
++    @EntityGraph(attributePaths = {"assignee", "project", "story"})
+     List<Task> findByProjectIdOrderByUpdatedAtDesc(Long projectId);
+-    @EntityGraph(attributePaths = {"assignee", "project"})
++    @EntityGraph(attributePaths = {"assignee", "project", "story"})
+     List<Task> findByAssigneeIdOrderByUpdatedAtDesc(Long assigneeId);
+     long countByProjectOwnerId(Long ownerId);
+     long countByProjectOwnerIdAndStatus(Long ownerId, TaskStatus status);
+--- /dev/null
++++ b/src/test/java/com/aimanage/prototype/TaskStoryRenderingRegressionTest.java
+@@ -0,0 +1,93 @@
++package com.aimanage.prototype;
++
++import com.aimanage.prototype.domain.Priority;
++import com.aimanage.prototype.repository.TaskRepository;
++import com.aimanage.prototype.repository.UserRepository;
++import com.aimanage.prototype.service.BacklogService;
++import com.aimanage.prototype.service.ProjectTaskService;
++import org.junit.jupiter.api.Test;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
++import org.springframework.boot.test.context.SpringBootTest;
++import org.springframework.mock.web.MockHttpSession;
++import org.springframework.test.annotation.DirtiesContext;
++import org.springframework.test.context.ActiveProfiles;
++import org.springframework.test.web.servlet.MockMvc;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.hamcrest.Matchers.containsString;
++import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
++import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
++import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
++
++/** Regression checks intentionally run without a surrounding test transaction. */
++@SpringBootTest(properties = {
++        "spring.datasource.url=jdbc:h2:mem:aimanage-story-regression;MODE=MySQL;DB_CLOSE_DELAY=-1",
++        "spring.jpa.open-in-view=false"
++})
++@AutoConfigureMockMvc
++@ActiveProfiles("test")
++@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
++class TaskStoryRenderingRegressionTest {
++    @Autowired MockMvc mvc;
++    @Autowired UserRepository users;
++    @Autowired TaskRepository tasks;
++    @Autowired ProjectTaskService projects;
++    @Autowired BacklogService backlog;
++
++    @Test
++    void managerCanRenderLinkedStoryAfterThePlanRequestHasCompleted() throws Exception {
++        Fixture fixture = fixture("HTTP故事关联回归");
++        var login = mvc.perform(post("/login").param("username", "manager").param("password", "123456"))
++                .andExpect(redirectedUrl("/manager")).andReturn();
++        var session = (MockHttpSession) login.getRequest().getSession(false);
++        mvc.perform(get("/manager").session(session)).andExpect(status().isOk());
++        String token = (String) session.getAttribute("projectCsrf");
++        long version = tasks.findById(fixture.taskId()).orElseThrow().getVersion();
++
++        mvc.perform(post("/manager/tasks/{id}/plan", fixture.taskId()).session(session)
++                        .param("csrfToken", token).param("version", Long.toString(version))
++                        .param("priority", "HIGH").param("storyId", fixture.storyId().toString()))
++                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/manager"))
++                .andExpect(flash().attributeExists("success"));
++
++        // A new request must render correctly after the write transaction closes.
++        mvc.perform(get("/manager").session(session))
++                .andExpect(status().isOk()).andExpect(view().name("manager-dashboard"))
++                .andExpect(content().string(containsString(fixture.storyTitle())))
++                .andExpect(content().string(containsString(fixture.taskTitle())))
++                .andExpect(content().string(containsString("</html>")));
++    }
++
++    @Test
++    void associatedStoryCanBeReadFromBothTaskListsAfterTheirQueriesComplete() {
++        Fixture fixture = fixture("任务列表故事加载回归");
++        projects.planTask(fixture.managerId(), fixture.taskId(), Priority.HIGH, fixture.storyId());
++
++        var projectTask = tasks.findByProjectIdOrderByUpdatedAtDesc(fixture.projectId()).stream()
++                .filter(t -> t.getId().equals(fixture.taskId())).findFirst().orElseThrow();
++        assertThat(projectTask.getStory().getTitle()).isEqualTo(fixture.storyTitle());
++
++        var assignedTask = tasks.findByAssigneeIdOrderByUpdatedAtDesc(fixture.developerId()).stream()
++                .filter(t -> t.getId().equals(fixture.taskId())).findFirst().orElseThrow();
++        assertThat(assignedTask.getStory().getTitle()).isEqualTo(fixture.storyTitle());
++    }
++
++    private Fixture fixture(String name) {
++        Long managerId = users.findByUsername("manager").orElseThrow().getId();
++        Long developerId = users.findByUsername("developer").orElseThrow().getId();
++        Long projectId = projects.createProject(managerId, name, "独立事务验证").getId();
++        projects.addMember(managerId, projectId, developerId);
++        Long requirementId = backlog.save(managerId, projectId, null, "REQUIREMENT", name + "需求",
++                "需求说明", "", Priority.HIGH, null).getId();
++        String storyTitle = name + "故事";
++        Long storyId = backlog.save(managerId, projectId, null, "STORY", storyTitle,
++                "故事说明", "关联保存后能完整读取工作台", Priority.HIGH, requirementId).getId();
++        String taskTitle = name + "任务";
++        Long taskId = projects.createTask(managerId, projectId, taskTitle, "任务说明", null, developerId).getId();
++        return new Fixture(managerId, developerId, projectId, storyId, taskId, storyTitle, taskTitle);
++    }
++
++    private record Fixture(Long managerId, Long developerId, Long projectId, Long storyId, Long taskId,
++                           String storyTitle, String taskTitle) {}
++}

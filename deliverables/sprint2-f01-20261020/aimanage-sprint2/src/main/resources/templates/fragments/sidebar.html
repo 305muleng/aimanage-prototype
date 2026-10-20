@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<body>
+<aside class="sidebar" th:fragment="sidebar(active)">
+    <div class="workspace-switcher">
+        <span class="workspace-icon">爱</span>
+        <div><strong>爱管理</strong><small>课程项目空间</small></div>
+        <button type="button" class="icon-action" data-placeholder="工作空间切换" aria-label="切换工作空间">⌄</button>
+    </div>
+
+    <nav class="side-nav" aria-label="主要导航">
+        <a th:if="${roleLabel == '项目负责人'}" th:href="@{/manager}" th:classappend="${active == 'home'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="M3 11 12 3l9 8M5 10v10h14V10M9 20v-6h6v6"/></svg><span>工作台</span>
+        </a>
+        <a th:if="${roleLabel == '开发人员'}" th:href="@{/my-tasks}" th:classappend="${active == 'my-tasks'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>我的任务</span>
+        </a>
+        <a th:if="${roleLabel != '系统管理员'}" th:href="@{/projects}" th:classappend="${active == 'projects'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="M3 6h6l2 2h10v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6Z"/></svg><span>项目与成员</span>
+        </a>
+        <a th:if="${roleLabel != '系统管理员'}" th:href="@{/backlog}" th:classappend="${active == 'backlog'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span>Product Backlog</span>
+        </a>
+        <a th:href="@{/preview/sprints}" th:classappend="${active == 'sprints'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="M6 2v4M18 2v4M3 9h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z"/></svg><span>Sprint 管理</span>
+        </a>
+        <a th:if="${roleLabel != '系统管理员'}" th:href="@{/tasks}" th:classappend="${active == 'tasks'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="M9 5h11M9 12h11M9 19h11M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg><span>任务与协作</span>
+        </a>
+        <a th:href="@{/preview/analytics}" th:classappend="${active == 'analytics'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>数据与分析</span>
+        </a>
+
+        <p class="nav-section">协作与管理</p>
+        <a th:href="@{/preview/ai}" th:classappend="${active == 'ai'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="m12 3 1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3ZM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15Z"/></svg><span>AI 协作</span>
+        </a>
+        <a th:if="${roleLabel == '系统管理员'}" th:href="@{/admin/roles}" th:classappend="${active == 'permissions'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="M7 11V7a5 5 0 0 1 10 0v4M5 11h14v10H5V11Z"/></svg><span>角色与权限</span>
+        </a>
+        <a th:href="@{/access}" th:classappend="${active == 'access'} ? 'active'"><span>基础权限说明</span></a>
+        <a th:href="@{/account}" th:classappend="${active == 'account'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg><span>账户与资料</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="user-chip">
+            <span class="avatar" th:text="${#strings.substring(displayName,0,1)}">陈</span>
+            <div><strong th:text="${displayName}">陈项目</strong><small th:text="${session.managedRoleName != null ? session.managedRoleName : roleLabel}">项目负责人</small></div>
+        </div>
+        <form method="post" th:action="@{/logout}"><button class="notion-button full-width" type="submit">退出登录</button></form>
+    </div>
+</aside>
+</body>
+</html>

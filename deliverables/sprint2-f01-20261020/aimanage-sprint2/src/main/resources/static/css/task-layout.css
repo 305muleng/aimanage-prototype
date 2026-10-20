@@ -1,0 +1,15 @@
+.task-summary { min-width: 240px; max-width: 460px; }
+.task-summary > b { overflow-wrap: anywhere; }
+.task-summary > small { max-width: 420px; line-height: 1.6; }
+.task-plan-summary { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 12px; }
+.priority-pill { display: inline-flex; flex-shrink: 0; padding: 3px 8px; border-radius: 5px; font-weight: 600; background: #edf0f4; color: #526174; }
+.priority-pill.low { background: #f0f1ee; color: #71796a; }
+.priority-pill.high { background: #fff2da; color: #976615; }
+.priority-pill.urgent { background: #fbe9e8; color: #af4740; }
+.story-summary { color: #85837d; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.task-actions { width: 180px; min-width: 180px; }
+.task-action-buttons { display: flex; align-items: center; gap: 6px; }
+.task-action-buttons .notion-button { white-space: nowrap; flex-shrink: 0; min-width: 52px; }
+.task-plan-dialog { text-align: left; white-space: normal; }
+.task-plan-dialog .modal-header p { max-width: 360px; overflow-wrap: anywhere; }
+@media (max-width: 680px) { .task-summary { min-width: 220px; } .task-actions { min-width: 165px; } .story-summary { max-width: 140px; } }

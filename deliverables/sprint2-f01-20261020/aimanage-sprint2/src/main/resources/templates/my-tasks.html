@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的任务 · 爱管理</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="app-page">
+<div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar('my-tasks')}"></aside>
+
+    <main class="main-column">
+        <header class="page-toolbar">
+            <div class="breadcrumbs"><span>爱管理</span><b>/</b><span>我的任务</span></div>
+            <div class="toolbar-actions">
+                <span class="prototype-badge">Sprint 1 已实现</span>
+                <button class="notion-button" type="button" data-placeholder="任务筛选">筛选</button>
+                <button class="notion-button" type="button" data-placeholder="任务排序">排序</button>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <section class="document-title">
+                <div class="page-icon">☑️</div>
+                <h1>我的任务</h1>
+                <p>查看分配给你的工作，并及时同步任务状态。</p>
+            </section>
+
+            <div class="notice success" th:if="${success}" th:text="${success}"></div>
+            <div class="notice error" th:if="${error}" th:text="${error}"></div>
+
+            <section class="metric-row" aria-label="任务统计">
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>全部任务</small><strong th:text="${#lists.size(tasks)}">0</strong></div>
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>待处理</small><strong th:text="${todoCount}">0</strong></div>
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>进行中</small><strong th:text="${doingCount}">0</strong></div>
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>已完成</small><strong th:text="${doneCount}">0</strong></div>
+            </section>
+
+            <section class="database-section">
+                <div class="database-heading">
+                    <div><h2>任务清单</h2><span th:text="|${#lists.size(tasks)} 条记录|">0 条记录</span></div>
+                    <div class="view-tabs" role="tablist" aria-label="任务视图">
+                        <button class="notion-button selected" type="button" role="tab" aria-selected="true">列表</button>
+                        <a class="notion-button" th:href="@{/tasks}">项目看板</a>
+                        <button class="notion-button" type="button" data-placeholder="我的任务日历">日历</button>
+                    </div>
+                </div>
+
+                <div class="empty-state notion-card group" th:if="${#lists.isEmpty(tasks)}">
+                    <span class="drag-handle card-handle">⋮⋮</span>
+                    <span class="empty-icon">☑</span>
+                    <h2>暂时没有分配给你的任务</h2>
+                    <p>负责人分配任务后，它会出现在这里。</p>
+                </div>
+
+                <div class="table-scroll notion-card group" th:unless="${#lists.isEmpty(tasks)}">
+                    <span class="drag-handle card-handle">⋮⋮</span>
+                    <table class="notion-table task-table">
+                        <thead>
+                        <tr><th>任务名称</th><th>所属项目</th><th>截止日期</th><th>当前状态</th><th>更新状态</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr class="group" th:each="task : ${tasks}">
+                            <td><span class="row-handle drag-handle">⋮⋮</span><a th:href="@{/tasks/{id}(id=${task.id})}"><b th:text="${task.title}">任务标题</b></a><small th:text="${task.description}">任务描述</small></td>
+                            <td><span class="page-reference">📁 <span th:text="${task.project.name}">项目名称</span></span></td>
+                            <td th:text="${task.dueDate != null ? task.dueDate : '未设置'}">未设置</td>
+                            <td><span class="status-tag" th:classappend="${#strings.toLowerCase(task.status.name())}" th:text="${task.status.label}">待处理</span></td>
+                            <td>
+                                <form th:if="${#lists.contains(editableTaskIds, task.id)}" method="post" th:action="@{/my-tasks/{id}/status(id=${task.id})}" class="inline-status-form">
+                                    <input type="hidden" name="csrfToken" th:value="${csrfToken}">
+                                    <input type="hidden" name="version" th:value="${task.version}">
+                                    <label class="sr-only" th:for="|status-${task.id}|">更新任务状态</label>
+                                    <select class="notion-input compact" name="status" th:id="|status-${task.id}|" aria-label="选择任务状态">
+                                        <option th:each="status : ${statuses}" th:value="${status}" th:selected="${status == task.status}" th:text="${status.label}">状态</option>
+                                    </select>
+                                    <button class="notion-button" type="submit">保存</button>
+                                    <input class="notion-input compact" name="note" maxlength="1000" placeholder="完成说明／重开原因" aria-label="完成说明或重开原因">
+                                </form>
+                                <span th:unless="${#lists.contains(editableTaskIds, task.id)}" class="secondary-text">暂停参与，只读</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="linked-pages">
+                <h2>继续浏览</h2>
+                <div class="linked-page-grid">
+                    <a class="linked-page group" th:href="@{/preview/tasks}"><span class="drag-handle">⋮⋮</span><i>☑</i><span><b>任务与协作</b><small>看板、筛选与评论界面</small></span></a>
+                    <a class="linked-page group" th:href="@{/preview/account}"><span class="drag-handle">⋮⋮</span><i>◎</i><span><b>账户与资料</b><small>个人信息与项目身份</small></span></a>
+                    <a class="linked-page group" th:href="@{/preview/analytics}"><span class="drag-handle">⋮⋮</span><i>↗</i><span><b>个人进度</b><small>任务统计与异常提醒</small></span></a>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+<div class="toast" role="status" aria-live="polite"></div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

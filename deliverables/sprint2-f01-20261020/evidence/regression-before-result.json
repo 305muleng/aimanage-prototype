@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/workspace/scratch/cae2d1518148/codecheck_20261020/toolchain/apache-maven-3.9.9/bin/mvn",
+    "-o",
+    "-B",
+    "-Dmaven.repo.local=/workspace/scratch/cae2d1518148/codecheck_20261020/m2",
+    "-DargLine=-javaagent:/workspace/scratch/cae2d1518148/codecheck_20261020/m2/net/bytebuddy/byte-buddy-agent/1.14.19/byte-buddy-agent-1.14.19.jar -Duser.timezone=Asia/Shanghai",
+    "-Dtest=TaskStoryRenderingRegressionTest",
+    "test"
+  ],
+  "started_at": "2026-10-20T08:58:42.601093+08:00",
+  "finished_at": "2026-10-20T08:58:52.162009+08:00",
+  "exit_code": 1
+}

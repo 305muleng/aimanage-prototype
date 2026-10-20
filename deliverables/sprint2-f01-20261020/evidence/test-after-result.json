@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/workspace/scratch/cae2d1518148/codecheck_20261020/toolchain/apache-maven-3.9.9/bin/mvn",
+    "-o",
+    "-B",
+    "-Dmaven.repo.local=/workspace/scratch/cae2d1518148/codecheck_20261020/m2",
+    "-DargLine=-javaagent:/workspace/scratch/cae2d1518148/codecheck_20261020/m2/net/bytebuddy/byte-buddy-agent/1.14.19/byte-buddy-agent-1.14.19.jar -Duser.timezone=Asia/Shanghai",
+    "test"
+  ],
+  "started_at": "2026-10-20T09:00:04.841037+08:00",
+  "finished_at": "2026-10-20T09:00:20.299671+08:00",
+  "exit_code": 0
+}

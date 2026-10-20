@@ -1,0 +1,912 @@
+COMMAND ["/workspace/scratch/cae2d1518148/codecheck_20261020/toolchain/apache-maven-3.9.9/bin/mvn", "-o", "-B", "-Dmaven.repo.local=/workspace/scratch/cae2d1518148/codecheck_20261020/m2", "-DargLine=-javaagent:/workspace/scratch/cae2d1518148/codecheck_20261020/m2/net/bytebuddy/byte-buddy-agent/1.14.19/byte-buddy-agent-1.14.19.jar -Duser.timezone=Asia/Shanghai", "-Dtest=TaskStoryRenderingRegressionTest", "test"]
+START 2026-10-20T08:58:42.601093+08:00
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< com.aimanage:aimanage-prototype >-------------------
+[INFO] Building 爱管理 Sprint 1 原型 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ aimanage-prototype ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 17 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ aimanage-prototype ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 44 source files with javac [debug parameters release 17] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ aimanage-prototype ---
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ aimanage-prototype ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 11 source files with javac [debug parameters release 17] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ aimanage-prototype ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.aimanage.prototype.TaskStoryRenderingRegressionTest
+08:58:46.979 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.aimanage.prototype.TaskStoryRenderingRegressionTest]: TaskStoryRenderingRegressionTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+08:58:47.090 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.aimanage.prototype.AiManageApplication for test class com.aimanage.prototype.TaskStoryRenderingRegressionTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2026-10-20T08:58:47.502+08:00  INFO 63 --- [aimanage-prototype] [           main] c.a.p.TaskStoryRenderingRegressionTest   : Starting TaskStoryRenderingRegressionTest using Java 17.0.20 with PID 63 (started by root in /workspace/scratch/cae2d1518148/sprint2_f01_fix_20261020/aimanage-sprint2)
+2026-10-20T08:58:47.503+08:00  INFO 63 --- [aimanage-prototype] [           main] c.a.p.TaskStoryRenderingRegressionTest   : The following 1 profile is active: "test"
+2026-10-20T08:58:48.091+08:00  INFO 63 --- [aimanage-prototype] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-20T08:58:48.150+08:00  INFO 63 --- [aimanage-prototype] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 53 ms. Found 8 JPA repository interfaces.
+2026-10-20T08:58:48.537+08:00  INFO 63 --- [aimanage-prototype] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-10-20T08:58:48.582+08:00  INFO 63 --- [aimanage-prototype] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-10-20T08:58:48.610+08:00  INFO 63 --- [aimanage-prototype] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-10-20T08:58:48.841+08:00  INFO 63 --- [aimanage-prototype] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-20T08:58:48.883+08:00  INFO 63 --- [aimanage-prototype] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-20T08:58:49.042+08:00  INFO 63 --- [aimanage-prototype] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:aimanage-story-regression user=SA
+2026-10-20T08:58:49.044+08:00  INFO 63 --- [aimanage-prototype] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-20T08:58:49.724+08:00  INFO 63 --- [aimanage-prototype] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-20T08:58:49.773+08:00  INFO 63 --- [aimanage-prototype] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-20T08:58:49.964+08:00  INFO 63 --- [aimanage-prototype] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-20T08:58:50.837+08:00  INFO 63 --- [aimanage-prototype] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-20T08:58:50.837+08:00  INFO 63 --- [aimanage-prototype] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-20T08:58:50.840+08:00  INFO 63 --- [aimanage-prototype] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-10-20T08:58:50.862+08:00  INFO 63 --- [aimanage-prototype] [           main] c.a.p.TaskStoryRenderingRegressionTest   : Started TaskStoryRenderingRegressionTest in 3.63 seconds (process running for 4.448)
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-10-20T08:58:52.011+08:00 ERROR 63 --- [aimanage-prototype] [           main] org.thymeleaf.TemplateEngine             : [THYMELEAF][main] Exception processing template "manager-dashboard": An error happened during template parsing (template: "class path resource [templates/manager-dashboard.html]")
+
+org.thymeleaf.exceptions.TemplateInputException: An error happened during template parsing (template: "class path resource [templates/manager-dashboard.html]")
+	at org.thymeleaf.templateparser.markup.AbstractMarkupTemplateParser.parse(AbstractMarkupTemplateParser.java:241) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.templateparser.markup.AbstractMarkupTemplateParser.parseStandalone(AbstractMarkupTemplateParser.java:100) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:666) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1103) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1077) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.spring6.view.ThymeleafView.renderFragment(ThymeleafView.java:372) ~[thymeleaf-spring6-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.spring6.view.ThymeleafView.render(ThymeleafView.java:192) ~[thymeleaf-spring6-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1432) ~[spring-webmvc-6.1.14.jar:6.1.14]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.render(TestDispatcherServlet.java:138) ~[spring-test-6.1.14.jar:6.1.14]
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1168) ~[spring-webmvc-6.1.14.jar:6.1.14]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1106) ~[spring-webmvc-6.1.14.jar:6.1.14]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.14.jar:6.1.14]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.14.jar:6.1.14]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.14.jar:6.1.14]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.31.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.14.jar:6.1.14]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72) ~[spring-test-6.1.14.jar:6.1.14]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.31.jar:6.0]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165) ~[spring-test-6.1.14.jar:6.1.14]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.1.14.jar:6.1.14]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.14.jar:6.1.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151) ~[spring-test-6.1.14.jar:6.1.14]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.1.14.jar:6.1.14]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.14.jar:6.1.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151) ~[spring-test-6.1.14.jar:6.1.14]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.1.14.jar:6.1.14]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.14.jar:6.1.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151) ~[spring-test-6.1.14.jar:6.1.14]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.1.14.jar:6.1.14]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201) ~[spring-test-6.1.14.jar:6.1.14]
+	at com.aimanage.prototype.TaskStoryRenderingRegressionTest.managerCanRenderLinkedStoryAfterThePlanRequestHasCompleted(TaskStoryRenderingRegressionTest.java:55) ~[test-classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728) ~[junit-platform-commons-1.10.5.jar:1.10.5]
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69) ~[junit-jupiter-engine-5.10.5.jar:5.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:156) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54) ~[junit-platform-engine-1.10.5.jar:1.10.5]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198) ~[junit-platform-launcher-1.10.5.jar:1.10.5]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169) ~[junit-platform-launcher-1.10.5.jar:1.10.5]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93) ~[junit-platform-launcher-1.10.5.jar:1.10.5]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58) ~[junit-platform-launcher-1.10.5.jar:1.10.5]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141) ~[junit-platform-launcher-1.10.5.jar:1.10.5]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57) ~[junit-platform-launcher-1.10.5.jar:1.10.5]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103) ~[junit-platform-launcher-1.10.5.jar:1.10.5]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85) ~[junit-platform-launcher-1.10.5.jar:1.10.5]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.10.5.jar:1.10.5]
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56) ~[surefire-junit-platform-3.2.5.jar:3.2.5]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184) ~[surefire-junit-platform-3.2.5.jar:3.2.5]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148) ~[surefire-junit-platform-3.2.5.jar:3.2.5]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122) ~[surefire-junit-platform-3.2.5.jar:3.2.5]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385) ~[surefire-booter-3.2.5.jar:3.2.5]
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162) ~[surefire-booter-3.2.5.jar:3.2.5]
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507) ~[surefire-booter-3.2.5.jar:3.2.5]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495) ~[surefire-booter-3.2.5.jar:3.2.5]
+Caused by: org.attoparser.ParseException: Exception evaluating SpringEL expression: "task.story != null ? '故事 · ' + task.story.title : '未关联故事'" (template: "manager-dashboard" - line 133, col 335)
+	at org.attoparser.MarkupParser.parseDocument(MarkupParser.java:393) ~[attoparser-2.0.7.RELEASE.jar:2.0.7.RELEASE]
+	at org.attoparser.MarkupParser.parse(MarkupParser.java:257) ~[attoparser-2.0.7.RELEASE.jar:2.0.7.RELEASE]
+	at org.thymeleaf.templateparser.markup.AbstractMarkupTemplateParser.parse(AbstractMarkupTemplateParser.java:230) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	... 104 common frames omitted
+Caused by: org.thymeleaf.exceptions.TemplateProcessingException: Exception evaluating SpringEL expression: "task.story != null ? '故事 · ' + task.story.title : '未关联故事'" (template: "manager-dashboard" - line 133, col 335)
+	at org.thymeleaf.spring6.expression.SPELVariableExpressionEvaluator.evaluate(SPELVariableExpressionEvaluator.java:292) ~[thymeleaf-spring6-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.standard.expression.VariableExpression.executeVariableExpression(VariableExpression.java:166) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.standard.expression.SimpleExpression.executeSimple(SimpleExpression.java:66) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.standard.expression.Expression.execute(Expression.java:109) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.standard.expression.Expression.execute(Expression.java:138) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.standard.processor.AbstractStandardExpressionAttributeTagProcessor.doProcess(AbstractStandardExpressionAttributeTagProcessor.java:144) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.processor.element.AbstractAttributeTagProcessor.doProcess(AbstractAttributeTagProcessor.java:74) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.processor.element.AbstractElementTagProcessor.process(AbstractElementTagProcessor.java:95) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.util.ProcessorConfigurationUtils$ElementTagProcessorWrapper.process(ProcessorConfigurationUtils.java:633) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.ProcessorTemplateHandler.handleOpenElement(ProcessorTemplateHandler.java:1314) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.OpenElementTag.beHandled(OpenElementTag.java:205) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.Model.process(Model.java:282) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.Model.process(Model.java:290) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.IteratedGatheringModelProcessable.processIterationModel(IteratedGatheringModelProcessable.java:368) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.IteratedGatheringModelProcessable.process(IteratedGatheringModelProcessable.java:222) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.ProcessorTemplateHandler.handleCloseElement(ProcessorTemplateHandler.java:1640) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.CloseElementTag.beHandled(CloseElementTag.java:139) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.Model.process(Model.java:282) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.Model.process(Model.java:290) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.IteratedGatheringModelProcessable.processIterationModel(IteratedGatheringModelProcessable.java:368) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.IteratedGatheringModelProcessable.process(IteratedGatheringModelProcessable.java:222) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.ProcessorTemplateHandler.handleCloseElement(ProcessorTemplateHandler.java:1640) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.TemplateHandlerAdapterMarkupHandler.handleCloseElementEnd(TemplateHandlerAdapterMarkupHandler.java:388) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.templateparser.markup.InlinedOutputExpressionMarkupHandler$InlineMarkupAdapterPreProcessorHandler.handleCloseElementEnd(InlinedOutputExpressionMarkupHandler.java:322) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.standard.inline.OutputExpressionInlinePreProcessorHandler.handleCloseElementEnd(OutputExpressionInlinePreProcessorHandler.java:220) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.templateparser.markup.InlinedOutputExpressionMarkupHandler.handleCloseElementEnd(InlinedOutputExpressionMarkupHandler.java:164) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.attoparser.HtmlElement.handleCloseElementEnd(HtmlElement.java:169) ~[attoparser-2.0.7.RELEASE.jar:2.0.7.RELEASE]
+	at org.attoparser.HtmlMarkupHandler.handleCloseElementEnd(HtmlMarkupHandler.java:412) ~[attoparser-2.0.7.RELEASE.jar:2.0.7.RELEASE]
+	at org.attoparser.MarkupEventProcessorHandler.handleCloseElementEnd(MarkupEventProcessorHandler.java:473) ~[attoparser-2.0.7.RELEASE.jar:2.0.7.RELEASE]
+	at org.attoparser.ParsingElementMarkupUtil.parseCloseElement(ParsingElementMarkupUtil.java:201) ~[attoparser-2.0.7.RELEASE.jar:2.0.7.RELEASE]
+	at org.attoparser.MarkupParser.parseBuffer(MarkupParser.java:725) ~[attoparser-2.0.7.RELEASE.jar:2.0.7.RELEASE]
+	at org.attoparser.MarkupParser.parseDocument(MarkupParser.java:301) ~[attoparser-2.0.7.RELEASE.jar:2.0.7.RELEASE]
+	... 106 common frames omitted
+Caused by: org.springframework.expression.spel.SpelEvaluationException: EL1021E: A problem occurred whilst attempting to access the property 'title': 'Unable to access property 'title' through getter method'
+	at org.springframework.expression.spel.ast.PropertyOrFieldReference.readProperty(PropertyOrFieldReference.java:221) ~[spring-expression-6.1.14.jar:6.1.14]
+	at org.springframework.expression.spel.ast.PropertyOrFieldReference.getValueInternal(PropertyOrFieldReference.java:112) ~[spring-expression-6.1.14.jar:6.1.14]
+	at org.springframework.expression.spel.ast.PropertyOrFieldReference$AccessorValueRef.getValue(PropertyOrFieldReference.java:417) ~[spring-expression-6.1.14.jar:6.1.14]
+	at org.springframework.expression.spel.ast.CompoundExpression.getValueInternal(CompoundExpression.java:97) ~[spring-expression-6.1.14.jar:6.1.14]
+	at org.springframework.expression.spel.ast.OpPlus.getValueInternal(OpPlus.java:95) ~[spring-expression-6.1.14.jar:6.1.14]
+	at org.springframework.expression.spel.ast.Ternary.getValueInternal(Ternary.java:59) ~[spring-expression-6.1.14.jar:6.1.14]
+	at org.springframework.expression.spel.ast.SpelNodeImpl.getValue(SpelNodeImpl.java:114) ~[spring-expression-6.1.14.jar:6.1.14]
+	at org.springframework.expression.spel.standard.SpelExpression.getValue(SpelExpression.java:338) ~[spring-expression-6.1.14.jar:6.1.14]
+	at org.thymeleaf.spring6.expression.SPELVariableExpressionEvaluator.evaluate(SPELVariableExpressionEvaluator.java:265) ~[thymeleaf-spring6-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	... 137 common frames omitted
+Caused by: org.springframework.expression.AccessException: Unable to access property 'title' through getter method
+	at org.springframework.expression.spel.support.ReflectivePropertyAccessor$OptimalPropertyAccessor.read(ReflectivePropertyAccessor.java:687) ~[spring-expression-6.1.14.jar:6.1.14]
+	at org.springframework.expression.spel.ast.PropertyOrFieldReference.readProperty(PropertyOrFieldReference.java:216) ~[spring-expression-6.1.14.jar:6.1.14]
+	... 145 common frames omitted
+Caused by: java.lang.reflect.InvocationTargetException: null
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.expression.spel.support.ReflectivePropertyAccessor$OptimalPropertyAccessor.read(ReflectivePropertyAccessor.java:683) ~[spring-expression-6.1.14.jar:6.1.14]
+	... 146 common frames omitted
+Caused by: org.hibernate.LazyInitializationException: could not initialize proxy [com.aimanage.prototype.domain.WorkItem#2] - no Session
+	at org.hibernate.proxy.AbstractLazyInitializer.initialize(AbstractLazyInitializer.java:165) ~[hibernate-core-6.5.3.Final.jar:6.5.3.Final]
+	at org.hibernate.proxy.AbstractLazyInitializer.getImplementation(AbstractLazyInitializer.java:314) ~[hibernate-core-6.5.3.Final.jar:6.5.3.Final]
+	at org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor.intercept(ByteBuddyInterceptor.java:44) ~[hibernate-core-6.5.3.Final.jar:6.5.3.Final]
+	at org.hibernate.proxy.ProxyConfiguration$InterceptorDispatcher.intercept(ProxyConfiguration.java:102) ~[hibernate-core-6.5.3.Final.jar:6.5.3.Final]
+	at com.aimanage.prototype.domain.WorkItem$HibernateProxy$3DlvbbEl.getTitle(Unknown Source) ~[classes/:na]
+	... 151 common frames omitted
+
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /login
+       Parameters = {username=[manager], password=[123456]}
+          Headers = []
+             Body = null
+    Session Attrs = {role=PROJECT_MANAGER, displayName=陈项目, userId=1, managedRoleName=项目负责人}
+
+Handler:
+             Type = com.aimanage.prototype.controller.AuthController
+           Method = com.aimanage.prototype.controller.AuthController#login(String, String, HttpServletRequest, HttpSession, Model)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = redirect:/manager
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 302
+    Error message = null
+          Headers = [Content-Language:"en", Location:"/manager"]
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = /manager
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /manager
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {role=PROJECT_MANAGER, displayName=陈项目, userId=1, managedRoleName=项目负责人, projectCsrf=6c9ff34a-48c1-495a-9d06-e165cf53496a}
+
+Handler:
+             Type = com.aimanage.prototype.controller.ManagerController
+           Method = com.aimanage.prototype.controller.ManagerController#dashboard(HttpSession, Model)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = manager-dashboard
+             View = null
+        Attribute = displayName
+            value = 陈项目
+        Attribute = roleLabel
+            value = 项目负责人
+        Attribute = projects
+            value = [ProjectView[project=com.aimanage.prototype.domain.Project@11ed241c, members=[com.aimanage.prototype.domain.ProjectMember@9504a58], tasks=[com.aimanage.prototype.domain.Task@8a607a9], stories=[com.aimanage.prototype.domain.WorkItem@2ce5ea69], activeMembers=[com.aimanage.prototype.domain.ProjectMember@9504a58]], ProjectView[project=com.aimanage.prototype.domain.Project@2f24e1f3, members=[com.aimanage.prototype.domain.ProjectMember@9af2a00], tasks=[com.aimanage.prototype.domain.Task@2763500e], stories=[], activeMembers=[com.aimanage.prototype.domain.ProjectMember@9af2a00]]]
+        Attribute = developers
+            value = [com.aimanage.prototype.domain.User@3af4b14e, com.aimanage.prototype.domain.User@1de78f97]
+        Attribute = projectCount
+            value = 2
+        Attribute = taskCount
+            value = 2
+        Attribute = doneCount
+            value = 0
+        Attribute = progress
+            value = 0
+        Attribute = memberStatuses
+            value = [ACTIVE, PAUSED]
+        Attribute = projectCsrf
+            value = 6c9ff34a-48c1-495a-9d06-e165cf53496a
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Language:"en", Content-Type:"text/html;charset=UTF-8"]
+     Content type = text/html;charset=UTF-8
+             Body = <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目工作台 · 爱管理</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/task-layout.css">
+</head>
+<body class="app-page">
+<div class="app-shell">
+    <aside class="sidebar">
+    <div class="workspace-switcher">
+        <span class="workspace-icon">爱</span>
+        <div><strong>爱管理</strong><small>课程项目空间</small></div>
+        <button type="button" class="icon-action" data-placeholder="工作空间切换" aria-label="切换工作空间">⌄</button>
+    </div>
+
+    <nav class="side-nav" aria-label="主要导航">
+        <a href="/manager" class="active">
+            <svg viewBox="0 0 24 24"><path d="M3 11 12 3l9 8M5 10v10h14V10M9 20v-6h6v6"/></svg><span>工作台</span>
+        </a>
+        
+        <a href="/projects">
+            <svg viewBox="0 0 24 24"><path d="M3 6h6l2 2h10v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6Z"/></svg><span>项目与成员</span>
+        </a>
+        <a href="/backlog">
+            <svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span>Product Backlog</span>
+        </a>
+        <a href="/preview/sprints">
+            <svg viewBox="0 0 24 24"><path d="M6 2v4M18 2v4M3 9h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z"/></svg><span>Sprint 管理</span>
+        </a>
+        <a href="/tasks">
+            <svg viewBox="0 0 24 24"><path d="M9 5h11M9 12h11M9 19h11M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg><span>任务与协作</span>
+        </a>
+        <a href="/preview/analytics">
+            <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>数据与分析</span>
+        </a>
+
+        <p class="nav-section">协作与管理</p>
+        <a href="/preview/ai">
+            <svg viewBox="0 0 24 24"><path d="m12 3 1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3ZM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15Z"/></svg><span>AI 协作</span>
+        </a>
+        
+        <a href="/access"><span>基础权限说明</span></a>
+        <a href="/account">
+            <svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg><span>账户与资料</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="user-chip">
+            <span class="avatar">陈</span>
+            <div><strong>陈项目</strong><small>项目负责人</small></div>
+        </div>
+        <form method="post" action="/logout"><button class="notion-button full-width" type="submit">退出登录</button></form>
+    </div>
+</aside>
+
+    <main class="main-column">
+        <header class="page-toolbar">
+            <div class="breadcrumbs"><span>爱管理</span><b>/</b><span>项目工作台</span></div>
+            <div class="toolbar-actions">
+                <span class="prototype-badge">Sprint 1 已实现</span>
+                <button class="notion-button" type="button" data-placeholder="分享项目工作台">分享</button>
+                <button class="notion-button" type="button" data-dialog-open="create-project">＋ 新建项目</button>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <section class="document-title">
+                <div class="page-icon">📋</div>
+                <h1>项目工作台</h1>
+                <p>管理项目、成员和任务，掌握当前 Sprint 的执行状态。</p>
+            </section>
+
+            
+            
+
+            <section class="metric-row" aria-label="项目统计">
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>我的项目</small><strong>2</strong></div>
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>任务总数</small><strong>2</strong></div>
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>已完成</small><strong>0</strong></div>
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>整体进度</small><strong>0%</strong></div>
+            </section>
+
+            <section class="database-section">
+                <div class="database-heading">
+                    <div><h2>项目列表</h2><span>2 个项目</span></div>
+                    <div class="database-actions">
+                        <button class="notion-button" type="button" data-placeholder="项目筛选">筛选</button>
+                        <button class="notion-button" type="button" data-placeholder="项目排序">排序</button>
+                        <button class="notion-button" type="button" data-placeholder="更多视图选项">•••</button>
+                    </div>
+                </div>
+
+                
+
+                <article class="project-block notion-card group">
+                    <span class="drag-handle card-handle">⋮⋮</span>
+                    <header class="project-block-header">
+                        <div>
+                            <div class="title-line"><span class="project-page-icon">📁</span><h2>HTTP故事关联回归</h2><span class="status-tag green">进行中</span></div>
+                            <p>独立事务验证</p>
+                        </div>
+                        <div class="inline-actions">
+                            <button class="notion-button" type="button" data-dialog-open="member-2">＋ 添加成员</button>
+                            <button class="notion-button" type="button" data-dialog-open="task-2">＋ 新建任务</button>
+                            <button class="notion-button" type="button" data-dialog-open="project-edit-2">编辑项目</button>
+                        </div>
+                    </header>
+
+                    <div class="property-row">
+                        <span class="property-name">成员</span>
+                        <div class="member-list"><span><i class="avatar small">李</i><b>李开发</b></span></div>
+                        <span class="property-name">任务</span><b>1</b>
+                    </div>
+
+                    <details style="margin:16px 0">
+                        <summary>成员状态与职责管理</summary>
+                        <p class="secondary-text">暂停成员不能接收新任务或更新任务状态。移除前请先转交其全部任务；移除只解除项目关系，不删除账号。</p>
+                        <div class="table-scroll">
+                            <table class="notion-table">
+                                <thead><tr><th>成员</th><th>参与状态</th><th>项目身份</th><th>职责</th><th>操作</th></tr></thead>
+                                <tbody>
+                                <tr>
+                                    <td>李开发（developer）</td>
+                                    <td>正常参与</td>
+                                    <td>开发人员</td>
+                                    <td style="white-space:pre-wrap">未填写</td>
+                                    <td><button type="button" class="notion-button" data-dialog-open="member-edit-2">编辑</button><button type="button" class="notion-button" data-dialog-open="member-remove-2">移除</button></td>
+                                </tr>
+                                
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+
+                    <dialog class="modal" id="project-edit-2">
+                        <form method="post" action="/manager/projects/2/edit" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <div class="modal-header"><h3>编辑项目</h3><button type="button" class="notion-button modal-close" aria-label="关闭">×</button></div>
+                            <label>项目名称<input class="notion-input" name="name" value="HTTP故事关联回归" maxlength="100" required></label>
+                            <label>项目简介<textarea class="notion-input" name="description" maxlength="500" rows="4">独立事务验证</textarea></label>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button type="submit" class="notion-button primary-action">保存项目</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" id="member-edit-2">
+                        <form method="post" action="/manager/projects/2/members/2/edit" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <div class="modal-header"><div><h3>编辑成员</h3><p>李开发</p></div><button type="button" class="notion-button modal-close" aria-label="关闭">×</button></div>
+                            <label>参与状态<select class="notion-input" name="status"><option value="ACTIVE" selected="selected">正常参与</option><option value="PAUSED">暂停参与</option></select></label>
+                            <label>项目身份<input class="notion-input" name="projectIdentity" value="开发人员" maxlength="50" placeholder="例如：前端开发、测试负责人" required></label>
+                            <label>职责说明<textarea class="notion-input" name="responsibilities" maxlength="500" rows="4"></textarea></label>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button type="submit" class="notion-button primary-action">保存成员</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" id="member-remove-2">
+                        <form method="post" action="/manager/projects/2/members/2/remove" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <h3>确认移除成员</h3><p>将 李开发 移出 HTTP故事关联回归？</p>
+                            <p class="secondary-text">其账号仍保留。未完成任务需先转交其他正常参与的成员；已完成任务保留原负责人。</p>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button type="submit" class="notion-button primary-action">确认移除</button></div>
+                        </form>
+                    </dialog>
+
+                    <div class="table-scroll">
+                        <table class="notion-table">
+                            <thead><tr><th>任务名称与计划</th><th>负责人</th><th>截止日期</th><th>状态</th><th>操作</th></tr></thead>
+                            <tbody>
+                            <tr class="group">
+                                <td class="task-summary"><span class="row-handle drag-handle">⋮⋮</span><b>HTTP故事关联回归任务</b><small>任务说明</small>
+                                <div class="task-plan-summary"><span class="priority-pill medium">中优先级</span><span class="story-summary">未关联故事</span></div></td>
+                                <td><span class="person-cell"><i class="avatar small">李</i><span>李开发</span></span></td>
+                                <td>未设置</td>
+                                <td><span class="status-tag todo">待处理</span></td>
+                                <td class="task-actions"><div class="task-action-buttons"><button class="notion-button" type="button" title="编辑任务" data-dialog-open="edit-2">编辑</button>
+                                <button class="notion-button" type="button" data-dialog-open="plan-2">计划设置</button></div>
+                                <dialog class="modal task-plan-dialog" id="plan-2">
+                                <form class="form-stack" method="post" action="/manager/tasks/2/plan">
+                                <input type="hidden" name="version" value="0">
+                                <div class="modal-header"><div><h3>任务计划设置</h3><p>HTTP故事关联回归任务</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                                <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                                <label>优先级<select name="priority" class="notion-input"><option value="LOW">低</option><option value="MEDIUM" selected="selected">中</option><option value="HIGH">高</option><option value="URGENT">紧急</option></select></label>
+                                <label>用户故事<select name="storyId" class="notion-input"><option value="">不关联</option><option value="2">HTTP故事关联回归故事</option></select></label>
+                                <p class="form-note">只能关联当前项目的用户故事。选择“不关联”可解除关联。</p>
+                                <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">保存关联与优先级</button></div></form></dialog></td>
+                            </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <dialog class="modal" id="member-2">
+                        <form method="post" action="/manager/projects/2/members" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <div class="modal-header"><div><span class="page-icon small-icon">👥</span><h3>添加项目成员</h3><p>选择一名开发人员加入当前项目。</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                            <label>开发人员<select class="notion-input" name="userId" required><option value="" disabled selected>请选择成员</option><option value="2">李开发（developer）</option><option value="3">王开发（developer2）</option></select></label>
+                            <div class="form-note">同一成员不能重复加入同一个项目。</div>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">确认添加</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" id="task-2">
+                        <form method="post" action="/manager/projects/2/tasks" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <div class="modal-header"><div><span class="page-icon small-icon">☑️</span><h3>创建并分配任务</h3><p>填写任务信息并指定项目成员。</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                            <label>任务标题<input class="notion-input" name="title" placeholder="例如：完成项目列表页面" required maxlength="120"></label>
+                            <label>任务描述<textarea class="notion-input" name="description" placeholder="补充任务目标与验收要点" rows="3" maxlength="1000"></textarea></label>
+                            <div class="form-grid"><label>负责人<select class="notion-input" name="assigneeId" required><option value="2">李开发</option></select></label><label>截止日期<input class="notion-input" type="date" name="dueDate"></label></div>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">创建任务</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" id="edit-2">
+                        <form method="post" action="/manager/tasks/2/edit" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <input type="hidden" name="version" value="0">
+                            <div class="modal-header"><div><span class="page-icon small-icon">✏️</span><h3>编辑任务</h3><p>更新任务信息或重新分配负责人。</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                            <label>任务标题<input class="notion-input" name="title" value="HTTP故事关联回归任务" required maxlength="120"></label>
+                            <label>任务描述<textarea class="notion-input" name="description" rows="3" maxlength="1000">任务说明</textarea></label>
+                            
+                            <div class="form-grid"><label>负责人<select class="notion-input" name="assigneeId" required><option value="" disabled>请选择正常参与的成员</option><option value="2" selected="selected">李开发</option></select></label><label>截止日期<input class="notion-input" type="date" name="dueDate" value=""></label></div>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">保存修改</button></div>
+                        </form>
+                    </dialog>
+                </article>
+
+                <article class="project-block notion-card group">
+                    <span class="drag-handle card-handle">⋮⋮</span>
+                    <header class="project-block-header">
+                        <div>
+                            <div class="title-line"><span class="project-page-icon">📁</span><h2>爱管理课程项目</h2><span class="status-tag green">进行中</span></div>
+                            <p>用于演示项目、成员、任务协作闭环的 Sprint 1 示例项目。</p>
+                        </div>
+                        <div class="inline-actions">
+                            <button class="notion-button" type="button" data-dialog-open="member-1">＋ 添加成员</button>
+                            <button class="notion-button" type="button" data-dialog-open="task-1">＋ 新建任务</button>
+                            <button class="notion-button" type="button" data-dialog-open="project-edit-1">编辑项目</button>
+                        </div>
+                    </header>
+
+                    <div class="property-row">
+                        <span class="property-name">成员</span>
+                        <div class="member-list"><span><i class="avatar small">李</i><b>李开发</b></span></div>
+                        <span class="property-name">任务</span><b>1</b>
+                    </div>
+
+                    <details style="margin:16px 0">
+                        <summary>成员状态与职责管理</summary>
+                        <p class="secondary-text">暂停成员不能接收新任务或更新任务状态。移除前请先转交其全部任务；移除只解除项目关系，不删除账号。</p>
+                        <div class="table-scroll">
+                            <table class="notion-table">
+                                <thead><tr><th>成员</th><th>参与状态</th><th>项目身份</th><th>职责</th><th>操作</th></tr></thead>
+                                <tbody>
+                                <tr>
+                                    <td>李开发（developer）</td>
+                                    <td>正常参与</td>
+                                    <td>开发人员</td>
+                                    <td style="white-space:pre-wrap">未填写</td>
+                                    <td><button type="button" class="notion-button" data-dialog-open="member-edit-1">编辑</button><button type="button" class="notion-button" data-dialog-open="member-remove-1">移除</button></td>
+                                </tr>
+                                
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+
+                    <dialog class="modal" id="project-edit-1">
+                        <form method="post" action="/manager/projects/1/edit" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <div class="modal-header"><h3>编辑项目</h3><button type="button" class="notion-button modal-close" aria-label="关闭">×</button></div>
+                            <label>项目名称<input class="notion-input" name="name" value="爱管理课程项目" maxlength="100" required></label>
+                            <label>项目简介<textarea class="notion-input" name="description" maxlength="500" rows="4">用于演示项目、成员、任务协作闭环的 Sprint 1 示例项目。</textarea></label>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button type="submit" class="notion-button primary-action">保存项目</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" id="member-edit-1">
+                        <form method="post" action="/manager/projects/1/members/2/edit" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <div class="modal-header"><div><h3>编辑成员</h3><p>李开发</p></div><button type="button" class="notion-button modal-close" aria-label="关闭">×</button></div>
+                            <label>参与状态<select class="notion-input" name="status"><option value="ACTIVE" selected="selected">正常参与</option><option value="PAUSED">暂停参与</option></select></label>
+                            <label>项目身份<input class="notion-input" name="projectIdentity" value="开发人员" maxlength="50" placeholder="例如：前端开发、测试负责人" required></label>
+                            <label>职责说明<textarea class="notion-input" name="responsibilities" maxlength="500" rows="4"></textarea></label>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button type="submit" class="notion-button primary-action">保存成员</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" id="member-remove-1">
+                        <form method="post" action="/manager/projects/1/members/2/remove" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <h3>确认移除成员</h3><p>将 李开发 移出 爱管理课程项目？</p>
+                            <p class="secondary-text">其账号仍保留。未完成任务需先转交其他正常参与的成员；已完成任务保留原负责人。</p>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button type="submit" class="notion-button primary-action">确认移除</button></div>
+                        </form>
+                    </dialog>
+
+                    <div class="table-scroll">
+                        <table class="notion-table">
+                            <thead><tr><th>任务名称与计划</th><th>负责人</th><th>截止日期</th><th>状态</th><th>操作</th></tr></thead>
+                            <tbody>
+                            <tr class="group">
+                                <td class="task-summary"><span class="row-handle drag-handle">⋮⋮</span><b>完成登录页面</b><small>实现项目负责人和开发人员的统一登录入口。</small>
+                                <div class="task-plan-summary"><span class="priority-pill medium">中优先级</span><span class="story-summary">未关联故事</span></div></td>
+                                <td><span class="person-cell"><i class="avatar small">李</i><span>李开发</span></span></td>
+                                <td>2026-10-23</td>
+                                <td><span class="status-tag todo">待处理</span></td>
+                                <td class="task-actions"><div class="task-action-buttons"><button class="notion-button" type="button" title="编辑任务" data-dialog-open="edit-1">编辑</button>
+                                <button class="notion-button" type="button" data-dialog-open="plan-1">计划设置</button></div>
+                                <dialog class="modal task-plan-dialog" id="plan-1">
+                                <form class="form-stack" method="post" action="/manager/tasks/1/plan">
+                                <input type="hidden" name="version" value="0">
+                                <div class="modal-header"><div><h3>任务计划设置</h3><p>完成登录页面</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                                <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                                <label>优先级<select name="priority" class="notion-input"><option value="LOW">低</option><option value="MEDIUM" selected="selected">中</option><option value="HIGH">高</option><option value="URGENT">紧急</option></select></label>
+                                <label>用户故事<select name="storyId" class="notion-input"><option value="">不关联</option></select></label>
+                                <p class="form-note">只能关联当前项目的用户故事。选择“不关联”可解除关联。</p>
+                                <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">保存关联与优先级</button></div></form></dialog></td>
+                            </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <dialog class="modal" id="member-1">
+                        <form method="post" action="/manager/projects/1/members" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <div class="modal-header"><div><span class="page-icon small-icon">👥</span><h3>添加项目成员</h3><p>选择一名开发人员加入当前项目。</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                            <label>开发人员<select class="notion-input" name="userId" required><option value="" disabled selected>请选择成员</option><option value="2">李开发（developer）</option><option value="3">王开发（developer2）</option></select></label>
+                            <div class="form-note">同一成员不能重复加入同一个项目。</div>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">确认添加</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" id="task-1">
+                        <form method="post" action="/manager/projects/1/tasks" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <div class="modal-header"><div><span class="page-icon small-icon">☑️</span><h3>创建并分配任务</h3><p>填写任务信息并指定项目成员。</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                            <label>任务标题<input class="notion-input" name="title" placeholder="例如：完成项目列表页面" required maxlength="120"></label>
+                            <label>任务描述<textarea class="notion-input" name="description" placeholder="补充任务目标与验收要点" rows="3" maxlength="1000"></textarea></label>
+                            <div class="form-grid"><label>负责人<select class="notion-input" name="assigneeId" required><option value="2">李开发</option></select></label><label>截止日期<input class="notion-input" type="date" name="dueDate"></label></div>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">创建任务</button></div>
+                        </form>
+                    </dialog>
+
+                    <dialog class="modal" id="edit-1">
+                        <form method="post" action="/manager/tasks/1/edit" class="form-stack">
+                            <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+                            <input type="hidden" name="version" value="0">
+                            <div class="modal-header"><div><span class="page-icon small-icon">✏️</span><h3>编辑任务</h3><p>更新任务信息或重新分配负责人。</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+                            <label>任务标题<input class="notion-input" name="title" value="完成登录页面" required maxlength="120"></label>
+                            <label>任务描述<textarea class="notion-input" name="description" rows="3" maxlength="1000">实现项目负责人和开发人员的统一登录入口。</textarea></label>
+                            
+                            <div class="form-grid"><label>负责人<select class="notion-input" name="assigneeId" required><option value="" disabled>请选择正常参与的成员</option><option value="2" selected="selected">李开发</option></select></label><label>截止日期<input class="notion-input" type="date" name="dueDate" value="2026-10-23"></label></div>
+                            <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">保存修改</button></div>
+                        </form>
+                    </dialog>
+                </article>
+            </section>
+
+            <section class="linked-pages">
+                <h2>更多功能界面</h2>
+                <div class="linked-page-grid">
+                    <a class="linked-page group" href="/preview/backlog"><span class="drag-handle">⋮⋮</span><i>≡</i><span><b>Product Backlog</b><small>用户故事与优先级</small></span></a>
+                    <a class="linked-page group" href="/preview/tasks"><span class="drag-handle">⋮⋮</span><i>☑</i><span><b>任务看板</b><small>筛选、评论与依赖</small></span></a>
+                    <a class="linked-page group" href="/preview/analytics"><span class="drag-handle">⋮⋮</span><i>↗</i><span><b>数据与分析</b><small>进度、负载与风险</small></span></a>
+                    <a class="linked-page group" href="/preview/ai"><span class="drag-handle">⋮⋮</span><i>✦</i><span><b>AI 协作</b><small>摘要与智能体</small></span></a>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<dialog class="modal" id="create-project">
+    <form method="post" action="/manager/projects" class="form-stack">
+        <input type="hidden" name="csrfToken" value="6c9ff34a-48c1-495a-9d06-e165cf53496a">
+        <div class="modal-header"><div><span class="page-icon small-icon">📁</span><h3>创建项目</h3><p>建立一个新的团队协作空间。</p></div><button type="button" class="notion-button icon-only modal-close" aria-label="关闭">×</button></div>
+        <label>项目名称<input class="notion-input" name="name" placeholder="请输入项目名称" required maxlength="100"></label>
+        <label>项目简介<textarea class="notion-input" name="description" placeholder="用一句话说明项目目标" rows="4" maxlength="500"></textarea></label>
+        <div class="modal-actions"><button type="button" class="notion-button modal-cancel">取消</button><button class="notion-button primary-action">创建项目</button></div>
+    </form>
+</dialog>
+<div class="toast" role="status" aria-live="polite"></div>
+<script src="/js/app.js"></script>
+</body>
+</html>
+
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /manager/tasks/2/plan
+       Parameters = {csrfToken=[6c9ff34a-48c1-495a-9d06-e165cf53496a], version=[0], priority=[HIGH], storyId=[2]}
+          Headers = []
+             Body = null
+    Session Attrs = {role=PROJECT_MANAGER, displayName=陈项目, org.springframework.web.servlet.support.SessionFlashMapManager.FLASH_MAPS=[FlashMap [attributes={success=任务优先级和用户故事已保存}, targetRequestPath=/manager, targetRequestParams={}]], userId=1, managedRoleName=项目负责人, projectCsrf=6c9ff34a-48c1-495a-9d06-e165cf53496a}
+
+Handler:
+             Type = com.aimanage.prototype.controller.ManagerController
+           Method = com.aimanage.prototype.controller.ManagerController#plan(Long, Priority, Long, String, Long, HttpSession, RedirectAttributes)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = redirect:/manager
+             View = null
+            Model = null
+
+FlashMap:
+        Attribute = success
+            value = 任务优先级和用户故事已保存
+
+MockHttpServletResponse:
+           Status = 302
+    Error message = null
+          Headers = [Content-Language:"en", Location:"/manager"]
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = /manager
+          Cookies = []
+2026-10-20T08:58:52.080+08:00  INFO 63 --- [aimanage-prototype] [           main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-20T08:58:52.086+08:00  INFO 63 --- [aimanage-prototype] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-20T08:58:52.088+08:00  INFO 63 --- [aimanage-prototype] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+[ERROR] Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 5.248 s <<< FAILURE! -- in com.aimanage.prototype.TaskStoryRenderingRegressionTest
+[ERROR] com.aimanage.prototype.TaskStoryRenderingRegressionTest.managerCanRenderLinkedStoryAfterThePlanRequestHasCompleted -- Time elapsed: 0.775 s <<< ERROR!
+jakarta.servlet.ServletException: Request processing failed: org.thymeleaf.exceptions.TemplateInputException: An error happened during template parsing (template: "class path resource [templates/manager-dashboard.html]")
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+	at com.aimanage.prototype.TaskStoryRenderingRegressionTest.managerCanRenderLinkedStoryAfterThePlanRequestHasCompleted(TaskStoryRenderingRegressionTest.java:55)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: org.thymeleaf.exceptions.TemplateInputException: An error happened during template parsing (template: "class path resource [templates/manager-dashboard.html]")
+	at org.thymeleaf.templateparser.markup.AbstractMarkupTemplateParser.parse(AbstractMarkupTemplateParser.java:241)
+	at org.thymeleaf.templateparser.markup.AbstractMarkupTemplateParser.parseStandalone(AbstractMarkupTemplateParser.java:100)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:666)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1103)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1077)
+	at org.thymeleaf.spring6.view.ThymeleafView.renderFragment(ThymeleafView.java:372)
+	at org.thymeleaf.spring6.view.ThymeleafView.render(ThymeleafView.java:192)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1432)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.render(TestDispatcherServlet.java:138)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1168)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1106)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	... 24 more
+Caused by: org.attoparser.ParseException: Exception evaluating SpringEL expression: "task.story != null ? '故事 · ' + task.story.title : '未关联故事'" (template: "manager-dashboard" - line 133, col 335)
+	at org.attoparser.MarkupParser.parseDocument(MarkupParser.java:393)
+	at org.attoparser.MarkupParser.parse(MarkupParser.java:257)
+	at org.thymeleaf.templateparser.markup.AbstractMarkupTemplateParser.parse(AbstractMarkupTemplateParser.java:230)
+	... 36 more
+Caused by: org.thymeleaf.exceptions.TemplateProcessingException: Exception evaluating SpringEL expression: "task.story != null ? '故事 · ' + task.story.title : '未关联故事'" (template: "manager-dashboard" - line 133, col 335)
+	at org.thymeleaf.spring6.expression.SPELVariableExpressionEvaluator.evaluate(SPELVariableExpressionEvaluator.java:292)
+	at org.thymeleaf.standard.expression.VariableExpression.executeVariableExpression(VariableExpression.java:166)
+	at org.thymeleaf.standard.expression.SimpleExpression.executeSimple(SimpleExpression.java:66)
+	at org.thymeleaf.standard.expression.Expression.execute(Expression.java:109)
+	at org.thymeleaf.standard.expression.Expression.execute(Expression.java:138)
+	at org.thymeleaf.standard.processor.AbstractStandardExpressionAttributeTagProcessor.doProcess(AbstractStandardExpressionAttributeTagProcessor.java:144)
+	at org.thymeleaf.processor.element.AbstractAttributeTagProcessor.doProcess(AbstractAttributeTagProcessor.java:74)
+	at org.thymeleaf.processor.element.AbstractElementTagProcessor.process(AbstractElementTagProcessor.java:95)
+	at org.thymeleaf.util.ProcessorConfigurationUtils$ElementTagProcessorWrapper.process(ProcessorConfigurationUtils.java:633)
+	at org.thymeleaf.engine.ProcessorTemplateHandler.handleOpenElement(ProcessorTemplateHandler.java:1314)
+	at org.thymeleaf.engine.OpenElementTag.beHandled(OpenElementTag.java:205)
+	at org.thymeleaf.engine.Model.process(Model.java:282)
+	at org.thymeleaf.engine.Model.process(Model.java:290)
+	at org.thymeleaf.engine.IteratedGatheringModelProcessable.processIterationModel(IteratedGatheringModelProcessable.java:368)
+	at org.thymeleaf.engine.IteratedGatheringModelProcessable.process(IteratedGatheringModelProcessable.java:222)
+	at org.thymeleaf.engine.ProcessorTemplateHandler.handleCloseElement(ProcessorTemplateHandler.java:1640)
+	at org.thymeleaf.engine.CloseElementTag.beHandled(CloseElementTag.java:139)
+	at org.thymeleaf.engine.Model.process(Model.java:282)
+	at org.thymeleaf.engine.Model.process(Model.java:290)
+	at org.thymeleaf.engine.IteratedGatheringModelProcessable.processIterationModel(IteratedGatheringModelProcessable.java:368)
+	at org.thymeleaf.engine.IteratedGatheringModelProcessable.process(IteratedGatheringModelProcessable.java:222)
+	at org.thymeleaf.engine.ProcessorTemplateHandler.handleCloseElement(ProcessorTemplateHandler.java:1640)
+	at org.thymeleaf.engine.TemplateHandlerAdapterMarkupHandler.handleCloseElementEnd(TemplateHandlerAdapterMarkupHandler.java:388)
+	at org.thymeleaf.templateparser.markup.InlinedOutputExpressionMarkupHandler$InlineMarkupAdapterPreProcessorHandler.handleCloseElementEnd(InlinedOutputExpressionMarkupHandler.java:322)
+	at org.thymeleaf.standard.inline.OutputExpressionInlinePreProcessorHandler.handleCloseElementEnd(OutputExpressionInlinePreProcessorHandler.java:220)
+	at org.thymeleaf.templateparser.markup.InlinedOutputExpressionMarkupHandler.handleCloseElementEnd(InlinedOutputExpressionMarkupHandler.java:164)
+	at org.attoparser.HtmlElement.handleCloseElementEnd(HtmlElement.java:169)
+	at org.attoparser.HtmlMarkupHandler.handleCloseElementEnd(HtmlMarkupHandler.java:412)
+	at org.attoparser.MarkupEventProcessorHandler.handleCloseElementEnd(MarkupEventProcessorHandler.java:473)
+	at org.attoparser.ParsingElementMarkupUtil.parseCloseElement(ParsingElementMarkupUtil.java:201)
+	at org.attoparser.MarkupParser.parseBuffer(MarkupParser.java:725)
+	at org.attoparser.MarkupParser.parseDocument(MarkupParser.java:301)
+	... 38 more
+Caused by: org.springframework.expression.spel.SpelEvaluationException: EL1021E: A problem occurred whilst attempting to access the property 'title': 'Unable to access property 'title' through getter method'
+	at org.springframework.expression.spel.ast.PropertyOrFieldReference.readProperty(PropertyOrFieldReference.java:221)
+	at org.springframework.expression.spel.ast.PropertyOrFieldReference.getValueInternal(PropertyOrFieldReference.java:112)
+	at org.springframework.expression.spel.ast.PropertyOrFieldReference$AccessorValueRef.getValue(PropertyOrFieldReference.java:417)
+	at org.springframework.expression.spel.ast.CompoundExpression.getValueInternal(CompoundExpression.java:97)
+	at org.springframework.expression.spel.ast.OpPlus.getValueInternal(OpPlus.java:95)
+	at org.springframework.expression.spel.ast.Ternary.getValueInternal(Ternary.java:59)
+	at org.springframework.expression.spel.ast.SpelNodeImpl.getValue(SpelNodeImpl.java:114)
+	at org.springframework.expression.spel.standard.SpelExpression.getValue(SpelExpression.java:338)
+	at org.thymeleaf.spring6.expression.SPELVariableExpressionEvaluator.evaluate(SPELVariableExpressionEvaluator.java:265)
+	... 69 more
+Caused by: org.springframework.expression.AccessException: Unable to access property 'title' through getter method
+	at org.springframework.expression.spel.support.ReflectivePropertyAccessor$OptimalPropertyAccessor.read(ReflectivePropertyAccessor.java:687)
+	at org.springframework.expression.spel.ast.PropertyOrFieldReference.readProperty(PropertyOrFieldReference.java:216)
+	... 77 more
+Caused by: java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.expression.spel.support.ReflectivePropertyAccessor$OptimalPropertyAccessor.read(ReflectivePropertyAccessor.java:683)
+	... 78 more
+Caused by: org.hibernate.LazyInitializationException: could not initialize proxy [com.aimanage.prototype.domain.WorkItem#2] - no Session
+	at org.hibernate.proxy.AbstractLazyInitializer.initialize(AbstractLazyInitializer.java:165)
+	at org.hibernate.proxy.AbstractLazyInitializer.getImplementation(AbstractLazyInitializer.java:314)
+	at org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor.intercept(ByteBuddyInterceptor.java:44)
+	at org.hibernate.proxy.ProxyConfiguration$InterceptorDispatcher.intercept(ProxyConfiguration.java:102)
+	at com.aimanage.prototype.domain.WorkItem$HibernateProxy$3DlvbbEl.getTitle(Unknown Source)
+	... 83 more
+
+[ERROR] com.aimanage.prototype.TaskStoryRenderingRegressionTest.associatedStoryCanBeReadFromBothTaskListsAfterTheirQueriesComplete -- Time elapsed: 0.032 s <<< ERROR!
+org.hibernate.LazyInitializationException: could not initialize proxy [com.aimanage.prototype.domain.WorkItem#4] - no Session
+	at org.hibernate.proxy.AbstractLazyInitializer.initialize(AbstractLazyInitializer.java:165)
+	at org.hibernate.proxy.AbstractLazyInitializer.getImplementation(AbstractLazyInitializer.java:314)
+	at org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor.intercept(ByteBuddyInterceptor.java:44)
+	at org.hibernate.proxy.ProxyConfiguration$InterceptorDispatcher.intercept(ProxyConfiguration.java:102)
+	at com.aimanage.prototype.domain.WorkItem$HibernateProxy$3DlvbbEl.getTitle(Unknown Source)
+	at com.aimanage.prototype.TaskStoryRenderingRegressionTest.associatedStoryCanBeReadFromBothTaskListsAfterTheirQueriesComplete(TaskStoryRenderingRegressionTest.java:69)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Errors: 
+[ERROR]   TaskStoryRenderingRegressionTest.associatedStoryCanBeReadFromBothTaskListsAfterTheirQueriesComplete:69 » LazyInitialization could not initialize proxy [com.aimanage.prototype.domain.WorkItem#4] - no Session
+[ERROR]   TaskStoryRenderingRegressionTest.managerCanRenderLinkedStoryAfterThePlanRequestHasCompleted:55 » Servlet Request processing failed: org.thymeleaf.exceptions.TemplateInputException: An error happened during template parsing (template: "class path resource [templates/manager-dashboard.html]")
+[INFO] 
+[ERROR] Tests run: 2, Failures: 0, Errors: 2, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  8.647 s
+[INFO] Finished at: 2026-10-19T20:58:52-04:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project aimanage-prototype: 
+[ERROR] 
+[ERROR] Please refer to /workspace/scratch/cae2d1518148/sprint2_f01_fix_20261020/aimanage-sprint2/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

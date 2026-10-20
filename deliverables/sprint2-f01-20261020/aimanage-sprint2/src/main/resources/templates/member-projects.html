@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>项目与成员 · 爱管理</title><link rel="stylesheet" th:href="@{/css/app.css}"></head>
+<body class="app-page">
+<div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar('projects')}"></aside>
+    <main class="main-column">
+        <header class="page-toolbar"><div class="breadcrumbs"><span>爱管理</span><b>/</b><span>项目与成员</span></div><span class="prototype-badge">Sprint 1 已实现</span></header>
+        <div class="page-content">
+            <section class="document-title"><div class="page-icon">👥</div><h1>项目与成员</h1><p>查看参与项目的信息、自己的身份职责和团队分工。</p></section>
+            <div class="empty-state notion-card" th:if="${#lists.isEmpty(projects)}"><h2>尚未加入项目</h2><p>项目负责人添加你为成员后，项目会显示在这里。</p></div>
+            <article class="project-block notion-card" th:each="view : ${projects}">
+                <h2 th:text="${view.project.name}"></h2><p th:text="${view.project.description}"></p>
+                <p>项目负责人：<b th:text="${view.project.owner.displayName}"></b></p>
+                <div class="callout"><b>我的身份与职责</b><div><p>状态：<span th:text="${view.own.status.label}"></span> · 身份：<span th:text="${view.own.projectIdentity}"></span></p><p th:text="${#strings.isEmpty(view.own.responsibilities) ? '负责人尚未填写职责说明' : view.own.responsibilities}" style="white-space:pre-wrap"></p></div></div>
+                <h3 style="margin-top:24px">团队分工</h3>
+                <div class="table-scroll"><table class="notion-table"><thead><tr><th>成员</th><th>状态</th><th>项目身份</th><th>职责</th></tr></thead><tbody><tr th:each="member : ${view.members}"><td th:text="${member.user.displayName}"></td><td th:text="${member.status.label}"></td><td th:text="${member.projectIdentity}"></td><td th:text="${#strings.isEmpty(member.responsibilities) ? '未填写' : member.responsibilities}" style="white-space:pre-wrap"></td></tr></tbody></table></div>
+            </article>
+        </div>
+    </main>
+</div><div class="toast" role="status" aria-live="polite"></div><script th:src="@{/js/app.js}"></script>
+</body></html>

@@ -1,0 +1,37 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2026-10-20T09:02:42.702+08:00  INFO 6 --- [aimanage-prototype] [           main] c.a.prototype.AiManageApplication        : Starting AiManageApplication v0.0.1-SNAPSHOT using Java 17.0.20 with PID 6 (/workspace/scratch/cae2d1518148/sprint2_f01_fix_20261020/aimanage-sprint2/dist/aimanage-prototype-0.0.1-SNAPSHOT.jar started by root in /workspace/scratch/cae2d1518148/sprint2_f01_fix_20261020/aimanage-sprint2)
+2026-10-20T09:02:42.705+08:00  INFO 6 --- [aimanage-prototype] [           main] c.a.prototype.AiManageApplication        : The following 1 profile is active: "h2"
+2026-10-20T09:02:43.419+08:00  INFO 6 --- [aimanage-prototype] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-20T09:02:43.494+08:00  INFO 6 --- [aimanage-prototype] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 68 ms. Found 8 JPA repository interfaces.
+2026-10-20T09:02:43.948+08:00  INFO 6 --- [aimanage-prototype] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 52167 (http)
+2026-10-20T09:02:43.959+08:00  INFO 6 --- [aimanage-prototype] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-20T09:02:43.960+08:00  INFO 6 --- [aimanage-prototype] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2026-10-20T09:02:43.994+08:00  INFO 6 --- [aimanage-prototype] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-10-20T09:02:43.995+08:00  INFO 6 --- [aimanage-prototype] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1246 ms
+2026-10-20T09:02:44.126+08:00  INFO 6 --- [aimanage-prototype] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-10-20T09:02:44.180+08:00  INFO 6 --- [aimanage-prototype] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-10-20T09:02:44.213+08:00  INFO 6 --- [aimanage-prototype] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-10-20T09:02:44.502+08:00  INFO 6 --- [aimanage-prototype] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-20T09:02:44.544+08:00  INFO 6 --- [aimanage-prototype] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-20T09:02:44.747+08:00  INFO 6 --- [aimanage-prototype] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:aimanage-check user=SA
+2026-10-20T09:02:44.749+08:00  INFO 6 --- [aimanage-prototype] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-20T09:02:45.635+08:00  INFO 6 --- [aimanage-prototype] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-20T09:02:45.700+08:00  INFO 6 --- [aimanage-prototype] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-20T09:02:45.993+08:00  INFO 6 --- [aimanage-prototype] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-20T09:02:46.765+08:00  INFO 6 --- [aimanage-prototype] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 52167 (http) with context path '/'
+2026-10-20T09:02:46.778+08:00  INFO 6 --- [aimanage-prototype] [           main] c.a.prototype.AiManageApplication        : Started AiManageApplication in 4.376 seconds (process running for 4.764)
+2026-10-20T09:02:46.872+08:00  INFO 6 --- [aimanage-prototype] [.1-52167-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-20T09:02:46.872+08:00  INFO 6 --- [aimanage-prototype] [.1-52167-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-20T09:02:46.873+08:00  INFO 6 --- [aimanage-prototype] [.1-52167-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-20T09:02:49.445+08:00  INFO 6 --- [aimanage-prototype] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-20T09:02:49.450+08:00  INFO 6 --- [aimanage-prototype] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-20T09:02:49.452+08:00  INFO 6 --- [aimanage-prototype] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

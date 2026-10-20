@@ -1,0 +1,37 @@
+COMMAND ["/workspace/scratch/cae2d1518148/codecheck_20261020/toolchain/apache-maven-3.9.9/bin/mvn", "-o", "-B", "-Dmaven.repo.local=/workspace/scratch/cae2d1518148/codecheck_20261020/m2", "-DskipTests", "package"]
+START 2026-10-20T09:00:20.304040+08:00
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< com.aimanage:aimanage-prototype >-------------------
+[INFO] Building 爱管理 Sprint 1 原型 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ aimanage-prototype ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 17 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ aimanage-prototype ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ aimanage-prototype ---
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ aimanage-prototype ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ aimanage-prototype ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ aimanage-prototype ---
+[INFO] Building jar: /workspace/scratch/cae2d1518148/sprint2_f01_fix_20261020/aimanage-sprint2/target/aimanage-prototype-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.3.5:repackage (repackage) @ aimanage-prototype ---
+[INFO] Replacing main artifact /workspace/scratch/cae2d1518148/sprint2_f01_fix_20261020/aimanage-sprint2/target/aimanage-prototype-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /workspace/scratch/cae2d1518148/sprint2_f01_fix_20261020/aimanage-sprint2/target/aimanage-prototype-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.402 s
+[INFO] Finished at: 2026-10-19T21:00:22-04:00
+[INFO] ------------------------------------------------------------------------
