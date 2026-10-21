@@ -35,8 +35,8 @@ class WebFlowTest {
         mockMvc.perform(get("/manager").session(session))
                 .andExpect(status().isOk())
                 .andExpect(view().name("manager-dashboard"))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("爱管理课程项目")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("完成登录页面")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("团队协作演示项目")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("梳理首页需求")));
     }
 
     @Test
@@ -52,7 +52,7 @@ class WebFlowTest {
         mockMvc.perform(get("/my-tasks").session(session))
                 .andExpect(status().isOk())
                 .andExpect(view().name("my-tasks"))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("完成登录页面")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("梳理首页需求")));
     }
 
     @Test
@@ -64,12 +64,55 @@ class WebFlowTest {
                 .andReturn();
 
         MockHttpSession session = (MockHttpSession) login.getRequest().getSession(false);
-        String[] modules = {"account", "projects", "permissions", "backlog", "sprints", "tasks", "ai", "analytics"};
+        mockMvc.perform(get("/preview/account").session(session)).andExpect(redirectedUrl("/account"));
+        mockMvc.perform(get("/account").session(session)).andExpect(status().isOk()).andExpect(view().name("account"));
+        mockMvc.perform(get("/preview/permissions").session(session)).andExpect(redirectedUrl("/access"));
+        mockMvc.perform(get("/preview/tasks").session(session)).andExpect(redirectedUrl("/tasks"));
+        mockMvc.perform(get("/tasks").session(session)).andExpect(status().isOk()).andExpect(view().name("task-board"));
+        String[] modules = {"projects", "backlog", "sprints", "ai", "analytics"};
         for (String module : modules) {
             mockMvc.perform(get("/preview/" + module).session(session))
                     .andExpect(status().isOk())
                     .andExpect(view().name("prototype-page"))
                     .andExpect(content().string(org.hamcrest.Matchers.containsString("功能清单")));
         }
+    }
+
+    @Test
+    void wrongPasswordShouldRenderClearError() throws Exception {
+        mockMvc.perform(post("/login")
+                        .param("username", "manager")
+                        .param("password", "wrong"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("账号或密码错误")));
+    }
+
+    @Test
+    void developerCannotOpenManagerDashboard() throws Exception {
+        MvcResult login = mockMvc.perform(post("/login")
+                        .param("username", "developer")
+                        .param("password", "123456"))
+                .andExpect(status().is3xxRedirection())
+                .andReturn();
+
+        MockHttpSession session = (MockHttpSession) login.getRequest().getSession(false);
+        mockMvc.perform(get("/manager").session(session))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"));
+    }
+
+    @Test
+    void managerCannotOpenDeveloperTaskPage() throws Exception {
+        MvcResult login = mockMvc.perform(post("/login")
+                        .param("username", "manager")
+                        .param("password", "123456"))
+                .andExpect(status().is3xxRedirection())
+                .andReturn();
+
+        MockHttpSession session = (MockHttpSession) login.getRequest().getSession(false);
+        mockMvc.perform(get("/my-tasks").session(session))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"));
     }
 }

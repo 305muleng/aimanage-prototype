@@ -1,132 +1,87 @@
-# 爱管理｜Sprint 1 可运行原型
+# 爱管理
 
-这是一个适合作业演示的项目协作系统原型，使用 Java 17、Spring Boot、Thymeleaf 和 Spring Data JPA 开发。默认使用免安装的 H2 文件数据库，也可以切换到 MySQL。
+项目与任务协作应用。技术栈为 Java 17、Spring Boot 3.3.5、Thymeleaf、Spring Data JPA 和 MySQL。
 
-前端采用克制的 Notion 风格：米色侧栏、白色文档区、轻边框、小圆角、线性图标和低干扰悬停反馈。桌面、平板和手机均可使用。
+## 已实现功能
 
-## 已实现的用户故事
+- 注册登录、个人资料、三角色访问控制和角色创建分配。
+- 项目创建编辑、成员加入移除、成员状态与职责管理。
+- 项目状态及变更历史、负责人项目筛选和排序；侧栏按当前项目显示名称并可收起。
+- 项目负责人可以勾选进展内容，预览、复制或下载项目进展 PNG 图片；图片不提供访问权限。
+- Backlog 需求与用户故事、验收标准、优先级。
+- 任务创建编辑、分配、截止日期、优先级及故事关联。
+- 我的任务和本人任务状态更新，项目及成员权限校验；完成说明、重开原因与完成时间。
+- 我的任务支持月视图、周视图和无截止日期任务列表；负责人可在项目任务日历拖拽改期，或使用表单改期。
+- 我的任务显示逾期和未来 3 天内到期的应用内提醒，可标记已读；改期后会重新提醒。
+- 项目任务看板、关键词搜索、组合筛选和排序。
+- 任务详情、评论、操作记录、阻塞标记及前后置任务依赖。
 
-| 用户故事 | 原型中的实现 |
-| --- | --- |
-| Epic1-US02 用户登录 | 账号密码登录，错误信息提示，按角色进入工作台 |
-| Epic1-US03 项目负责人登录 | 自动识别项目负责人角色并进入项目工作台 |
-| Epic1-US07 项目创建 | 填写名称和简介创建项目 |
-| Epic1-US09 项目成员加入 | 从开发人员中添加成员，阻止重复添加 |
-| Epic2-US06 任务创建与编辑 | 创建任务并编辑标题、描述、截止日期、负责人 |
-| Epic2-US07 任务负责人分配 | 只能把任务分配给当前项目成员 |
-| Epic2-US09 任务状态更新 | 开发人员可将自己的任务更新为待处理、进行中、已完成 |
-| Epic2-US11 我的任务 | 开发人员登录后只看到分配给自己的任务 |
+Sprint 管理和 Backlog 用户故事模块未作功能变更；AI 协作及分析仍为预览，不代表功能已实现。
 
-## 完整产品界面
+任务看板入口为 `/tasks`，三个状态区按上下三行排列。仅项目负责人可管理依赖，禁止自依赖、跨项目依赖及循环依赖。
 
-除以上 8 条真实功能外，原型还为当前需求清单中的全部 49 条用户故事提供了可见界面、导航入口和操作按钮。它们按 8 个模块组织：
+任务允许直接完成，但须填写完成说明、解除阻塞并完成所有前置任务。重开须填写原因；任务负责人或项目负责人可以重开，项目负责人不能代替开发人员宣告完成。若后续任务已完成，须先重开后续任务，才能重开其前置任务。
 
-- 账户与个人资料；
-- 项目与成员；
-- 角色与权限；
-- Product Backlog；
-- Sprint 管理；
-- 任务与协作；
-- AI 协作；
-- 数据与分析。
+已完成任务修改工作内容、负责人或新增依赖前须先重开。暂停、移除成员前须转交未完成任务；离组成员仍可只读查看分配给自己的已完成任务，不能继续查看项目其他任务或参与讨论。任务表单携带版本号，过期页面和同时发生的冲突写入不会覆盖其他人的更新。
 
-标记为“界面预览”的按钮不写入数据，点击时会提示“将在后续 Sprint 中实现”；标记为“已实现”的功能会进入当前可运行的 Sprint 1 工作流。这样既能完整展示产品规划，也不会让演示者误把占位交互当成已完成业务。
+AI 接入预留 `GET /tasks/{taskId}/context`，返回任务、描述、依赖和讨论记录的 JSON；需要登录并有该项目访问权限，不包含模型调用。
 
-## 最快运行方式
+## 构建与测试
 
-环境要求：JDK 17、Maven 3.9 或兼容版本。
+需要 JDK 17 或以上、Maven 3.9，以及已启动的 MySQL（可以在 Docker 中运行并映射端口）。不包含依赖缓存、Maven 安装包、数据库文件和本机密码。
 
-在项目根目录双击 `start.cmd`，或直接在终端运行已经打包好的程序：
+在项目根目录执行：
 
 ```powershell
-java -jar target/aimanage-prototype-0.0.1-SNAPSHOT.jar
+mvn test
+mvn -DskipTests package
 ```
 
-看到 `Started AiManageApplication` 后，浏览器访问：
+自动化测试共 75 项，使用独立 H2 内存库，结果生成在 `target/surefire-reports`。MySQL 状态字段及记录表迁移脚本为 `scripts/migrate-project-status-mysql.sql`；现有 MySQL 业务库升级前需先备份并在测试库验证。当前环境没有 MySQL 客户端或实例，未执行真实 MySQL 回归。
 
-<http://localhost:8080>
+## MySQL 启动
 
-首次启动会自动创建数据库和演示数据，无需安装或配置 MySQL。数据保存在项目的 `data` 目录中，重启不会丢失。
+先创建 `aimanage` 数据库，为应用账号授予该库所需权限。已有数据库升级前应备份；`ddl-auto=update` 不保证所有旧字段约束都能自动迁移。
+
+在 PowerShell 设置实际连接信息：
+
+```powershell
+$env:AIMANAGE_DB_URL='jdbc:mysql://localhost:3306/aimanage?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false'
+$env:AIMANAGE_DB_USERNAME='aimanage_app'
+$env:AIMANAGE_DB_PASSWORD='填写实际密码'
+$env:AIMANAGE_BOOTSTRAP_ADMIN_USERNAME='填写管理员账号'
+$env:AIMANAGE_BOOTSTRAP_ADMIN_PASSWORD='填写至少12位的管理员初始密码'
+powershell -ExecutionPolicy Bypass -File scripts/start-mysql.ps1
+```
+
+访问 <http://localhost:8080/login>。后台日志在 `target/app.stdout.log` 和 `target/app.stderr.log`。脚本输出进程编号，用 `Stop-Process -Id 进程编号` 停止应用。
+
+## 临时演示
+
+```powershell
+java -jar target/aimanage-prototype-0.0.1-SNAPSHOT.jar --spring.profiles.active=h2 --spring.datasource.url=jdbc:h2:mem:aimanage-demo --spring.jpa.hibernate.ddl-auto=create-drop --aimanage.demo.enabled=true
+```
+
+内存模式停止后数据清空。默认 H2 文件配置仅作备用，项目未附带旧数据库。
 
 ## 演示账号
 
-| 角色 | 账号 | 密码 |
+| 身份 | 账号 | 密码 |
 | --- | --- | --- |
-| 项目负责人 | `manager` | `123456` |
-| 开发人员 | `developer` | `123456` |
-| 备用开发人员 | `developer2` | `123456` |
+| 项目负责人 | manager | 123456 |
+| 开发人员 | developer | 123456 |
+| 备用开发人员 | developer2 | 123456 |
+| 待加入项目的开发人员 | developer3 | 123456 |
+| 系统管理员 | admin | 123456 |
 
-登录页点击演示账号卡片，可以自动填入账号和密码。
+仅在显式设置 `aimanage.demo.enabled=true` 时初始化演示账号和项目。演示账号密码以加盐 PBKDF2 保存；旧数据库中的演示明文密码会在登录成功后升级。正式模式不会创建公开密码的管理员；若数据库没有管理员，首次启动须提供上述管理员环境变量。登录失败按账号和客户端地址在单实例内限制为 15 分钟内最多 5 次；多实例部署应改用共享限流存储。正式部署仍需统一安全框架与完整审计方案。
 
-## 推荐演示流程
-
-1. 使用 `manager / 123456` 登录。
-2. 点击“创建项目”，填写项目名称和简介。
-3. 在新项目中点击“添加成员”，选择开发人员。
-4. 点击“新建任务”，填写任务内容并选择负责人。
-5. 退出项目负责人账号。
-6. 使用刚才被分配任务的开发人员账号登录。
-7. 在“我的任务”中查看任务，并将状态改为“进行中”或“已完成”。
-8. 再次使用项目负责人账号登录，可看到任务最新状态与整体进度。
-9. 使用左侧导航依次打开其他模块，展示 49 条用户故事的完整界面规划。
-
-项目中已预置一个示例项目和一条任务，方便快速展示页面；也可以按上述步骤新建完整数据。
-
-## 运行测试
-
-```powershell
-mvn "-Dmaven.repo.local=.m2-cache" test
-```
-
-修改源码后，可重新生成可执行程序：
-
-```powershell
-mvn "-Dmaven.repo.local=.m2-cache" -DskipTests clean package
-```
-
-基础测试覆盖：
-
-- 正确登录与错误密码；
-- 项目创建、成员加入及重复加入校验；
-- 任务只能分配给项目成员；
-- 只有任务负责人能更新任务状态。
-- 项目负责人和开发人员页面可以正常渲染；
-- 登录后可以打开全部 8 个界面预览模块。
-
-## 切换到 MySQL
-
-1. 打开 `src/main/resources/application-mysql.properties`。
-2. 修改 `spring.datasource.username` 和 `spring.datasource.password`。
-3. 确保本机 MySQL 服务正在运行。
-4. 使用 MySQL 配置启动：
-
-```powershell
-mvn "-Dmaven.repo.local=.m2-cache" -DskipTests package
-java -jar target/aimanage-prototype-0.0.1-SNAPSHOT.jar --spring.profiles.active=mysql
-```
-
-配置中启用了 `createDatabaseIfNotExist=true`，账号有建库权限时会自动创建 `aimanage` 数据库；否则请先手动执行：
-
-```sql
-CREATE DATABASE aimanage CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-## 项目结构
+## 目录
 
 ```text
-src/main/java/com/aimanage/prototype
-├─ config       演示数据初始化
-├─ controller   登录、负责人工作台、我的任务
-├─ domain       用户、项目、成员、任务实体
-├─ repository   数据访问接口
-└─ service      登录与核心业务规则
-
-src/main/resources
-├─ templates    登录、工作台、我的任务、通用预览页面与侧栏
-├─ static       页面样式和交互脚本
-└─ application*.properties
+src/main/java       业务源码
+src/main/resources  页面、样式、脚本及配置
+src/test            测试源码及测试配置
+scripts             MySQL 启动脚本
+pom.xml             Maven 项目配置
 ```
-
-## 原型说明
-
-本项目以课堂演示为目标。Sprint 1 的 8 条用户故事具备真实业务闭环，其他功能目前只实现前端展示。账号密码使用明文演示数据，未引入 Spring Security。正式系统应增加密码哈希、CSRF 防护、完整权限拦截、操作日志和更严格的参数校验。
