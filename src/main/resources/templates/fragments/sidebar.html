@@ -4,9 +4,13 @@
 <aside class="sidebar" th:fragment="sidebar(active)">
     <div class="workspace-switcher">
         <span class="workspace-icon">爱</span>
-        <div><strong>爱管理</strong><small>课程项目空间</small></div>
-        <button type="button" class="icon-action" data-placeholder="工作空间切换" aria-label="切换工作空间">⌄</button>
+        <div class="workspace-label"><strong>爱管理</strong><small th:text="${workspaceName}">项目空间</small></div>
+        <button type="button" class="icon-action sidebar-toggle" aria-label="收起侧栏" aria-expanded="true" title="收起侧栏"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5 7 12l7 7"/></svg></button>
     </div>
+
+    <button type="button" class="sidebar-back" th:attr="data-role=${roleLabel}" aria-label="返回上一页" title="返回上一页">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7M5 12h14"/></svg><span>返回上一页</span>
+    </button>
 
     <nav class="side-nav" aria-label="主要导航">
         <a th:if="${roleLabel == '项目负责人'}" th:href="@{/manager}" th:classappend="${active == 'home'} ? 'active'">
@@ -15,19 +19,19 @@
         <a th:if="${roleLabel == '开发人员'}" th:href="@{/my-tasks}" th:classappend="${active == 'my-tasks'} ? 'active'">
             <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>我的任务</span>
         </a>
-        <a th:href="@{/preview/projects}" th:classappend="${active == 'projects'} ? 'active'">
+        <a th:if="${roleLabel != '系统管理员'}" th:href="@{/projects}" th:classappend="${active == 'projects'} ? 'active'">
             <svg viewBox="0 0 24 24"><path d="M3 6h6l2 2h10v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6Z"/></svg><span>项目与成员</span>
         </a>
-        <a th:href="@{/preview/backlog}" th:classappend="${active == 'backlog'} ? 'active'">
+        <a th:if="${roleLabel != '系统管理员'}" th:href="@{/backlog}" th:classappend="${active == 'backlog'} ? 'active'">
             <svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span>Product Backlog</span>
         </a>
-        <a th:href="@{/preview/sprints}" th:classappend="${active == 'sprints'} ? 'active'">
+        <a th:if="${roleLabel != '系统管理员'}" th:href="@{/preview/sprints}" th:classappend="${active == 'sprints'} ? 'active'">
             <svg viewBox="0 0 24 24"><path d="M6 2v4M18 2v4M3 9h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z"/></svg><span>Sprint 管理</span>
         </a>
-        <a th:href="@{/preview/tasks}" th:classappend="${active == 'tasks'} ? 'active'">
+        <a th:if="${roleLabel != '系统管理员'}" th:href="@{/tasks}" th:classappend="${active == 'tasks'} ? 'active'">
             <svg viewBox="0 0 24 24"><path d="M9 5h11M9 12h11M9 19h11M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg><span>任务与协作</span>
         </a>
-        <a th:href="@{/preview/analytics}" th:classappend="${active == 'analytics'} ? 'active'">
+        <a th:if="${roleLabel != '系统管理员'}" th:href="@{/preview/analytics}" th:classappend="${active == 'analytics'} ? 'active'">
             <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>数据与分析</span>
         </a>
 
@@ -35,10 +39,11 @@
         <a th:href="@{/preview/ai}" th:classappend="${active == 'ai'} ? 'active'">
             <svg viewBox="0 0 24 24"><path d="m12 3 1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3ZM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15Z"/></svg><span>AI 协作</span>
         </a>
-        <a th:href="@{/preview/permissions}" th:classappend="${active == 'permissions'} ? 'active'">
+        <a th:if="${roleLabel == '系统管理员'}" th:href="@{/admin/roles}" th:classappend="${active == 'permissions'} ? 'active'">
             <svg viewBox="0 0 24 24"><path d="M7 11V7a5 5 0 0 1 10 0v4M5 11h14v10H5V11Z"/></svg><span>角色与权限</span>
         </a>
-        <a th:href="@{/preview/account}" th:classappend="${active == 'account'} ? 'active'">
+        <a th:href="@{/access}" th:classappend="${active == 'access'} ? 'active'"><svg viewBox="0 0 24 24"><path d="M12 3 3 7v5c0 5 4 8 9 9 5-1 9-4 9-9V7l-9-4ZM9 12l2 2 4-4"/></svg><span>基础权限说明</span></a>
+        <a th:href="@{/account}" th:classappend="${active == 'account'} ? 'active'">
             <svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg><span>账户与资料</span>
         </a>
     </nav>
@@ -46,10 +51,11 @@
     <div class="sidebar-footer">
         <div class="user-chip">
             <span class="avatar" th:text="${#strings.substring(displayName,0,1)}">陈</span>
-            <div><strong th:text="${displayName}">陈项目</strong><small th:text="${roleLabel}">项目负责人</small></div>
+            <div><strong th:text="${displayName}">陈项目</strong><small th:text="${session.managedRoleName != null ? session.managedRoleName : roleLabel}">项目负责人</small></div>
         </div>
         <form method="post" th:action="@{/logout}"><button class="notion-button full-width" type="submit">退出登录</button></form>
     </div>
+    <script th:src="@{/js/sidebar.js}" defer></script>
 </aside>
 </body>
 </html>

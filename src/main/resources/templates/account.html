@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账户与资料 · 爱管理</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="app-page modern-icons">
+<div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar('account')}"></aside>
+    <main class="main-column">
+        <header class="page-toolbar"><div class="breadcrumbs"><span>爱管理</span><b>/</b><span>账户与资料</span></div></header>
+        <div class="page-content">
+            <section class="document-title"><h1>账户与资料</h1></section>
+            <div class="notice success" role="status" th:if="${success}" th:text="${success}"></div>
+            <div class="notice error" role="alert" th:if="${error}" th:text="${error}"></div>
+            <form class="form-stack" method="post" th:action="@{/account}" style="max-width:680px">
+                <input type="hidden" name="csrfToken" th:value="${csrfToken}">
+                <div class="form-grid">
+                    <label>登录账号<input class="notion-input" th:value="${profile.username}" readonly></label>
+                    <label>系统角色<input class="notion-input" th:value="${session.managedRoleName != null ? session.managedRoleName : profile.role.label}" readonly></label>
+                </div>
+                <p class="secondary-text">账号和系统角色由系统管理，此处仅修改个人资料。</p>
+                <label>姓名<input class="notion-input" name="displayName" th:value="${profile.displayName}" maxlength="50" autocomplete="name" required></label>
+                <div class="form-grid">
+                    <label>邮箱（选填）<input class="notion-input" type="email" name="email" th:value="${profile.email}" maxlength="100" autocomplete="email" placeholder="name@example.com"></label>
+                    <label>联系电话（选填）<input class="notion-input" type="tel" name="phone" th:value="${profile.phone}" maxlength="30" autocomplete="tel"></label>
+                </div>
+                <label>个人简介（选填）<textarea class="notion-input" name="bio" th:text="${profile.bio}" maxlength="500" rows="5" placeholder="介绍一下自己的技能或协作方向，最多 500 个字符"></textarea></label>
+                <div class="inline-actions"><button class="notion-button primary-action" type="submit">保存资料</button><a class="notion-button" th:href="@{/account}">取消修改</a></div>
+            </form>
+        </div>
+    </main>
+</div>
+<div class="toast" role="status" aria-live="polite"></div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

@@ -5,33 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的任务 · 爱管理</title>
     <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/collaboration.css}">
 </head>
-<body class="app-page">
+<body class="app-page modern-icons">
 <div class="app-shell">
     <aside th:replace="~{fragments/sidebar :: sidebar('my-tasks')}"></aside>
 
     <main class="main-column">
         <header class="page-toolbar">
             <div class="breadcrumbs"><span>爱管理</span><b>/</b><span>我的任务</span></div>
-            <div class="toolbar-actions">
-                <span class="prototype-badge">Sprint 1 已实现</span>
-                <button class="notion-button" type="button" data-placeholder="任务筛选">筛选</button>
-                <button class="notion-button" type="button" data-placeholder="任务排序">排序</button>
-            </div>
         </header>
 
         <div class="page-content">
             <section class="document-title">
-                <div class="page-icon">☑️</div>
                 <h1>我的任务</h1>
-                <p>查看分配给你的工作，并及时同步任务状态。</p>
             </section>
 
             <div class="notice success" th:if="${success}" th:text="${success}"></div>
             <div class="notice error" th:if="${error}" th:text="${error}"></div>
+            <section class="reminder-section" th:if="${!#lists.isEmpty(reminders)}" aria-label="任务到期提醒">
+                <h2 th:text="|到期提醒（${#lists.size(reminders)}）|">到期提醒</h2>
+                <p class="secondary-text">展示已逾期或未来 3 天内到期的本人未完成任务。</p>
+                <div class="reminder-row" th:each="reminder : ${reminders}">
+                    <div><span class="status-tag" th:classappend="${reminder.overdue ? 'red' : 'yellow'}" th:text="${reminder.overdue ? '已逾期' : '即将到期'}"></span>
+                        <a th:href="@{/tasks/{id}(id=${reminder.task.id})}" th:text="${reminder.task.title}"></a>
+                        <small th:text="|${reminder.task.project.name} · 截止 ${reminder.task.dueDate}|"></small></div>
+                    <form method="post" th:action="@{/my-tasks/{id}/reminder/read(id=${reminder.task.id})}"><input type="hidden" name="csrfToken" th:value="${csrfToken}"><button class="notion-button" type="submit">标记已读</button></form>
+                </div>
+            </section>
+            <form class="task-filters" method="get" th:action="@{/my-tasks}">
+                <input type="hidden" name="view" th:value="${weekView ? 'week' : 'calendar'}" th:if="${calendarView}">
+                <input type="hidden" name="month" th:value="${calendarMonth}" th:if="${calendarView and !weekView}">
+                <input type="hidden" name="date" th:value="${weekDate}" th:if="${weekView}">
+                <label>项目<select class="notion-input" name="projectId"><option value="">全部项目</option><option th:each="item : ${projectOptions}" th:value="${item.project.id}" th:text="${item.project.name}" th:selected="${item.project.id == selectedProjectId}"></option></select></label>
+                <label>状态<select class="notion-input" name="status"><option value="">全部状态</option><option th:each="item : ${statuses}" th:value="${item}" th:text="${item.label}" th:selected="${item == selectedStatus}"></option></select></label>
+                <label>优先级<select class="notion-input" name="priority"><option value="">全部优先级</option><option th:each="item : ${priorities}" th:value="${item}" th:text="${item}" th:selected="${item == selectedPriority}"></option></select></label>
+                <label>排序<select class="notion-input" name="sort"><option value="updated" th:selected="${selectedSort == 'updated'}">最近更新</option><option value="due" th:selected="${selectedSort == 'due'}">截止日期</option><option value="priority" th:selected="${selectedSort == 'priority'}">优先级</option></select></label>
+                <button class="notion-button" type="submit">应用</button><a class="notion-button" th:href="@{/my-tasks}">清除</a>
+            </form>
 
             <section class="metric-row" aria-label="任务统计">
-                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>全部任务</small><strong th:text="${#lists.size(tasks)}">0</strong></div>
+                <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>筛选结果</small><strong th:text="${#lists.size(tasks)}">0</strong></div>
                 <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>待处理</small><strong th:text="${todoCount}">0</strong></div>
                 <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>进行中</small><strong th:text="${doingCount}">0</strong></div>
                 <div class="metric-block group"><span class="drag-handle">⋮⋮</span><small>已完成</small><strong th:text="${doneCount}">0</strong></div>
@@ -41,20 +55,21 @@
                 <div class="database-heading">
                     <div><h2>任务清单</h2><span th:text="|${#lists.size(tasks)} 条记录|">0 条记录</span></div>
                     <div class="view-tabs" role="tablist" aria-label="任务视图">
-                        <button class="notion-button selected" type="button" role="tab" aria-selected="true">列表</button>
-                        <button class="notion-button" type="button" data-placeholder="我的任务看板">看板</button>
-                        <button class="notion-button" type="button" data-placeholder="我的任务日历">日历</button>
+                        <a class="notion-button" th:classappend="${!calendarView ? 'selected' : ''}" th:href="@{/my-tasks(projectId=${selectedProjectId},status=${selectedStatus},priority=${selectedPriority},sort=${selectedSort})}">列表</a>
+                        <a class="notion-button" th:href="@{/tasks}">项目看板</a>
+                        <a class="notion-button" th:classappend="${calendarView and !weekView ? 'selected' : ''}" th:href="@{/my-tasks(projectId=${selectedProjectId},status=${selectedStatus},priority=${selectedPriority},sort=${selectedSort},view='calendar',month=${calendarMonth})}">月视图</a>
+                        <a class="notion-button" th:classappend="${weekView ? 'selected' : ''}" th:href="@{/my-tasks(projectId=${selectedProjectId},status=${selectedStatus},priority=${selectedPriority},sort=${selectedSort},view='week',date=${weekDate})}">周视图</a>
                     </div>
                 </div>
 
-                <div class="empty-state notion-card group" th:if="${#lists.isEmpty(tasks)}">
+                <div class="empty-state notion-card group" th:if="${#lists.isEmpty(tasks) and !calendarView}">
                     <span class="drag-handle card-handle">⋮⋮</span>
-                    <span class="empty-icon">☑</span>
+                    <span class="empty-icon"><svg class="ui-icon" aria-hidden="true"><use th:href="@{/icons.svg#task}"></use></svg></span>
                     <h2>暂时没有分配给你的任务</h2>
                     <p>负责人分配任务后，它会出现在这里。</p>
                 </div>
 
-                <div class="table-scroll notion-card group" th:unless="${#lists.isEmpty(tasks)}">
+                <div class="table-scroll notion-card group" th:if="${!#lists.isEmpty(tasks) and !calendarView}">
                     <span class="drag-handle card-handle">⋮⋮</span>
                     <table class="notion-table task-table">
                         <thead>
@@ -62,31 +77,52 @@
                         </thead>
                         <tbody>
                         <tr class="group" th:each="task : ${tasks}">
-                            <td><span class="row-handle drag-handle">⋮⋮</span><b th:text="${task.title}">任务标题</b><small th:text="${task.description}">任务描述</small></td>
-                            <td><span class="page-reference">📁 <span th:text="${task.project.name}">项目名称</span></span></td>
+                            <td><span class="row-handle drag-handle">⋮⋮</span><a th:href="@{/tasks/{id}(id=${task.id})}"><b th:text="${task.title}">任务标题</b></a><small th:text="${task.description}">任务描述</small></td>
+                            <td><span class="page-reference"><svg class="ui-icon" aria-hidden="true"><use th:href="@{/icons.svg#project}"></use></svg><span th:text="${task.project.name}">项目名称</span></span></td>
                             <td th:text="${task.dueDate != null ? task.dueDate : '未设置'}">未设置</td>
                             <td><span class="status-tag" th:classappend="${#strings.toLowerCase(task.status.name())}" th:text="${task.status.label}">待处理</span></td>
                             <td>
-                                <form method="post" th:action="@{/my-tasks/{id}/status(id=${task.id})}" class="inline-status-form">
+                                <form th:if="${#lists.contains(editableTaskIds, task.id)}" method="post" th:action="@{/my-tasks/{id}/status(id=${task.id})}" class="inline-status-form">
+                                    <input type="hidden" name="csrfToken" th:value="${csrfToken}">
+                                    <input type="hidden" name="version" th:value="${task.version}">
                                     <label class="sr-only" th:for="|status-${task.id}|">更新任务状态</label>
                                     <select class="notion-input compact" name="status" th:id="|status-${task.id}|" aria-label="选择任务状态">
                                         <option th:each="status : ${statuses}" th:value="${status}" th:selected="${status == task.status}" th:text="${status.label}">状态</option>
                                     </select>
                                     <button class="notion-button" type="submit">保存</button>
+                                    <input class="notion-input compact" name="note" maxlength="1000" placeholder="完成说明／重开原因" aria-label="完成说明或重开原因">
                                 </form>
+                                <span th:unless="${#lists.contains(editableTaskIds, task.id)}" class="secondary-text">当前任务只读</span>
                             </td>
                         </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="task-calendar" th:if="${calendarView}">
+                    <div class="calendar-heading"><h3 th:text="${weekView ? '任务周视图 · ' + weekDate : calendarMonth.year + ' 年 ' + calendarMonth.monthValue + ' 月'}">月份</h3><div>
+                        <a class="notion-button" th:if="${!weekView}" th:href="@{/my-tasks(projectId=${selectedProjectId},status=${selectedStatus},priority=${selectedPriority},sort=${selectedSort},view='calendar',month=${previousMonth})}">上个月</a>
+                        <a class="notion-button" th:if="${!weekView}" th:href="@{/my-tasks(projectId=${selectedProjectId},status=${selectedStatus},priority=${selectedPriority},sort=${selectedSort},view='calendar',month=${nextMonth})}">下个月</a>
+                        <a class="notion-button" th:if="${weekView}" th:href="@{/my-tasks(projectId=${selectedProjectId},status=${selectedStatus},priority=${selectedPriority},sort=${selectedSort},view='week',date=${previousWeek})}">上周</a>
+                        <a class="notion-button" th:if="${weekView}" th:href="@{/my-tasks(projectId=${selectedProjectId},status=${selectedStatus},priority=${selectedPriority},sort=${selectedSort},view='week',date=${nextWeek})}">下周</a>
+                    </div></div>
+                    <div class="calendar-grid" role="grid" aria-label="任务截止日期日历">
+                        <div class="calendar-weekday">周一</div><div class="calendar-weekday">周二</div><div class="calendar-weekday">周三</div><div class="calendar-weekday">周四</div><div class="calendar-weekday">周五</div><div class="calendar-weekday">周六</div><div class="calendar-weekday">周日</div>
+                        <th:block th:each="week : ${calendarWeeks}"><div class="calendar-day" th:each="day : ${week}" th:classappend="${day.currentMonth ? '' : 'outside-month'}">
+                            <time th:datetime="${day.date}" th:text="${day.date.dayOfMonth}"></time>
+                            <a class="calendar-task" th:each="item : ${day.tasks}" th:href="@{/tasks/{id}(id=${item.id})}" th:text="${item.title}" th:title="|${item.project.name} · ${item.status.label}|"></a>
+                        </div></th:block>
+                    </div>
+                    <div class="undated-tasks" th:if="${!#lists.isEmpty(undatedTasks)}"><h3>未设置截止日期</h3><a th:each="item : ${undatedTasks}" th:href="@{/tasks/{id}(id=${item.id})}" th:text="${item.title}"></a></div>
+                    <p class="secondary-text" th:if="${#lists.isEmpty(tasks)}">当前筛选条件下没有任务。</p>
                 </div>
             </section>
 
             <section class="linked-pages">
                 <h2>继续浏览</h2>
                 <div class="linked-page-grid">
-                    <a class="linked-page group" th:href="@{/preview/tasks}"><span class="drag-handle">⋮⋮</span><i>☑</i><span><b>任务与协作</b><small>看板、筛选与评论界面</small></span></a>
-                    <a class="linked-page group" th:href="@{/preview/account}"><span class="drag-handle">⋮⋮</span><i>◎</i><span><b>账户与资料</b><small>个人信息与项目身份</small></span></a>
-                    <a class="linked-page group" th:href="@{/preview/analytics}"><span class="drag-handle">⋮⋮</span><i>↗</i><span><b>个人进度</b><small>任务统计与异常提醒</small></span></a>
+                    <a class="linked-page group" th:href="@{/preview/tasks}"><i><svg class="ui-icon" aria-hidden="true"><use th:href="@{/icons.svg#task}"></use></svg></i><span><b>任务与协作</b><small>看板、筛选与评论界面</small></span></a>
+                    <a class="linked-page group" th:href="@{/preview/account}"><i><svg class="ui-icon" aria-hidden="true"><use th:href="@{/icons.svg#user}"></use></svg></i><span><b>账户与资料</b><small>个人信息与项目身份</small></span></a>
+                    <a class="linked-page group" th:href="@{/preview/analytics}"><i><svg class="ui-icon" aria-hidden="true"><use th:href="@{/icons.svg#chart}"></use></svg></i><span><b>个人进度</b><small>任务统计与异常提醒</small></span></a>
                 </div>
             </section>
         </div>

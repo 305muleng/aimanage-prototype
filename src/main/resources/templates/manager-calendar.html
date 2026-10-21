@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目任务日历 · 爱管理</title><link rel="stylesheet" th:href="@{/css/app.css}"></head>
+<body class="app-page modern-icons"><div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar('home')}"></aside>
+    <main class="main-column"><header class="page-toolbar"><div class="breadcrumbs"><span>爱管理</span><b>/</b><a th:href="@{/manager}">项目工作台</a><b>/</b><span>任务日历</span></div></header>
+        <div class="page-content">
+            <section class="document-title"><h1>项目任务日历</h1></section>
+            <div class="notice success" th:if="${success}" th:text="${success}"></div><div class="notice error" th:if="${error}" th:text="${error}"></div>
+            <form method="get" th:action="@{/manager/calendar}" class="project-filters">
+                <input type="hidden" name="view" th:value="${weekView ? 'week' : 'month'}">
+                <input type="hidden" name="month" th:value="${calendarMonth}" th:if="${!weekView}"><input type="hidden" name="date" th:value="${weekDate}" th:if="${weekView}">
+                <label>项目<select class="notion-input" name="projectId"><option value="">全部负责项目</option><option th:each="project : ${projects}" th:value="${project.id}" th:text="${project.name}" th:selected="${project.id == selectedProjectId}"></option></select></label>
+                <button class="notion-button" type="submit">应用</button><a class="notion-button" th:href="@{/manager/calendar}">清除</a>
+            </form>
+            <div class="view-tabs" role="tablist" aria-label="日历视图">
+                <a class="notion-button" th:classappend="${!weekView ? 'selected' : ''}" th:href="@{/manager/calendar(projectId=${selectedProjectId},view='month',month=${calendarMonth})}">月视图</a>
+                <a class="notion-button" th:classappend="${weekView ? 'selected' : ''}" th:href="@{/manager/calendar(projectId=${selectedProjectId},view='week',date=${weekDate})}">周视图</a>
+            </div>
+            <section class="task-calendar manager-calendar">
+                <div class="calendar-heading"><h2 th:text="${weekView ? '任务周视图 · ' + weekDate : calendarMonth.year + ' 年 ' + calendarMonth.monthValue + ' 月'}">任务日历</h2><div>
+                    <a class="notion-button" th:if="${!weekView}" th:href="@{/manager/calendar(projectId=${selectedProjectId},view='month',month=${previousMonth})}">上个月</a>
+                    <a class="notion-button" th:if="${!weekView}" th:href="@{/manager/calendar(projectId=${selectedProjectId},view='month',month=${nextMonth})}">下个月</a>
+                    <a class="notion-button" th:if="${weekView}" th:href="@{/manager/calendar(projectId=${selectedProjectId},view='week',date=${previousWeek})}">上周</a>
+                    <a class="notion-button" th:if="${weekView}" th:href="@{/manager/calendar(projectId=${selectedProjectId},view='week',date=${nextWeek})}">下周</a>
+                </div></div>
+                <div class="calendar-grid" role="grid" aria-label="负责人任务截止日期日历">
+                    <div class="calendar-weekday">周一</div><div class="calendar-weekday">周二</div><div class="calendar-weekday">周三</div><div class="calendar-weekday">周四</div><div class="calendar-weekday">周五</div><div class="calendar-weekday">周六</div><div class="calendar-weekday">周日</div>
+                    <th:block th:each="week : ${calendarWeeks}"><div class="calendar-day" th:each="day : ${week}" th:classappend="${day.currentMonth ? '' : 'outside-month'}" th:attr="data-drop-date=${day.date}">
+                        <time th:datetime="${day.date}" th:text="${day.date.dayOfMonth}"></time>
+                        <div class="calendar-task manager-calendar-task" th:each="task : ${day.tasks}"
+                             th:attr="data-task-id=${task.id},data-task-version=${task.version},draggable=${task.status.name() != 'DONE' and task.project.status.name() != 'PAUSED' and task.project.status.name() != 'COMPLETED'}">
+                            <a th:href="@{/tasks/{id}(id=${task.id})}" th:text="${task.title}" th:title="|${task.project.name} · ${task.status.label}|"></a>
+                        </div>
+                    </div></th:block>
+                </div>
+                <div class="undated-tasks" th:if="${!#lists.isEmpty(undatedTasks)}"><h3>未设置截止日期</h3><span th:each="task : ${undatedTasks}" class="calendar-task manager-calendar-task"
+                    th:attr="data-task-id=${task.id},data-task-version=${task.version},draggable=${task.status.name() != 'DONE' and task.project.status.name() != 'PAUSED' and task.project.status.name() != 'COMPLETED'}"><a th:href="@{/tasks/{id}(id=${task.id})}" th:text="${task.title}"></a></span></div>
+            </section>
+            <section class="calendar-reschedule"><h2>调整截止日期</h2><form method="post" th:action="@{/manager/calendar/reschedule}" id="reschedule-form" class="project-filters">
+                <input type="hidden" name="csrfToken" th:value="${projectCsrf}"><input type="hidden" name="view" th:value="${weekView ? 'week' : 'month'}">
+                <input type="hidden" name="projectId" th:value="${selectedProjectId}"><input type="hidden" name="month" th:value="${calendarMonth}"><input type="hidden" name="date" th:value="${weekDate}">
+                <input type="hidden" name="version" id="reschedule-version">
+                <label>任务<select class="notion-input" name="taskId" id="reschedule-task" required><option value="">请选择未完成任务</option><option th:each="task : ${editableTasks}" th:value="${task.id}" th:text="|${task.project.name} · ${task.title}|" th:attr="data-version=${task.version}"></option></select></label>
+                <label>新截止日期<input class="notion-input" type="date" name="dueDate" id="reschedule-date" required></label>
+                <button class="notion-button primary-action" type="submit" th:disabled="${#lists.isEmpty(editableTasks)}">保存改期</button>
+            </form><p class="secondary-text">只有项目负责人可以改期；已完成、已暂停项目中的任务需先恢复到可编辑状态。</p></section>
+        </div>
+    </main></div><div class="toast" role="status" aria-live="polite"></div>
+<script th:src="@{/js/app.js}"></script><script th:src="@{/js/manager-calendar.js}"></script></body></html>
